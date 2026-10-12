@@ -224,3 +224,95 @@ export async function contarPorEstado(
   );
   return rows.map((fila) => ({ estado: fila.estado, cantidad: Number(fila.cantidad) }));
 }
+
+/* ============================================================
+   Acceso público (cliente final, sin autenticación)
+   El cliente accede con un token único por cotización.
+   ============================================================ */
+
+export interface CotizacionPublicaFila {
+  id: string;
+  folio: string;
+  estado: string;
+  subtotal: number;
+  impuestos: number;
+  descuento: number;
+  total: number;
+  observaciones: string | null;
+  fecha_aprobacion: string | null;
+  fecha_creacion: string;
+  fecha_estimada: string | null;
+  cliente_nombre: string;
+  cliente_telefono: string | null;
+  placa: string;
+  vehiculo_descripcion: string;
+  vehiculo_kilometraje: number | null;
+  taller_nombre: string;
+  taller_telefono: string | null;
+  taller_whatsapp: string | null;
+  taller_correo: string | null;
+  taller_logo: string | null;
+  taller_moneda: string;
+}
+
+export async function buscarPorTokenPublico(
+  db: QueryExec,
+  token: string,
+): Promise<CotizacionPublicaFila | null> {
+  const { rows } = await db.query<CotizacionPublicaFila>(
+    `SELECT
+       c.id,
+       c.folio,
+       c.estado,
+       c.subtotal,
+       c.impuestos,
+       c.descuento,
+       c.total,
+       c.observaciones,
+       c.fecha_aprobacion,
+       c.created_at AS fecha_creacion,
+       o.fecha_estimada,
+       CONCAT(cli.nombre, ' ', cli.apellidos) AS cliente_nombre,
+       cli.telefono AS cliente_telefono,
+       v.placa,
+       CONCAT(v.marca, ' ', v.modelo, ' ', COALESCE(v.anio::text, '')) AS vehiculo_descripcion,
+       v.kilometraje AS vehiculo_kilometraje,
+       t.nombre AS taller_nombre,
+       t.telefono AS taller_telefono,
+       t.whatsapp AS taller_whatsapp,
+       t.correo AS taller_correo,
+       t.logo_url AS taller_logo,
+       t.moneda AS taller_moneda
+     FROM cotizaciones c
+     JOIN clientes cli ON cli.id = c.cliente_id
+     JOIN vehiculos v ON v.id = c.vehiculo_id
+     JOIN talleres t ON t.id = c.taller_id
+     LEFT JOIN ordenes_trabajo o ON o.id = c.orden_id
+     WHERE c.token_publico = $1
+     LIMIT 1`,
+    [token],
+  );
+  return rows[0] ?? null;
+}
+
+/**
+ * Registra la respuesta del cliente (APROBADA / RECHAZADA) por token público.
+ * Solo tiene efecto si la cotización está ENVIADA (no se re-aprueba una ya resuelta).
+ */
+export async function responderPorToken(
+  db: QueryExec,
+  token: string,
+  estado: string,
+): Promise<CotizacionPublicaFila | null> {
+  const { rows } = await db.query<{ id: string }>(
+    `UPDATE cotizaciones
+     SET estado = $2::varchar,
+         fecha_aprobacion = CASE WHEN $2::varchar = 'APROBADA' THEN NOW() ELSE NULL END,
+         updated_at = NOW()
+     WHERE token_publico = $1 AND estado = 'ENVIADA'
+     RETURNING id`,
+    [token, estado],
+  );
+  if (!rows[0]) return null;
+  return buscarPorTokenPublico(db, token);
+}

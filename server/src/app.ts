@@ -11,6 +11,7 @@ import { cotizacionRoutes } from './routes/cotizacion.routes';
 import { inventarioRoutes } from './routes/inventario.routes';
 import { ordenRoutes } from './routes/orden.routes';
 import { pagoRoutes } from './routes/pago.routes';
+import { publicoRoutes } from './routes/publico.routes';
 import { tallerRoutes } from './routes/taller.routes';
 import { reportesRoutes } from './routes/reportes.routes';
 import { usuarioRoutes } from './routes/usuario.routes';
@@ -53,6 +54,7 @@ export function crearApp(): express.Express {
   app.use('/api/pagos', pagoRoutes);
   app.use('/api/inventario', inventarioRoutes);
   app.use('/api/citas', citaRoutes);
+  app.use('/api/publico', publicoRoutes);
 
   app.use(noEncontrado);
   app.use(errorHandlerGlobal);

@@ -596,4 +596,32 @@ export interface PayloadCrearCita {
 
 export type PayloadActualizarCita = Partial<PayloadCrearCita>;
 
+/* ============================================================
+   Cotización pública (cliente final, sin login)
+   ============================================================ */
+
+export interface CotizacionPublica {
+  folio: string;
+  estado: EstadoCotizacion;
+  subtotal: number;
+  impuestos: number;
+  descuento: number;
+  total: number;
+  observaciones: string | null;
+  fechaCreacion: string;
+  fechaEstimada: string | null;
+  fechaAprobacion: string | null;
+  puedeResponder: boolean;
+  cliente: { nombre: string; telefono: string | null };
+  vehiculo: { descripcion: string; placa: string; kilometraje: number | null };
+  taller: {
+    nombre: string;
+    telefono: string | null;
+    whatsapp: string | null;
+    correo: string | null;
+    logo: string | null;
+    moneda: string;
+  };
+}
+
 

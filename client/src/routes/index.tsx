@@ -5,6 +5,7 @@ import { AppLayout } from '@/components/layout/app-layout';
 
 const LoginPage = lazy(() => import('@/pages/auth/login-page'));
 const RegisterPage = lazy(() => import('@/pages/auth/register-page'));
+const CotizacionPublicaPage = lazy(() => import('@/pages/publico/cotizacion-publica-page'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/dashboard-page'));
 const EquipoPage = lazy(() => import('@/pages/equipo/equipo-page'));
 const MiTallerPage = lazy(() => import('@/pages/taller/mi-taller-page'));
@@ -24,6 +25,8 @@ export function AppRoutes() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registro" element={<RegisterPage />} />
+      {/* Enlace público para que el cliente responda una cotización sin iniciar sesión. */}
+      <Route path="/c/:token" element={<CotizacionPublicaPage />} />
 
       <Route
         element={

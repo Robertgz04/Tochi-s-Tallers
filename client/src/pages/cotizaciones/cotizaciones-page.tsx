@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { FileText, Pencil, Plus } from 'lucide-react';
+import { FileText, Link2, Pencil, Plus } from 'lucide-react';
+import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DataTable, type Columna } from '@/components/ui/data-table';
@@ -47,13 +48,27 @@ export default function CotizacionesPage() {
     else crear.mutate(payload as PayloadCrearCotizacion, { onSuccess: () => setModalAbierto(false) });
   };
 
+  const compartir = async (cot: CotizacionResumen) => {
+    if (!cot.tokenPublico) {
+      toast.error('Esta cotización aún no tiene enlace público.');
+      return;
+    }
+    const enlace = `${window.location.origin}/c/${cot.tokenPublico}`;
+    try {
+      await navigator.clipboard.writeText(enlace);
+      toast.success('Enlace copiado. Pégalo en WhatsApp o SMS para tu cliente.');
+    } catch {
+      toast.info(`Enlace: ${enlace}`);
+    }
+  };
+
   const columnas: Columna<CotizacionResumen>[] = [
     { clave: 'folio', encabezado: 'Cotización', render: (cot) => <div className="flex items-center gap-3"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-info/10 text-info"><FileText className="h-4 w-4" /></span><div><p className="font-semibold">{cot.folio}</p><p className="text-xs text-muted">{format(parseISO(cot.fechaCreacion), 'dd MMM yyyy', { locale: es })}</p></div></div> },
     { clave: 'cliente', encabezado: 'Cliente / vehículo', render: (cot) => <div><p className="font-medium">{cot.cliente}</p><p className="text-xs text-muted">{cot.placa} · {cot.vehiculo}</p></div> },
     { clave: 'estado', encabezado: 'Estado', render: (cot) => <Badge variant={COLOR[cot.estado]} conPunto>{ETIQUETAS_COTIZACION[cot.estado]}</Badge> },
     { clave: 'orden', encabezado: 'Orden', ocultoEnMovil: true, render: (cot) => <span className="text-muted">{cot.ordenFolio ?? '—'}</span> },
     { clave: 'total', encabezado: 'Total', clase: 'text-right', render: (cot) => <span className="font-semibold">{formatMoney(cot.total)}</span> },
-    { clave: 'acciones', encabezado: 'Acciones', clase: 'text-right', render: (cot) => <div className="flex justify-end gap-2"><Select className="h-9 min-w-32" value={cot.estado} disabled={cambiarEstado.isPending} onChange={(e) => cambiarEstado.mutate({ id: cot.id, estado: e.target.value as EstadoCotizacion })}>{ESTADOS_COTIZACION.map((op) => <option key={op} value={op}>{ETIQUETAS_COTIZACION[op]}</option>)}</Select><Button variant="ghost" size="sm" onClick={() => { setEditando(cot); setModalAbierto(true); }}><Pencil className="h-4 w-4" /></Button></div> },
+    { clave: 'acciones', encabezado: 'Acciones', clase: 'text-right', render: (cot) => <div className="flex justify-end gap-2"><Select className="h-9 min-w-32" value={cot.estado} disabled={cambiarEstado.isPending} onChange={(e) => cambiarEstado.mutate({ id: cot.id, estado: e.target.value as EstadoCotizacion })}>{ESTADOS_COTIZACION.map((op) => <option key={op} value={op}>{ETIQUETAS_COTIZACION[op]}</option>)}</Select><Button variant="ghost" size="sm" aria-label={`Compartir ${cot.folio}`} onClick={() => compartir(cot)}><Link2 className="h-4 w-4" /></Button><Button variant="ghost" size="sm" aria-label={`Editar ${cot.folio}`} onClick={() => { setEditando(cot); setModalAbierto(true); }}><Pencil className="h-4 w-4" /></Button></div> },
   ];
 
   return <div className="animate-fade-in"><PageHeader titulo="Cotizaciones" descripcion="Presupuestos enviados, aprobados o rechazados por clientes." acciones={<Button onClick={() => { setEditando(null); setModalAbierto(true); }}><Plus className="h-4 w-4" />Nueva cotización</Button>} />
