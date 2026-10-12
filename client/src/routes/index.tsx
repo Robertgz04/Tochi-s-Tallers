@@ -2,13 +2,21 @@ import { lazy } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ProtectedRoute } from '@/components/protected-route';
 import { AppLayout } from '@/components/layout/app-layout';
-import { ModulePlaceholder } from '@/components/module-placeholder';
 
 const LoginPage = lazy(() => import('@/pages/auth/login-page'));
 const RegisterPage = lazy(() => import('@/pages/auth/register-page'));
 const DashboardPage = lazy(() => import('@/pages/dashboard/dashboard-page'));
 const EquipoPage = lazy(() => import('@/pages/equipo/equipo-page'));
 const MiTallerPage = lazy(() => import('@/pages/taller/mi-taller-page'));
+const ClientesPage = lazy(() => import('@/pages/clientes/clientes-page'));
+const VehiculosPage = lazy(() => import('@/pages/vehiculos/vehiculos-page'));
+const OrdenesPage = lazy(() => import('@/pages/ordenes/ordenes-page'));
+const CotizacionesPage = lazy(() => import('@/pages/cotizaciones/cotizaciones-page'));
+const PagosPage = lazy(() => import('@/pages/pagos/pagos-page'));
+const ReportesPage = lazy(() => import('@/pages/reportes/reportes-page'));
+const InventarioPage = lazy(() => import('@/pages/inventario/inventario-page'));
+const AgendaPage = lazy(() => import('@/pages/agenda/agenda-page'));
+const ConfiguracionPage = lazy(() => import('@/pages/configuracion/configuracion-page'));
 const NotFoundPage = lazy(() => import('@/pages/placeholder/not-found-page'));
 
 export function AppRoutes() {
@@ -29,37 +37,15 @@ export function AppRoutes() {
         <Route path="/equipo" element={<EquipoPage />} />
         <Route path="/mi-taller" element={<MiTallerPage />} />
 
-        {/* Módulos de fases posteriores (navegación ya preparada) */}
-        <Route
-          path="/clientes"
-          element={<ModulePlaceholder titulo="Clientes" fase="FASE 2" />}
-        />
-        <Route
-          path="/vehiculos"
-          element={<ModulePlaceholder titulo="Vehículos" fase="FASE 2" />}
-        />
-        <Route
-          path="/ordenes"
-          element={<ModulePlaceholder titulo="Órdenes de trabajo" fase="FASE 3" />}
-        />
-        <Route
-          path="/cotizaciones"
-          element={<ModulePlaceholder titulo="Cotizaciones" fase="FASE 4" />}
-        />
-        <Route path="/pagos" element={<ModulePlaceholder titulo="Pagos" fase="FASE 5" />} />
-        <Route
-          path="/inventario"
-          element={<ModulePlaceholder titulo="Inventario" fase="FASE 6" />}
-        />
-        <Route path="/agenda" element={<ModulePlaceholder titulo="Agenda" fase="FASE 6" />} />
-        <Route
-          path="/reportes"
-          element={<ModulePlaceholder titulo="Reportes" fase="FASE 7" />}
-        />
-        <Route
-          path="/configuracion"
-          element={<ModulePlaceholder titulo="Configuración" fase="FASE 2" />}
-        />
+        <Route path="/clientes" element={<ClientesPage />} />
+        <Route path="/vehiculos" element={<VehiculosPage />} />
+        <Route path="/ordenes" element={<OrdenesPage />} />
+        <Route path="/cotizaciones" element={<CotizacionesPage />} />
+        <Route path="/pagos" element={<PagosPage />} />
+        <Route path="/reportes" element={<ReportesPage />} />
+        <Route path="/inventario" element={<InventarioPage />} />
+        <Route path="/agenda" element={<AgendaPage />} />
+        <Route path="/configuracion" element={<ConfiguracionPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>

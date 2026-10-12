@@ -5,8 +5,12 @@ import { env } from './config/env';
 import { verificarConexion } from './config/db';
 import { errorHandlerGlobal, noEncontrado } from './middlewares/errorHandler';
 import { authRoutes } from './routes/auth.routes';
+import { citaRoutes } from './routes/cita.routes';
 import { clienteRoutes } from './routes/cliente.routes';
+import { cotizacionRoutes } from './routes/cotizacion.routes';
+import { inventarioRoutes } from './routes/inventario.routes';
 import { ordenRoutes } from './routes/orden.routes';
+import { pagoRoutes } from './routes/pago.routes';
 import { tallerRoutes } from './routes/taller.routes';
 import { reportesRoutes } from './routes/reportes.routes';
 import { usuarioRoutes } from './routes/usuario.routes';
@@ -45,6 +49,10 @@ export function crearApp(): express.Express {
   app.use('/api/clientes', clienteRoutes);
   app.use('/api/vehiculos', vehiculoRoutes);
   app.use('/api/ordenes', ordenRoutes);
+  app.use('/api/cotizaciones', cotizacionRoutes);
+  app.use('/api/pagos', pagoRoutes);
+  app.use('/api/inventario', inventarioRoutes);
+  app.use('/api/citas', citaRoutes);
 
   app.use(noEncontrado);
   app.use(errorHandlerGlobal);

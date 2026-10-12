@@ -1,20 +1,35 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { mensajeError } from '@/lib/api';
+import { citaService } from '@/services/cita.service';
 import { clienteService } from '@/services/cliente.service';
+import { cotizacionService } from '@/services/cotizacion.service';
 import { dashboardService } from '@/services/dashboard.service';
+import { inventarioService } from '@/services/inventario.service';
 import { ordenService } from '@/services/orden.service';
+import { pagoService } from '@/services/pago.service';
+import { reporteService } from '@/services/reporte.service';
 import { tallerService, type PayloadActualizarTaller } from '@/services/taller.service';
 import { usuarioService } from '@/services/usuario.service';
 import { vehiculoService } from '@/services/vehiculo.service';
 import type {
   EstadoOrden,
+  EstadoCotizacion,
+  EstadoCita,
   PayloadActualizarCliente,
+  PayloadActualizarCotizacion,
   PayloadActualizarOrden,
   PayloadActualizarVehiculo,
+  PayloadActualizarItem,
+  PayloadActualizarCita,
   PayloadCrearCliente,
+  PayloadCrearCotizacion,
   PayloadCrearOrden,
+  PayloadCrearPago,
   PayloadCrearVehiculo,
+  PayloadCrearItem,
+  PayloadCrearCita,
+  PayloadMovimiento,
   PayloadActualizarUsuario,
   PayloadCrearUsuario,
 } from '@/types';
@@ -265,6 +280,277 @@ export function useCambiarEstadoOrdenMutation() {
       toast.success(`Orden ${orden.folio}: estado actualizado.`);
     },
     onError: (error) => toast.error(mensajeError(error, 'No pudimos cambiar el estado.')),
+  });
+}
+
+/* ============================================================
+   Cotizaciones
+   ============================================================ */
+
+export interface FiltrosCotizaciones {
+  pagina?: number;
+  estado?: string;
+  q?: string;
+}
+
+export function useCotizacionesQuery(filtros: FiltrosCotizaciones = {}) {
+  return useQuery({
+    queryKey: ['cotizaciones', filtros.pagina ?? 1, filtros.estado ?? '', filtros.q ?? ''],
+    queryFn: () => cotizacionService.listar(filtros),
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+export function useEstadosCotizacionQuery() {
+  return useQuery({
+    queryKey: ['cotizaciones', 'estados'],
+    queryFn: cotizacionService.estados,
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+function refrescarCotizaciones(queryClient: ReturnType<typeof useQueryClient>) {
+  queryClient.invalidateQueries({ queryKey: ['cotizaciones'] });
+  queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+}
+
+export function useCrearCotizacionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadCrearCotizacion) => cotizacionService.crear(payload),
+    onSuccess: (cotizacion) => {
+      refrescarCotizaciones(queryClient);
+      toast.success(`Cotización ${cotizacion.folio} creada.`);
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos crear la cotización.')),
+  });
+}
+
+export function useActualizarCotizacionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: PayloadActualizarCotizacion }) =>
+      cotizacionService.actualizar(id, payload),
+    onSuccess: (cotizacion) => {
+      refrescarCotizaciones(queryClient);
+      toast.success(`Cotización ${cotizacion.folio} actualizada.`);
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos actualizar la cotización.')),
+  });
+}
+
+export function useCambiarEstadoCotizacionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, estado }: { id: string; estado: EstadoCotizacion }) =>
+      cotizacionService.cambiarEstado(id, estado),
+    onSuccess: (cotizacion) => {
+      refrescarCotizaciones(queryClient);
+      toast.success(`Cotización ${cotizacion.folio}: estado actualizado.`);
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos cambiar el estado.')),
+  });
+}
+
+/* ============================================================
+   Pagos
+   ============================================================ */
+
+export interface FiltrosPagos {
+  pagina?: number;
+  q?: string;
+}
+
+export function usePagosQuery(filtros: FiltrosPagos = {}) {
+  return useQuery({
+    queryKey: ['pagos', filtros.pagina ?? 1, filtros.q ?? ''],
+    queryFn: () => pagoService.listar(filtros),
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+function refrescarPagos(queryClient: ReturnType<typeof useQueryClient>) {
+  queryClient.invalidateQueries({ queryKey: ['pagos'] });
+  queryClient.invalidateQueries({ queryKey: ['ordenes'] });
+  queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+}
+
+export function useCrearPagoMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadCrearPago) => pagoService.crear(payload),
+    onSuccess: (pago) => {
+      refrescarPagos(queryClient);
+      toast.success(`Pago registrado en ${pago.ordenFolio}.`);
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos registrar el pago.')),
+  });
+}
+
+export function useEliminarPagoMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => pagoService.eliminar(id),
+    onSuccess: () => {
+      refrescarPagos(queryClient);
+      toast.success('Pago eliminado.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos eliminar el pago.')),
+  });
+}
+
+/* ============================================================
+   Reportes
+   ============================================================ */
+
+export function useReporteQuery() {
+  return useQuery({
+    queryKey: ['reportes', 'resumen'],
+    queryFn: reporteService.resumen,
+    staleTime: 30 * 1000,
+    retry: 1,
+  });
+}
+
+/* ============================================================
+   Inventario
+   ============================================================ */
+
+export interface FiltrosInventario {
+  pagina?: number;
+  q?: string;
+  categoria?: string;
+  stockBajo?: boolean;
+}
+
+export function useInventarioQuery(filtros: FiltrosInventario = {}) {
+  return useQuery({
+    queryKey: ['inventario', filtros.pagina ?? 1, filtros.q ?? '', filtros.categoria ?? '', filtros.stockBajo ?? false],
+    queryFn: () => inventarioService.listar(filtros),
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+export function useCrearItemMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadCrearItem) => inventarioService.crear(payload),
+    onSuccess: (item) => {
+      queryClient.invalidateQueries({ queryKey: ['inventario'] });
+      toast.success(`${item.nombre} agregado al inventario.`);
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos crear el producto.')),
+  });
+}
+
+export function useActualizarItemMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: PayloadActualizarItem }) =>
+      inventarioService.actualizar(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inventario'] });
+      toast.success('Producto actualizado.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos actualizar el producto.')),
+  });
+}
+
+export function useEliminarItemMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => inventarioService.eliminar(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inventario'] });
+      toast.success('Producto eliminado.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos eliminar el producto.')),
+  });
+}
+
+export function useMovimientoMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadMovimiento) => inventarioService.movimiento(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inventario'] });
+      toast.success('Movimiento registrado.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos registrar el movimiento.')),
+  });
+}
+
+/* ============================================================
+   Agenda (citas)
+   ============================================================ */
+
+export interface FiltrosCitas {
+  pagina?: number;
+  q?: string;
+  estado?: string;
+  desde?: string;
+  hasta?: string;
+}
+
+export function useCitasQuery(filtros: FiltrosCitas = {}) {
+  return useQuery({
+    queryKey: ['citas', filtros.pagina ?? 1, filtros.q ?? '', filtros.estado ?? '', filtros.desde ?? '', filtros.hasta ?? ''],
+    queryFn: () => citaService.listar(filtros),
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+export function useCrearCitaMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadCrearCita) => citaService.crear(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['citas'] });
+      toast.success('Cita creada correctamente.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos crear la cita.')),
+  });
+}
+
+export function useActualizarCitaMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: PayloadActualizarCita }) =>
+      citaService.actualizar(id, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['citas'] });
+      toast.success('Cita actualizada.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos actualizar la cita.')),
+  });
+}
+
+export function useCambiarEstadoCitaMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, estado }: { id: string; estado: EstadoCita }) => citaService.cambiarEstado(id, estado),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['citas'] });
+      toast.success('Estado de la cita actualizado.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos cambiar el estado.')),
+  });
+}
+
+export function useEliminarCitaMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => citaService.eliminar(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['citas'] });
+      toast.success('Cita eliminada.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos eliminar la cita.')),
   });
 }
 
