@@ -1,0 +1,35 @@
+import type { ReactNode } from 'react';
+import { Inbox } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+interface PropiedadesEmptyState {
+  icono?: ReactNode;
+  titulo: string;
+  descripcion?: string;
+  accion?: ReactNode;
+  className?: string;
+}
+
+export function EmptyState({
+  icono,
+  titulo,
+  descripcion,
+  accion,
+  className,
+}: PropiedadesEmptyState) {
+  return (
+    <div
+      className={cn(
+        'flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/40 px-6 py-12 text-center',
+        className,
+      )}
+    >
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-card text-muted">
+        {icono ?? <Inbox className="h-7 w-7" aria-hidden="true" />}
+      </div>
+      <h3 className="mt-4 text-base font-semibold text-foreground">{titulo}</h3>
+      {descripcion && <p className="mt-1 max-w-sm text-sm text-muted">{descripcion}</p>}
+      {accion && <div className="mt-5">{accion}</div>}
+    </div>
+  );
+}

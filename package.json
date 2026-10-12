@@ -1,0 +1,16 @@
+{
+  "name": "tochis-taller",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tochi'sTaller - SaaS PWA de administración para talleres mecánicos",
+  "scripts": {
+    "dev": "concurrently -n server,client -c amber,cyan \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix server && npm run build --prefix client",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "db:seed": "npm run db:seed --prefix server",
+    "icons": "node client/scripts/generate-icons.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
