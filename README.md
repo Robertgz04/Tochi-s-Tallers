@@ -4,10 +4,12 @@ Sistema SaaS **PWA** para administrar talleres mecánicos: clientes, vehículos,
 trabajo, cotizaciones, evidencias y pagos. Funciona en computadora, tablet y celular, y puede
 instalarse como aplicación.
 
-> **Estado del proyecto: FASE 1 completada.** La base es funcional de punta a punta:
-> frontend + backend + PostgreSQL + autenticación JWT + multi-taller + dashboard + PWA.
-> Las fases 2 a 9 (clientes, vehículos, órdenes, cotizaciones, pagos, inventario, agenda,
-> reportes, superadmin) se construyen sobre esta base. Ver [Roadmap](#roadmap-de-fases).
+> **Estado del proyecto: núcleo operativo completo.** Funciona de punta a punta:
+> frontend + backend + PostgreSQL + autenticación JWT + multi-taller + dashboard + PWA,
+> más clientes, vehículos, órdenes, cotizaciones con aprobación pública, evidencias
+> fotográficas, pagos, inventario, agenda y reportes.
+> En curso: PDF de cotización, ítems de orden ligados a inventario, recordatorios/WhatsApp
+> y panel superadmin. Ver [Roadmap](#roadmap-de-fases).
 
 ---
 
@@ -329,8 +331,9 @@ Base: `http://localhost:4000/api`
 | GET | `/reportes/dashboard` | Autenticado | Métricas, serie de ingresos, órdenes por estado y trabajos recientes |
 | GET | `/salud` | Público | Estado del servidor y de la base de datos |
 
-Las rutas de clientes, vehículos, órdenes, cotizaciones y pagos se incorporan en las fases 2-5
-respetando el mismo contrato: `{ success, data }`, validación Zod y aislamiento por `taller_id`.
+Todas las rutas (clientes, vehículos, órdenes, cotizaciones, pagos, inventario, citas,
+reportes, taller, usuarios) respetan el mismo contrato: `{ success, data }`, validación Zod
+y aislamiento por `taller_id`.
 
 ---
 
@@ -349,17 +352,17 @@ respetando el mismo contrato: `{ success, data }`, validación Zod y aislamiento
 
 ## 11. Roadmap de fases
 
-| Fase | Alcance |
-| --- | --- |
-| **1 (lista)** | Estructura, PostgreSQL, autenticación, usuarios, taller, layout, sidebar, dashboard, PWA |
-| 2 | Clientes y vehículos (CRUD, búsqueda, historial) |
-| 3 | Órdenes de trabajo, servicios, refacciones, estados e historial |
-| 4 | Cotizaciones, PDF y autorización pública del cliente |
-| 5 | Evidencias fotográficas y pagos |
-| 6 | Inventario y agenda |
-| 7 | Reportes y recordatorios |
-| 8 | Offline avanzado y WhatsApp Business Cloud API |
-| 9 | Panel superadmin y suscripciones |
+| Fase | Alcance | Estado |
+| --- | --- | --- |
+| **1** | Estructura, PostgreSQL, autenticación, usuarios, taller, layout, sidebar, dashboard, PWA | ✅ Lista |
+| 2 | Clientes y vehículos (CRUD, búsqueda, historial) | ✅ Lista |
+| 3 | Órdenes de trabajo, estados e historial (ítems ligados a inventario en curso) | ✅ Núcleo / 🔧 Ítems en curso |
+| 4 | Cotizaciones, aprobación pública del cliente y PDF | ✅ Núcleo / 🔧 PDF en curso |
+| 5 | Evidencias fotográficas y pagos | ✅ Lista |
+| 6 | Inventario y agenda | ✅ Lista |
+| 7 | Reportes y recordatorios | ✅ Reportes / 🔧 Recordatorios en curso |
+| 8 | Offline avanzado y WhatsApp Business Cloud API | 🔧 Base en curso |
+| 9 | Panel superadmin y suscripciones | 🔧 Base en curso |
 
 ---
 
