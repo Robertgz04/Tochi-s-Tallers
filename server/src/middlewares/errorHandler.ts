@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
+import multer from 'multer';
 import { ZodError } from 'zod';
 import { ApiError } from '../utils/ApiError';
 import { responderError } from '../utils/response';
@@ -22,6 +23,16 @@ export function errorHandlerGlobal(
     const primerError = error.issues[0];
     const mensaje = primerError ? primerError.message : 'Datos inválidos';
     return responderError(res, 400, mensaje);
+  }
+
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      return responderError(res, 400, 'La imagen no puede superar 10 MB.');
+    }
+    if (error.code === 'LIMIT_UNEXPECTED_FILE') {
+      return responderError(res, 400, 'Campo de archivo inesperado. Usa el campo "foto".');
+    }
+    return responderError(res, 400, 'No se pudo procesar la imagen adjunta.');
   }
 
   if (error instanceof SyntaxError && 'body' in error) {

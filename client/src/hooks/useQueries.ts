@@ -30,6 +30,7 @@ import type {
   PayloadCrearItem,
   PayloadCrearCita,
   PayloadMovimiento,
+  PayloadSubirEvidencia,
   PayloadActualizarUsuario,
   PayloadCrearUsuario,
 } from '@/types';
@@ -280,6 +281,44 @@ export function useCambiarEstadoOrdenMutation() {
       toast.success(`Orden ${orden.folio}: estado actualizado.`);
     },
     onError: (error) => toast.error(mensajeError(error, 'No pudimos cambiar el estado.')),
+  });
+}
+
+/* ============================================================
+   Evidencias fotográficas
+   ============================================================ */
+
+export function useEvidenciasQuery(ordenId: string | null) {
+  return useQuery({
+    queryKey: ['evidencias', ordenId ?? ''],
+    queryFn: () => ordenService.listarEvidencias(ordenId as string),
+    enabled: Boolean(ordenId),
+    staleTime: 15 * 1000,
+    retry: 1,
+  });
+}
+
+export function useSubirEvidenciaMutation(ordenId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (payload: PayloadSubirEvidencia) => ordenService.subirEvidencia(ordenId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['evidencias', ordenId] });
+      toast.success('Foto agregada a la orden.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos subir la foto.')),
+  });
+}
+
+export function useEliminarEvidenciaMutation(ordenId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (evidenciaId: string) => ordenService.eliminarEvidencia(ordenId, evidenciaId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['evidencias', ordenId] });
+      toast.success('Evidencia eliminada.');
+    },
+    onError: (error) => toast.error(mensajeError(error, 'No pudimos eliminar la evidencia.')),
   });
 }
 

@@ -20,6 +20,7 @@ import {
   type Vehiculo,
 } from '@/types';
 import { nombreCompleto } from '@/lib/utils';
+import { EvidenciasOrden } from '@/pages/ordenes/evidencias-orden';
 
 const esquema = z.object({
   clienteId: z.string().min(1, 'Selecciona el cliente.'),
@@ -141,7 +142,7 @@ export function OrdenFormModal({
       abierto={abierto}
       onCerrar={alCerrar}
       titulo={orden ? `Editar orden ${orden.folio}` : 'Nueva orden de trabajo'}
-      descripcion="Registra el ingreso del vehículo, asigna responsable y documenta el motivo de visita."
+      descripcion="Registra el ingreso del vehículo, asigna responsable, documenta el motivo y gestiona sus fotos."
       ancho="lg"
     >
       <form onSubmit={alEnviar} className="space-y-4">
@@ -251,6 +252,10 @@ export function OrdenFormModal({
               <Input id="orden-total" type="number" step="0.01" {...register('total', { valueAsNumber: true })} />
             </div>
           </div>
+        )}
+
+        {editando && orden && (
+          <EvidenciasOrden ordenId={orden.id} folio={orden.folio} />
         )}
 
         <div className="flex justify-end gap-3 pt-2">

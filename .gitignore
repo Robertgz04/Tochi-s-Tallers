@@ -30,3 +30,7 @@ client/dist/
 # Temporales
 *.tmp
 .cache/
+
+# Archivos subidos por usuarios (fotos de evidencias)
+uploads/
+server/uploads/

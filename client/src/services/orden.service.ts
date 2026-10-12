@@ -2,10 +2,12 @@ import { api } from '@/lib/api';
 import type {
   ConteoEstado,
   EstadoOrden,
+  Evidencia,
   ListadoOrdenes,
   OrdenDetalle,
   PayloadActualizarOrden,
   PayloadCrearOrden,
+  PayloadSubirEvidencia,
   RespuestaOk,
 } from '@/types';
 
@@ -44,5 +46,29 @@ export const ordenService = {
       estado,
     });
     return respuesta.data.data;
+  },
+
+  async listarEvidencias(ordenId: string): Promise<Evidencia[]> {
+    const respuesta = await api.get<RespuestaOk<Evidencia[]>>(`/ordenes/${ordenId}/evidencias`);
+    return respuesta.data.data;
+  },
+
+  async subirEvidencia(ordenId: string, payload: PayloadSubirEvidencia): Promise<Evidencia> {
+    const formulario = new FormData();
+    formulario.append('foto', payload.archivo);
+    formulario.append('etapa', payload.etapa);
+    if (payload.descripcion?.trim()) {
+      formulario.append('descripcion', payload.descripcion.trim());
+    }
+    const respuesta = await api.post<RespuestaOk<Evidencia>>(
+      `/ordenes/${ordenId}/evidencias`,
+      formulario,
+      { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 60000 },
+    );
+    return respuesta.data.data;
+  },
+
+  async eliminarEvidencia(ordenId: string, evidenciaId: string): Promise<void> {
+    await api.delete(`/ordenes/${ordenId}/evidencias/${evidenciaId}`);
   },
 };

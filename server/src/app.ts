@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { env } from './config/env';
 import { verificarConexion } from './config/db';
 import { errorHandlerGlobal, noEncontrado } from './middlewares/errorHandler';
+import { CARPETA_UPLOADS } from './middlewares/upload';
 import { authRoutes } from './routes/auth.routes';
 import { citaRoutes } from './routes/cita.routes';
 import { clienteRoutes } from './routes/cliente.routes';
@@ -30,6 +31,9 @@ export function crearApp(): express.Express {
     }),
   );
   app.use(express.json({ limit: '2mb' }));
+
+  // Fotos de evidencias subidas por el taller (solo imágenes, servidas como estáticos)
+  app.use('/uploads', express.static(CARPETA_UPLOADS, { maxAge: '7d', index: false }));
 
   app.get('/api/salud', async (_req, res) => {
     const conectado = await verificarConexion();

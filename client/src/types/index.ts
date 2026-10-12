@@ -308,6 +308,40 @@ export interface ListadoOrdenes {
   totalPaginas: number;
 }
 
+/* ============================================================
+   Evidencias fotográficas de la orden
+   ============================================================ */
+
+export const ETAPAS_EVIDENCIA = ['ANTES', 'DIAGNOSTICO', 'DURANTE', 'DESPUES'] as const;
+export type EtapaEvidencia = (typeof ETAPAS_EVIDENCIA)[number];
+
+export const ETIQUETAS_ETAPAS_EVIDENCIA: Record<EtapaEvidencia, string> = {
+  ANTES: 'Antes',
+  DIAGNOSTICO: 'Diagnóstico',
+  DURANTE: 'Durante',
+  DESPUES: 'Después',
+};
+
+export interface Evidencia {
+  id: string;
+  ordenId: string;
+  etapa: EtapaEvidencia;
+  url: string;
+  nombreArchivo: string | null;
+  mime: string | null;
+  tamanoBytes: number;
+  descripcion: string | null;
+  creadoPor: string | null;
+  creadoPorNombre: string | null;
+  createdAt: string;
+}
+
+export interface PayloadSubirEvidencia {
+  archivo: File;
+  etapa: EtapaEvidencia;
+  descripcion?: string;
+}
+
 export interface ConteoEstado {
   estado: EstadoOrden;
   cantidad: number;
