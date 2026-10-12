@@ -14,6 +14,14 @@ export const ROLES_ADMINISTRADORES: readonly Rol[] = ['PROPIETARIO', 'ADMINISTRA
 /** Roles con control total del taller. */
 export const ROLES_PROPIETARIO: readonly Rol[] = ['PROPIETARIO'];
 
+/** Todos los roles que operan dentro de un taller (pueden crear clientes, vehículos y órdenes). */
+export const ROLES_TALLER: readonly Rol[] = [
+  'PROPIETARIO',
+  'ADMINISTRADOR',
+  'RECEPCIONISTA',
+  'MECANICO',
+];
+
 export function esRol(valor: unknown): valor is Rol {
   return typeof valor === 'string' && (ROLES as readonly string[]).includes(valor);
 }
