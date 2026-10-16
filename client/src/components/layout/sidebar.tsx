@@ -17,18 +17,18 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
 
   const enlaceClase = ({ isActive }: { isActive: boolean }) =>
     cn(
-      'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+      'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-150',
       isActive
-        ? 'bg-primary/10 text-primary'
-        : 'text-muted hover:bg-surface hover:text-foreground',
-      colapsada && 'justify-center px-0',
+        ? 'bg-gradient-to-r from-primary/18 via-primary/8 to-transparent text-primary shadow-[inset_0_1px_0_rgba(245,158,11,0.15)] before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-1 before:rounded-r-full before:bg-primary before:shadow-[0_0_10px_rgba(245,158,11,0.85)]'
+        : 'text-muted hover:bg-white/[0.04] hover:text-foreground',
+      colapsada && 'justify-center px-0 before:hidden',
     );
 
   const contenido = (
     <div className="flex h-full flex-col">
       <div
         className={cn(
-          'flex h-16 shrink-0 items-center border-b border-border px-4',
+          'flex h-16 shrink-0 items-center border-b border-white/[0.08] px-4',
           colapsada && 'justify-center px-0',
         )}
       >
@@ -39,7 +39,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
           type="button"
           onClick={onCerrarMovil}
           aria-label="Cerrar menú"
-          className="ml-auto rounded-lg p-1.5 text-muted hover:bg-surface hover:text-foreground md:hidden"
+          className="ml-auto cursor-pointer rounded-lg p-1.5 text-muted hover:bg-surface hover:text-foreground md:hidden"
         >
           <X className="h-5 w-5" aria-hidden="true" />
         </button>
@@ -48,16 +48,16 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         {itemsMenu.map((item) => (
           <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
-            <item.icono className="h-5 w-5 shrink-0" aria-hidden="true" />
+            <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
             {!colapsada && <span className="truncate">{item.etiqueta}</span>}
           </NavLink>
         ))}
       </nav>
 
-      <div className="space-y-1 border-t border-border px-3 py-4">
+      <div className="space-y-1 border-t border-white/[0.08] px-3 py-4">
         {itemsInferiores.map((item) => (
           <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
-            <item.icono className="h-5 w-5 shrink-0" aria-hidden="true" />
+            <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
             {!colapsada && <span className="truncate">{item.etiqueta}</span>}
           </NavLink>
         ))}
@@ -68,7 +68,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
             despedir();
           }}
           className={cn(
-            'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-destructive',
+            'flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-destructive/15 hover:text-destructive',
             colapsada && 'justify-center px-0',
           )}
         >
@@ -81,7 +81,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
           onClick={onAlternar}
           aria-label={colapsada ? 'Expandir menú' : 'Contraer menú'}
           className={cn(
-            'hidden w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-surface hover:text-foreground md:flex',
+            'hidden w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-white/[0.04] hover:text-foreground md:flex',
             colapsada && 'justify-center px-0',
           )}
         >
@@ -100,7 +100,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
       {/* Escritorio */}
       <aside
         className={cn(
-          'sticky top-0 hidden h-screen shrink-0 border-r border-border bg-surface/60 backdrop-blur transition-[width] duration-200 md:block',
+          'sticky top-0 hidden h-screen shrink-0 border-r border-white/[0.08] bg-[#0c1017]/90 backdrop-blur-xl transition-[width] duration-200 md:block',
           colapsada ? 'w-[4.5rem]' : 'w-64',
         )}
       >
@@ -116,12 +116,12 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
         aria-hidden={!abiertaMovil}
       >
         <div
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/75 backdrop-blur-md"
           onClick={onCerrarMovil}
         />
         <aside
           className={cn(
-            'absolute left-0 top-0 h-full w-[17rem] max-w-[85vw] border-r border-border bg-card shadow-2xl transition-transform duration-200',
+            'absolute left-0 top-0 h-full w-[17rem] max-w-[85vw] border-r border-white/[0.08] bg-[#12161f] shadow-2xl transition-transform duration-200',
             abiertaMovil ? 'translate-x-0' : '-translate-x-full',
           )}
         >

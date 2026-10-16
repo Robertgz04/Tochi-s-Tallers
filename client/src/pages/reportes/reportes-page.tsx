@@ -110,17 +110,20 @@ function ReportesContenido({ data, ingresos, estados }: { data: ResumenReportes;
       </div>
 
       {ingresosPorMetodo.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-            <Banknote className="h-4 w-4 text-info" aria-hidden="true" /> Ingresos por método de pago
+        <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+          <h3 className="mb-3.5 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-info/15 text-info ring-1 ring-info/30">
+              <Banknote className="h-4 w-4" aria-hidden="true" />
+            </span>
+            Ingresos por método de pago
           </h3>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
             {ingresosPorMetodo.map((metodo) => (
-              <div key={metodo.metodo} className="rounded-xl border border-border bg-surface p-4">
-                <p className="text-xs font-medium uppercase tracking-wider text-muted">
+              <div key={metodo.metodo} className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4 transition-all hover:border-white/20 hover:-translate-y-0.5">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted">
                   {ETIQUETAS_METODO_PAGO[metodo.metodo] ?? metodo.metodo}
                 </p>
-                <p className="mt-1 text-lg font-bold tabular-nums text-foreground">{formatMoney(metodo.monto)}</p>
+                <p className="mt-1 text-lg font-extrabold tabular-nums text-foreground">{formatMoney(metodo.monto)}</p>
                 <p className="text-xs text-muted">{formatNumber(metodo.cantidad)} pago(s)</p>
               </div>
             ))}
@@ -134,18 +137,21 @@ function ReportesContenido({ data, ingresos, estados }: { data: ResumenReportes;
       </div>
 
       {ordenesPorMes.length > 0 && (
-        <div className="rounded-2xl border border-border bg-card p-5">
-          <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-            <BarChart3 className="h-4 w-4 text-primary" aria-hidden="true" /> Órdenes por mes (últimos 6 meses)
+        <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+          <h3 className="mb-3.5 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30">
+              <BarChart3 className="h-4 w-4" aria-hidden="true" />
+            </span>
+            Órdenes por mes (últimos 6 meses)
           </h3>
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {ordenesPorMes.map((mes) => (
-              <div key={mes.mes} className="rounded-xl border border-border bg-surface p-4 text-center">
-                <p className="text-xs capitalize text-muted">
+              <div key={mes.mes} className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4 text-center transition-all hover:border-white/20 hover:-translate-y-0.5">
+                <p className="text-xs font-semibold capitalize text-muted">
                   {format(parseISO(`${mes.mes}-01`), 'MMM yy', { locale: es })}
                 </p>
-                <p className="mt-1 text-xl font-bold tabular-nums text-foreground">{formatNumber(mes.ordenes)}</p>
-                <p className="text-[11px] text-muted">{formatMoney(mes.facturado)}</p>
+                <p className="mt-1 text-xl font-extrabold tabular-nums text-foreground">{formatNumber(mes.ordenes)}</p>
+                <p className="text-[11px] font-medium text-muted">{formatMoney(mes.facturado)}</p>
               </div>
             ))}
           </div>
@@ -153,8 +159,11 @@ function ReportesContenido({ data, ingresos, estados }: { data: ResumenReportes;
       )}
 
       <div>
-        <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-          <UsersRound className="h-4 w-4 text-info" aria-hidden="true" /> Clientes que más facturan
+        <h3 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-info/15 text-info ring-1 ring-info/30">
+            <UsersRound className="h-4 w-4" aria-hidden="true" />
+          </span>
+          Clientes que más facturan
         </h3>
         <DataTable<FilaCliente>
           columnas={columnasClientes}
@@ -166,8 +175,11 @@ function ReportesContenido({ data, ingresos, estados }: { data: ResumenReportes;
       </div>
 
       <div>
-        <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Wrench className="h-4 w-4 text-violet" aria-hidden="true" /> Productividad por responsable
+        <h3 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-400/15 text-violet-300 ring-1 ring-violet-400/30">
+            <Wrench className="h-4 w-4" aria-hidden="true" />
+          </span>
+          Productividad por responsable
         </h3>
         <DataTable<FilaMecanico>
           columnas={columnasMecanicos}
@@ -179,31 +191,34 @@ function ReportesContenido({ data, ingresos, estados }: { data: ResumenReportes;
       </div>
 
       <div>
-        <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
-          <FileText className="h-4 w-4 text-warning" aria-hidden="true" /> Embudo de cotizaciones
+        <h3 className="mb-3 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-amber-500/15 text-amber-400 ring-1 ring-amber-500/30">
+            <FileText className="h-4 w-4" aria-hidden="true" />
+          </span>
+          Embudo de cotizaciones
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          <div className="rounded-xl border border-border bg-surface p-4">
-            <p className="text-xs uppercase tracking-wider text-muted">Enviadas</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">{formatNumber(cotizaciones.enviadas)}</p>
+          <div className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4.5 transition-all hover:border-white/20">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Enviadas</p>
+            <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.enviadas)}</p>
             <p className="text-xs text-muted">{formatMoney(cotizaciones.montoEnviado)}</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-4">
-            <p className="text-xs uppercase tracking-wider text-muted">Aprobadas</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-success">{formatNumber(cotizaciones.aprobadas)}</p>
-            <p className="text-xs text-muted">{formatMoney(cotizaciones.montoAprobado)}</p>
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4.5 transition-all hover:border-emerald-500/50">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Aprobadas</p>
+            <p className="mt-1 text-2xl font-extrabold tabular-nums text-emerald-400">{formatNumber(cotizaciones.aprobadas)}</p>
+            <p className="text-xs text-emerald-400/70">{formatMoney(cotizaciones.montoAprobado)}</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-4">
-            <p className="text-xs uppercase tracking-wider text-muted">Rechazadas</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-destructive">{formatNumber(cotizaciones.rechazadas)}</p>
+          <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4.5 transition-all hover:border-rose-500/50">
+            <p className="text-xs font-semibold uppercase tracking-wider text-rose-400">Rechazadas</p>
+            <p className="mt-1 text-2xl font-extrabold tabular-nums text-rose-400">{formatNumber(cotizaciones.rechazadas)}</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-4">
-            <p className="text-xs uppercase tracking-wider text-muted">Total</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-foreground">{formatNumber(cotizaciones.total)}</p>
+          <div className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4.5 transition-all hover:border-white/20">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Total</p>
+            <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.total)}</p>
           </div>
-          <div className="rounded-xl border border-border bg-surface p-4">
-            <p className="text-xs uppercase tracking-wider text-muted">Tasa de aprobación</p>
-            <p className="mt-1 text-2xl font-bold tabular-nums text-primary">
+          <div className="rounded-xl border border-primary/30 bg-primary/10 p-4.5 transition-all hover:border-primary/50 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Tasa de aprobación</p>
+            <p className="mt-1 text-2xl font-extrabold tabular-nums text-primary">
               {cotizaciones.total > 0 ? `${Math.round((cotizaciones.aprobadas / cotizaciones.total) * 100)}%` : '—'}
             </p>
           </div>

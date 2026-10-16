@@ -52,11 +52,24 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div>
-        <h2 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-          {saludoPorHora()}, {usuario?.nombre ?? 'amigo'} 👋
-        </h2>
-        <p className="mt-1 text-sm capitalize text-muted">{fechaHoy}</p>
+      <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-r from-[#171d27] via-[#141822] to-[#10131b] p-5 sm:p-6 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-primary/40 before:to-transparent">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-[11px] font-bold text-primary shadow-[0_0_10px_rgba(245,158,11,0.15)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                Panel Operativo
+              </span>
+              <p className="text-xs font-semibold capitalize text-muted">{fechaHoy}</p>
+            </div>
+            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
+              {saludoPorHora()}, <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-foreground to-amber-200">{usuario?.nombre ?? 'amigo'}</span> 👋
+            </h2>
+            <p className="mt-1 text-xs sm:text-sm text-muted">
+              Aquí tienes el estado operativo en tiempo real de tu taller automotriz.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-5">

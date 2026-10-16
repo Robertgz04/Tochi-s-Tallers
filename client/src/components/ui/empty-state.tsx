@@ -20,15 +20,15 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-surface/40 px-6 py-12 text-center',
+        'relative overflow-hidden flex flex-col items-center justify-center rounded-2xl border border-dashed border-white/[0.1] bg-surface/30 px-6 py-12 text-center',
         className,
       )}
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-card text-muted">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-[#161b24] text-primary shadow-[0_0_24px_rgba(245,158,11,0.14)]">
         {icono ?? <Inbox className="h-7 w-7" aria-hidden="true" />}
       </div>
-      <h3 className="mt-4 text-base font-semibold text-foreground">{titulo}</h3>
-      {descripcion && <p className="mt-1 max-w-sm text-sm text-muted">{descripcion}</p>}
+      <h3 className="mt-4 text-base font-bold tracking-tight text-foreground">{titulo}</h3>
+      {descripcion && <p className="mt-1.5 max-w-sm text-sm text-muted">{descripcion}</p>}
       {accion && <div className="mt-5">{accion}</div>}
     </div>
   );

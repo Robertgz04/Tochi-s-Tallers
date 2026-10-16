@@ -22,11 +22,11 @@ interface Propiedades {
 
 export function TrabajosRecientes({ trabajos }: Propiedades) {
   return (
-    <section className="rounded-2xl border border-border bg-card">
-      <div className="flex items-center justify-between gap-3 px-5 pb-1 pt-5">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+      <div className="flex items-center justify-between gap-3 px-5 pb-2 pt-5">
         <div>
-          <h3 className="text-sm font-semibold text-foreground">Trabajos recientes</h3>
-          <p className="text-xs text-muted">Últimas órdenes registradas</p>
+          <h3 className="text-sm font-bold tracking-tight text-foreground">Trabajos recientes</h3>
+          <p className="text-xs text-muted">Órdenes operativas registradas en el taller</p>
         </div>
         <Link to="/ordenes">
           <Button variant="ghost" size="sm">
@@ -69,12 +69,16 @@ export function TrabajosRecientes({ trabajos }: Propiedades) {
               <TableBody>
                 {trabajos.map((trabajo) => (
                   <TableRow key={trabajo.id}>
-                    <TableCell className="font-semibold text-foreground">
-                      {trabajo.folio}
+                    <TableCell>
+                      <span className="font-mono text-xs font-bold text-foreground">
+                        {trabajo.folio}
+                      </span>
                     </TableCell>
                     <TableCell>
-                      <p className="font-medium text-foreground">{trabajo.vehiculo}</p>
-                      <p className="text-xs text-muted">{trabajo.placa}</p>
+                      <p className="font-semibold text-foreground">{trabajo.vehiculo}</p>
+                      <div className="mt-0.5">
+                        <span className="plate-badge">{trabajo.placa}</span>
+                      </div>
                     </TableCell>
                     <TableCell className="text-muted">{trabajo.cliente}</TableCell>
                     <TableCell className="hidden text-muted lg:table-cell">
@@ -86,7 +90,7 @@ export function TrabajosRecientes({ trabajos }: Propiedades) {
                     <TableCell className="hidden text-muted sm:table-cell">
                       {format(parseISO(trabajo.fechaIngreso), 'dd MMM yyyy', { locale: es })}
                     </TableCell>
-                    <TableCell className="text-right font-semibold tabular-nums text-foreground">
+                    <TableCell className="text-right font-extrabold tabular-nums text-foreground">
                       {formatMoney(trabajo.total)}
                     </TableCell>
                   </TableRow>
@@ -100,22 +104,23 @@ export function TrabajosRecientes({ trabajos }: Propiedades) {
             {trabajos.map((trabajo) => (
               <article
                 key={trabajo.id}
-                className="rounded-xl border border-border bg-surface/60 p-4"
+                className="rounded-xl border border-white/[0.08] bg-[#10141d]/80 p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="truncate text-sm font-semibold text-foreground">
+                    <p className="truncate text-sm font-bold text-foreground">
                       {trabajo.vehiculo}
                     </p>
-                    <p className="text-xs text-muted">
-                      {trabajo.placa} · {trabajo.cliente}
-                    </p>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="plate-badge">{trabajo.placa}</span>
+                      <span className="truncate text-xs text-muted">{trabajo.cliente}</span>
+                    </div>
                   </div>
                   <StatusBadge estado={trabajo.estado} />
                 </div>
-                <div className="mt-3 flex items-center justify-between text-xs">
-                  <span className="text-muted">{trabajo.folio}</span>
-                  <span className="font-bold tabular-nums text-foreground">
+                <div className="mt-3.5 flex items-center justify-between border-t border-white/[0.06] pt-2.5 text-xs">
+                  <span className="font-mono font-medium text-muted">{trabajo.folio}</span>
+                  <span className="text-sm font-extrabold tabular-nums text-foreground">
                     {formatMoney(trabajo.total)}
                   </span>
                 </div>

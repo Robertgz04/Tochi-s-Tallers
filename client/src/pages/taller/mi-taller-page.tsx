@@ -237,27 +237,29 @@ export default function MiTallerPage() {
 
         {/* Resumen de suscripción */}
         <aside className="h-fit space-y-4">
-          <Card className="border-primary/25 bg-gradient-to-b from-primary/[0.07] to-card">
+          <Card className="relative overflow-hidden border border-primary/35 bg-gradient-to-br from-primary/[0.14] via-[#161c25] to-[#12161e] shadow-[0_12px_36px_-8px_rgba(245,158,11,0.25)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-primary" aria-hidden="true" />
-                Suscripción
+              <CardTitle className="flex items-center gap-2 font-bold tracking-tight">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/20 text-primary ring-1 ring-primary/40 shadow-sm">
+                  <CreditCard className="h-4 w-4" aria-hidden="true" />
+                </span>
+                Suscripción del taller
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
+            <CardContent className="space-y-3.5 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-muted">Plan actual</span>
                 <Badge variant="primary">{data.plan}</Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted">Estado</span>
-                <Badge variant={data.estadoSuscripcion === 'ACTIVA' ? 'success' : 'danger'}>
+                <Badge variant={data.estadoSuscripcion === 'ACTIVA' ? 'success' : 'danger'} conPunto>
                   {data.estadoSuscripcion}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted">Vigencia</span>
-                <span className="font-medium text-foreground">
+                <span className="font-bold text-foreground">
                   {data.fechaVencimiento
                     ? format(parseISO(data.fechaVencimiento), "d 'de' MMMM 'de' yyyy", {
                         locale: es,
@@ -267,12 +269,17 @@ export default function MiTallerPage() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted">IVA configurado</span>
-                <span className="font-medium text-foreground">{data.iva}%</span>
+                <span className="font-bold text-foreground">{data.iva}%</span>
               </div>
-              <p className="flex items-center gap-1.5 border-t border-border pt-3 text-xs text-muted">
-                <BadgeCheck className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
-                Folios: {data.prefijoFolio}-000001
-              </p>
+              <div className="flex items-center justify-between border-t border-white/[0.08] pt-3 text-xs text-muted">
+                <span className="flex items-center gap-1.5">
+                  <BadgeCheck className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+                  Muestra de folio:
+                </span>
+                <span className="font-mono text-xs font-bold text-foreground bg-[#11151e] px-2 py-0.5 rounded border border-white/[0.08]">
+                  {data.prefijoFolio}-000001
+                </span>
+              </div>
             </CardContent>
           </Card>
         </aside>

@@ -20,23 +20,24 @@ interface Propiedades {
 }
 
 const estiloTooltip = {
-  backgroundColor: '#181D24',
-  border: '1px solid #262D36',
-  borderRadius: 12,
+  backgroundColor: '#151a23',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  borderRadius: 14,
   fontSize: 12,
-  color: '#F5F7FA',
+  color: '#F8FAFC',
+  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
 };
 
 export function GraficaIngresos({ datos }: Propiedades) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-5 lg:col-span-3">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 lg:col-span-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold text-foreground">Ingresos</h3>
-          <p className="text-xs text-muted">Últimos 6 meses</p>
+          <h3 className="text-sm font-bold tracking-tight text-foreground">Ingresos del taller</h3>
+          <p className="text-xs text-muted">Historial financiero de los últimos 6 meses</p>
         </div>
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-          <DollarSign className="h-4.5 w-4.5" aria-hidden="true" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_14px_rgba(245,158,11,0.2)]">
+          <DollarSign className="h-5 w-5" aria-hidden="true" />
         </span>
       </div>
       <div className="h-64">

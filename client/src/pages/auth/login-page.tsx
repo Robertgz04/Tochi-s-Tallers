@@ -82,52 +82,56 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen bg-background">
       {/* Panel de marca (escritorio) */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-border bg-surface p-10 lg:flex">
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-white/[0.08] bg-[#0c1017] p-12 lg:flex">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          className="pointer-events-none absolute inset-0 opacity-[0.25]"
           style={{
             backgroundImage:
-              'linear-gradient(rgba(38,45,54,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(38,45,54,0.6) 1px, transparent 1px)',
-            backgroundSize: '42px 42px',
+              'linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
           }}
           aria-hidden="true"
         />
         <div
-          className="pointer-events-none absolute -right-32 top-1/3 h-96 w-96 rounded-full bg-primary/10 blur-3xl"
+          className="pointer-events-none absolute -right-32 top-1/4 h-[500px] w-[500px] rounded-full bg-primary/12 blur-[100px]"
           aria-hidden="true"
         />
         <Logo />
         <div className="relative z-10">
-          <h2 className="max-w-md text-3xl font-bold leading-tight text-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-bold text-primary shadow-[0_0_12px_rgba(245,158,11,0.15)] mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            Software Automotriz Profesional
+          </div>
+          <h2 className="max-w-md text-3xl font-extrabold leading-tight text-foreground sm:text-4xl">
             Tu taller, bajo control.
-            <span className="text-primary"> Sin libretas, sin Excel, sin chats perdidos.</span>
+            <span className="text-primary block mt-1">Sin libretas, sin pérdidas.</span>
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
-            Administra clientes, vehículos, órdenes de trabajo, cotizaciones, evidencias y pagos
-            desde una sola aplicación, en computadora o celular.
+            Administra clientes, vehículos, órdenes de trabajo, cotizaciones con enlace público y cobros
+            desde una sola aplicación rápida y moderna.
           </p>
-          <div className="mt-8 flex items-center gap-6 text-xs text-muted">
-            <span className="flex items-center gap-2">
+          <div className="mt-8 flex flex-wrap items-center gap-3 text-xs">
+            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#141922] px-3.5 py-2 font-semibold text-foreground shadow-sm">
               <Wrench className="h-4 w-4 text-primary" aria-hidden="true" /> Hecho para talleres
             </span>
-            <span className="flex items-center gap-2">
-              <KeyRound className="h-4 w-4 text-primary" aria-hidden="true" /> Datos seguros
+            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#141922] px-3.5 py-2 font-semibold text-foreground shadow-sm">
+              <KeyRound className="h-4 w-4 text-primary" aria-hidden="true" /> Datos 100% seguros
             </span>
           </div>
         </div>
         <p className="relative z-10 text-xs text-muted">
-          &copy; {new Date().getFullYear()} Tochi&rsquo;sTaller
+          &copy; {new Date().getFullYear()} Tochi&rsquo;sTaller · Todos los derechos reservados
         </p>
       </div>
 
       {/* Formulario */}
       <div className="flex w-full items-center justify-center px-5 py-10 sm:px-10">
-        <div className="w-full max-w-md animate-fade-in">
-          <div className="mb-8 lg:hidden">
+        <div className="relative w-full max-w-md animate-fade-in overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-8 sm:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
+          <div className="mb-8">
             <Logo />
           </div>
 
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">Inicia sesión</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-foreground">Inicia sesión</h1>
           <p className="mt-1.5 text-sm text-muted">
             Accede al panel de administración de tu taller.
           </p>
@@ -136,7 +140,7 @@ export default function LoginPage() {
             {error && (
               <div
                 role="alert"
-                className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+                className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-400"
               >
                 {error}
               </div>

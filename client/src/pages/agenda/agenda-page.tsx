@@ -53,11 +53,11 @@ export default function AgendaPage() {
       encabezado: 'Cita',
       render: (cita) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-info/10 text-info">
-            <CalendarDays className="h-4 w-4" aria-hidden="true" />
+          <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-xl bg-info/15 text-info ring-1 ring-info/30 shadow-[0_0_12px_rgba(56,189,248,0.15)]">
+            <CalendarDays className="h-4.5 w-4.5" aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <p className="truncate font-medium text-foreground">{cita.titulo}</p>
+            <p className="truncate font-semibold text-foreground">{cita.titulo}</p>
             <p className="truncate text-xs text-muted">
               {format(parseISO(cita.fechaInicio), "EEE d MMM · HH:mm", { locale: es })} – {format(parseISO(cita.fechaFin), 'HH:mm', { locale: es })}
             </p>
@@ -70,8 +70,10 @@ export default function AgendaPage() {
       encabezado: 'Cliente / vehículo',
       render: (cita) => (
         <div className="min-w-0">
-          <p className="truncate text-sm">{cita.cliente ?? 'Sin cliente'}</p>
-          <p className="truncate text-xs text-muted">{cita.placa ?? '—'}</p>
+          <p className="truncate font-medium text-foreground">{cita.cliente ?? 'Sin cliente'}</p>
+          <div className="mt-1">
+            {cita.placa ? <span className="plate-badge">{cita.placa}</span> : <span className="text-xs text-muted">—</span>}
+          </div>
         </div>
       ),
     },
@@ -79,7 +81,7 @@ export default function AgendaPage() {
       clave: 'responsable',
       encabezado: 'Responsable',
       ocultoEnMovil: true,
-      render: (cita) => <span className="text-muted">{cita.responsable ?? 'Sin asignar'}</span>,
+      render: (cita) => <span className="font-medium text-muted">{cita.responsable ?? 'Sin asignar'}</span>,
     },
     {
       clave: 'estado',
@@ -91,10 +93,10 @@ export default function AgendaPage() {
       encabezado: 'Acciones',
       clase: 'text-right',
       render: (cita) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-1.5">
           <Select
             aria-label={`Cambiar estado de ${cita.titulo}`}
-            className="h-9 min-w-32"
+            className="h-9 min-w-32 text-xs"
             value={cita.estado}
             disabled={cambiarEstado.isPending}
             onChange={(e) => cambiarEstado.mutate({ id: cita.id, estado: e.target.value as EstadoCita })}
@@ -104,7 +106,7 @@ export default function AgendaPage() {
           <Button variant="ghost" size="sm" aria-label={`Editar ${cita.titulo}`} onClick={() => { setEditando(cita); setFormAbierto(true); }}>
             <Pencil className="h-4 w-4" aria-hidden="true" />
           </Button>
-          <Button variant="ghost" size="sm" aria-label={`Eliminar ${cita.titulo}`} className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => setPorEliminar(cita)}>
+          <Button variant="ghost" size="sm" aria-label={`Eliminar ${cita.titulo}`} className="text-destructive hover:bg-destructive/15 hover:text-destructive" onClick={() => setPorEliminar(cita)}>
             <Trash2 className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
@@ -115,8 +117,8 @@ export default function AgendaPage() {
   return (
     <div className="animate-fade-in">
       <PageHeader titulo="Agenda" descripcion="Citas y entregas programadas del taller." acciones={<Button onClick={() => { setEditando(null); setFormAbierto(true); }}><Plus className="h-4 w-4" aria-hidden="true" /> Nueva cita</Button>} />
-      <div className="mb-4 grid gap-3 lg:grid-cols-[1fr_220px]">
-        <SearchInput value={busqueda} onChange={(e) => { setBusqueda(e.target.value); setPagina(1); }} onLimpiar={() => { setBusqueda(''); setPagina(1); }} placeholder="Buscar por título, cliente o placa..." />
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_240px]">
+        <SearchInput value={busqueda} onChange={(e) => { setBusqueda(e.target.value); setPagina(1); }} onLimpiar={() => { setBusqueda(''); setPagina(1); }} placeholder="Buscar cita por título, cliente o placa..." />
         <Select value={estado} onChange={(e) => { setEstado(e.target.value); setPagina(1); }}>
           <option value="">Todos los estados</option>
           {ESTADOS_CITA.map((op) => <option key={op} value={op}>{ETIQUETAS_CITA[op]}</option>)}

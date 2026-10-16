@@ -69,15 +69,17 @@ export default function VehiculosPage() {
       encabezado: 'Vehículo',
       render: (vehiculo) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-info/10 text-info">
+          <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-xl bg-info/15 text-info ring-1 ring-info/30 shadow-[0_0_12px_rgba(56,189,248,0.15)]">
             <Car className="h-4.5 w-4.5" aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <p className="truncate font-medium text-foreground">
+            <p className="truncate font-semibold text-foreground">
               {vehiculo.marca} {vehiculo.modelo}
               {vehiculo.anio ? ` · ${vehiculo.anio}` : ''}
             </p>
-            <p className="truncate text-xs uppercase text-muted">{vehiculo.placa}</p>
+            <div className="mt-1">
+              <span className="plate-badge">{vehiculo.placa}</span>
+            </div>
           </div>
         </div>
       ),
@@ -85,14 +87,14 @@ export default function VehiculosPage() {
     {
       clave: 'dueno',
       encabezado: 'Propietario',
-      render: (vehiculo) => <span className="text-muted">{vehiculo.clienteNombre}</span>,
+      render: (vehiculo) => <span className="font-medium text-foreground">{vehiculo.clienteNombre}</span>,
     },
     {
       clave: 'km',
       encabezado: 'Kilometraje',
       ocultoEnMovil: true,
       render: (vehiculo) => (
-        <span className="tabular-nums text-muted">{formatNumber(vehiculo.kilometraje)} km</span>
+        <span className="font-mono text-xs font-semibold tabular-nums text-foreground">{formatNumber(vehiculo.kilometraje)} km</span>
       ),
     },
     {
@@ -110,7 +112,7 @@ export default function VehiculosPage() {
       encabezado: 'Órdenes',
       clase: 'text-center',
       render: (vehiculo) => (
-        <Badge variant={vehiculo.ordenes > 0 ? 'primary' : 'default'}>{vehiculo.ordenes}</Badge>
+        <Badge variant={vehiculo.ordenes > 0 ? 'primary' : 'default'} conPunto>{vehiculo.ordenes} ord.</Badge>
       ),
     },
     {
@@ -118,7 +120,7 @@ export default function VehiculosPage() {
       encabezado: 'Acciones',
       clase: 'text-right',
       render: (vehiculo) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-1.5">
           <Button
             variant="ghost"
             size="sm"
@@ -134,7 +136,7 @@ export default function VehiculosPage() {
             variant="ghost"
             size="sm"
             aria-label={`Eliminar ${vehiculo.placa}`}
-            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+            className="text-destructive hover:bg-destructive/15 hover:text-destructive"
             onClick={() => setVehiculoPorEliminar(vehiculo)}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -159,12 +161,12 @@ export default function VehiculosPage() {
         }
       />
 
-      <div className="mb-4">
+      <div className="mb-5 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md">
         <SearchInput
           value={busqueda}
           onChange={(evento) => setBusqueda(evento.target.value)}
           onLimpiar={() => setBusqueda('')}
-          placeholder="Buscar por placa, marca, modelo o propietario..."
+          placeholder="Buscar vehículo por placa, marca, modelo o propietario..."
         />
       </div>
 

@@ -99,19 +99,22 @@ export default function CotizacionPublicaPage() {
 
       <Seccion titulo="Vehículo">
         <Fila etiqueta="Descripción" valor={datos.vehiculo.descripcion} />
-        <Fila etiqueta="Placa" valor={datos.vehiculo.placa} />
+        <div className="flex items-center justify-between gap-3 text-sm">
+          <span className="text-muted">Placa</span>
+          <span className="plate-badge">{datos.vehiculo.placa}</span>
+        </div>
         {datos.vehiculo.kilometraje != null && (
           <Fila etiqueta="Kilometraje" valor={new Intl.NumberFormat('es-MX').format(datos.vehiculo.kilometraje) + ' km'} />
         )}
       </Seccion>
 
-      <Seccion titulo="Importes">
+      <Seccion titulo="Desglose e importes">
         <Fila etiqueta="Subtotal" valor={formatMoney(datos.subtotal, moneda)} />
         <Fila etiqueta="Impuestos" valor={formatMoney(datos.impuestos, moneda)} />
         {datos.descuento > 0 && <Fila etiqueta="Descuento" valor={'-' + formatMoney(datos.descuento, moneda)} />}
-        <div className="mt-1 flex items-center justify-between border-t border-border pt-2">
-          <span className="text-sm font-semibold text-foreground">Total</span>
-          <span className="text-xl font-bold tabular-nums text-primary">{formatMoney(datos.total, moneda)}</span>
+        <div className="mt-2 flex items-center justify-between border-t border-white/[0.08] pt-3">
+          <span className="text-base font-bold text-foreground">Total a pagar</span>
+          <span className="text-2xl font-extrabold tabular-nums text-primary">{formatMoney(datos.total, moneda)}</span>
         </div>
       </Seccion>
 
@@ -123,31 +126,31 @@ export default function CotizacionPublicaPage() {
 
       {vista === 'lista' && (
         <>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 pt-2">
             <Button variant="success" size="lg" cargando={enviando} onClick={() => responder(true)}>
-              <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Aprobar
+              <CheckCircle2 className="h-5 w-5" aria-hidden="true" /> Aprobar presupuesto
             </Button>
             <Button variant="danger" size="lg" cargando={enviando} onClick={() => responder(false)}>
               <XCircle className="h-5 w-5" aria-hidden="true" /> Rechazar
             </Button>
           </div>
-          {mensaje && <p className="text-center text-sm text-destructive">{mensaje}</p>}
+          {mensaje && <p className="text-center text-sm font-medium text-destructive">{mensaje}</p>}
         </>
       )}
 
-      <div className="flex flex-wrap items-center justify-center gap-4 border-t border-border pt-4 text-xs text-muted">
+      <div className="flex flex-wrap items-center justify-center gap-3 border-t border-white/[0.08] pt-4 text-xs text-muted">
         {datos.taller.telefono && (
-          <a className="flex items-center gap-1.5 hover:text-foreground" href={`tel:${datos.taller.telefono}`}>
-            <Phone className="h-3.5 w-3.5" aria-hidden="true" /> {datos.taller.telefono}
+          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#11151e] px-3 py-1.5 font-medium hover:border-white/20 hover:text-foreground" href={`tel:${datos.taller.telefono}`}>
+            <Phone className="h-3.5 w-3.5 text-primary" aria-hidden="true" /> {datos.taller.telefono}
           </a>
         )}
         {datos.taller.whatsapp && (
-          <a className="flex items-center gap-1.5 hover:text-foreground" href={`https://wa.me/${datos.taller.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">
+          <a className="flex items-center gap-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 font-semibold text-emerald-400 hover:border-emerald-500/50" href={`https://wa.me/${datos.taller.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">
             <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" /> WhatsApp
           </a>
         )}
         {datos.taller.correo && (
-          <a className="flex items-center gap-1.5 hover:text-foreground" href={`mailto:${datos.taller.correo}`}>
+          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#11151e] px-3 py-1.5 hover:border-white/20 hover:text-foreground" href={`mailto:${datos.taller.correo}`}>
             {datos.taller.correo}
           </a>
         )}
@@ -158,8 +161,8 @@ export default function CotizacionPublicaPage() {
 
 function Pantalla({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen items-start justify-center bg-background p-4 sm:items-center">
-      <div className="w-full max-w-md space-y-4 rounded-2xl border border-border bg-card p-6 shadow-[0_1px_3px_rgba(0,0,0,0.35)] animate-fade-in">
+    <div className="flex min-h-screen items-start justify-center bg-background p-4 sm:items-center sm:py-8">
+      <div className="relative w-full max-w-lg space-y-4 overflow-hidden rounded-3xl border border-white/[0.09] bg-gradient-to-b from-[#161b24] to-[#12161e] p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent animate-fade-in">
         {children}
       </div>
     </div>
@@ -168,8 +171,8 @@ function Pantalla({ children }: { children: ReactNode }) {
 
 function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
-    <div className="space-y-2 rounded-xl border border-border bg-surface p-4">
-      <p className="text-xs font-semibold uppercase tracking-wider text-muted">{titulo}</p>
+    <div className="space-y-2 rounded-2xl border border-white/[0.08] bg-[#11151e] p-4.5">
+      <p className="text-xs font-bold uppercase tracking-wider text-muted">{titulo}</p>
       <div className="space-y-1.5">{children}</div>
     </div>
   );
@@ -179,7 +182,7 @@ function Fila({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
     <div className="flex items-center justify-between gap-3 text-sm">
       <span className="text-muted">{etiqueta}</span>
-      <span className="text-right font-medium text-foreground">{valor}</span>
+      <span className="text-right font-semibold text-foreground">{valor}</span>
     </div>
   );
 }
@@ -187,31 +190,31 @@ function Fila({ etiqueta, valor }: { etiqueta: string; valor: string }) {
 function RespuestaEstado({ estado }: { estado: string }) {
   if (estado === 'APROBADA') {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-success/30 bg-success/10 p-4">
-        <CheckCircle2 className="h-6 w-6 shrink-0 text-success" aria-hidden="true" />
+      <div className="flex items-center gap-3 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4.5 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+        <CheckCircle2 className="h-6 w-6 shrink-0 text-emerald-400" aria-hidden="true" />
         <div>
-          <p className="font-semibold text-success">¡Gracias! Cotización aprobada</p>
-          <p className="text-sm text-muted">El taller ha sido notificado y comenzará el trabajo.</p>
+          <p className="font-bold text-emerald-400">¡Gracias! Cotización aprobada</p>
+          <p className="text-xs text-muted mt-0.5">El taller ha sido notificado y comenzará el trabajo en tu vehículo.</p>
         </div>
       </div>
     );
   }
   if (estado === 'RECHAZADA') {
     return (
-      <div className="flex items-center gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4">
-        <XCircle className="h-6 w-6 shrink-0 text-destructive" aria-hidden="true" />
+      <div className="flex items-center gap-3 rounded-2xl border border-rose-500/30 bg-rose-500/10 p-4.5 shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+        <XCircle className="h-6 w-6 shrink-0 text-rose-400" aria-hidden="true" />
         <div>
-          <p className="font-semibold text-destructive">Cotización rechazada</p>
-          <p className="text-sm text-muted">Se informó al taller tu decisión. Puedes contactarlos si lo deseas.</p>
+          <p className="font-bold text-rose-400">Cotización rechazada</p>
+          <p className="text-xs text-muted mt-0.5">Se informó al taller tu decisión. Puedes contactarlos si requieres ajustes.</p>
         </div>
       </div>
     );
   }
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4">
+    <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-[#11151e] p-4.5">
       <div>
-        <p className="font-semibold text-foreground">Esta cotización ya fue respondida</p>
-        <p className="text-sm text-muted">Estado actual: {ETIQUETAS_COTIZACION[estado as keyof typeof ETIQUETAS_COTIZACION] ?? estado}.</p>
+        <p className="font-bold text-foreground">Esta cotización ya fue respondida</p>
+        <p className="text-xs text-muted mt-0.5">Estado actual: {ETIQUETAS_COTIZACION[estado as keyof typeof ETIQUETAS_COTIZACION] ?? estado}.</p>
       </div>
     </div>
   );

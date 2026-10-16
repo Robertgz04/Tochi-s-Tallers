@@ -55,12 +55,15 @@ export default function InventarioPage() {
       encabezado: 'Producto',
       render: (item) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <Package className="h-4 w-4" aria-hidden="true" />
+          <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]">
+            <Package className="h-4.5 w-4.5" aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <p className="truncate font-medium text-foreground">{item.nombre}</p>
-            <p className="truncate text-xs uppercase text-muted">{item.sku}{item.categoria ? ` · ${item.categoria}` : ''}</p>
+            <p className="truncate font-semibold text-foreground">{item.nombre}</p>
+            <p className="truncate text-xs text-muted">
+              <span className="font-mono font-bold text-foreground/80">{item.sku}</span>
+              {item.categoria ? ` · ${item.categoria}` : ''}
+            </p>
           </div>
         </div>
       ),
@@ -73,7 +76,7 @@ export default function InventarioPage() {
         item.stockBajo ? (
           <Badge variant="danger" conPunto>{formatNumber(item.stock)} {item.unidad}</Badge>
         ) : (
-          <span className="font-semibold tabular-nums text-foreground">{formatNumber(item.stock)} {item.unidad}</span>
+          <span className="font-bold tabular-nums text-foreground">{formatNumber(item.stock)} {item.unidad}</span>
         ),
     },
     {
@@ -81,27 +84,27 @@ export default function InventarioPage() {
       encabezado: 'Costo',
       clase: 'text-right',
       ocultoEnMovil: true,
-      render: (item) => <span className="text-muted">{formatMoney(item.costo)}</span>,
+      render: (item) => <span className="text-muted tabular-nums">{formatMoney(item.costo)}</span>,
     },
     {
       clave: 'precio',
       encabezado: 'Precio',
       clase: 'text-right',
-      render: (item) => <span className="font-semibold">{formatMoney(item.precio)}</span>,
+      render: (item) => <span className="font-extrabold tabular-nums text-foreground">{formatMoney(item.precio)}</span>,
     },
     {
       clave: 'acciones',
       encabezado: 'Acciones',
       clase: 'text-right',
       render: (item) => (
-        <div className="flex justify-end gap-1">
+        <div className="flex justify-end gap-1.5">
           <Button variant="ghost" size="sm" aria-label={`Movimiento ${item.nombre}`} onClick={() => { setItemMov(item); setMovAbierto(true); }}>
             <ArrowDownUp className="h-4 w-4" aria-hidden="true" />
           </Button>
           <Button variant="ghost" size="sm" aria-label={`Editar ${item.nombre}`} onClick={() => { setEditando(item); setFormAbierto(true); }}>
             <Pencil className="h-4 w-4" aria-hidden="true" />
           </Button>
-          <Button variant="ghost" size="sm" aria-label={`Eliminar ${item.nombre}`} className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => setPorEliminar(item)}>
+          <Button variant="ghost" size="sm" aria-label={`Eliminar ${item.nombre}`} className="text-destructive hover:bg-destructive/15 hover:text-destructive" onClick={() => setPorEliminar(item)}>
             <Trash2 className="h-4 w-4" aria-hidden="true" />
           </Button>
         </div>
@@ -123,12 +126,12 @@ export default function InventarioPage() {
         }
       />
 
-      <div className="mb-4 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
-        <StatCard titulo="Productos" valor={formatNumber(data?.total ?? 0)} icono={Package} detalle="Registrados" />
-        <StatCard titulo="Stock bajo" valor={formatNumber(data?.stockBajoTotal ?? 0)} icono={AlertTriangle} detalle="Requieren reorden" destacado={(data?.stockBajoTotal ?? 0) > 0} />
+      <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+        <StatCard titulo="Productos" valor={formatNumber(data?.total ?? 0)} icono={Package} detalle="Registrados en almacén" />
+        <StatCard titulo="Stock bajo" valor={formatNumber(data?.stockBajoTotal ?? 0)} icono={AlertTriangle} detalle="Requieren reorden urgente" destacado={(data?.stockBajoTotal ?? 0) > 0} />
       </div>
 
-      <div className="mb-4 grid gap-3 lg:grid-cols-[1fr_200px_auto]">
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_200px_auto]">
         <SearchInput
           value={busqueda}
           onChange={(e) => { setBusqueda(e.target.value); setPagina(1); }}

@@ -24,11 +24,11 @@ export default function EquipoPage() {
       encabezado: 'Usuario',
       render: (usuario) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-xs font-bold text-primary">
+          <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/30 text-xs font-bold text-primary ring-1 ring-primary/40 shadow-sm">
             {iniciales(usuario.nombre, usuario.apellidos)}
           </span>
           <div className="min-w-0">
-            <p className="truncate font-medium text-foreground">
+            <p className="truncate font-semibold text-foreground">
               {nombreCompleto(usuario.nombre, usuario.apellidos)}
             </p>
             <p className="truncate text-xs text-muted">{usuario.correo}</p>
@@ -40,7 +40,7 @@ export default function EquipoPage() {
       clave: 'telefono',
       encabezado: 'Teléfono',
       ocultoEnMovil: true,
-      render: (usuario) => <span className="text-muted">{usuario.telefono ?? '—'}</span>,
+      render: (usuario) => <span className="font-medium text-foreground">{usuario.telefono ?? '—'}</span>,
     },
     {
       clave: 'rol',

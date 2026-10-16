@@ -73,13 +73,13 @@ export default function RegisterPage() {
           Volver a iniciar sesión
         </Link>
 
-        <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+        <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-6 sm:p-9 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
           <Logo />
-          <h1 className="mt-6 text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="mt-6 text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
             Crea tu taller
           </h1>
           <p className="mt-1.5 text-sm text-muted">
-            Empieza con 14 días gratis. Sin tarjeta de crédito.
+            Empieza con 14 días gratis. Sin tarjeta de crédito requerida.
           </p>
 
           <form onSubmit={alRegistrar} className="mt-7 space-y-4" noValidate>

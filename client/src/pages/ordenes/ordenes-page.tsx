@@ -80,11 +80,11 @@ export default function OrdenesPage() {
       encabezado: 'Orden',
       render: (orden) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]">
             <ClipboardList className="h-4.5 w-4.5" aria-hidden="true" />
           </span>
           <div className="min-w-0">
-            <p className="font-semibold text-foreground">{orden.folio}</p>
+            <p className="font-mono text-xs font-bold text-foreground">{orden.folio}</p>
             <p className="truncate text-xs text-muted">
               {format(parseISO(orden.fechaIngreso), 'dd MMM yyyy', { locale: es })}
             </p>
@@ -97,10 +97,11 @@ export default function OrdenesPage() {
       encabezado: 'Vehículo / cliente',
       render: (orden) => (
         <div className="min-w-0">
-          <p className="truncate font-medium text-foreground">{orden.vehiculo}</p>
-          <p className="truncate text-xs text-muted">
-            {orden.placa} · {orden.cliente}
-          </p>
+          <p className="truncate font-semibold text-foreground">{orden.vehiculo}</p>
+          <div className="mt-1 flex items-center gap-2">
+            <span className="plate-badge">{orden.placa}</span>
+            <span className="truncate text-xs text-muted">{orden.cliente}</span>
+          </div>
         </div>
       ),
     },
@@ -119,7 +120,7 @@ export default function OrdenesPage() {
       clave: 'total',
       encabezado: 'Total',
       clase: 'text-right',
-      render: (orden) => <span className="font-semibold text-foreground">{formatMoney(orden.total)}</span>,
+      render: (orden) => <span className="font-extrabold tabular-nums text-foreground">{formatMoney(orden.total)}</span>,
     },
     {
       clave: 'acciones',
@@ -129,7 +130,7 @@ export default function OrdenesPage() {
         <div className="flex justify-end gap-2">
           <Select
             aria-label={`Cambiar estado de ${orden.folio}`}
-            className="h-9 min-w-40"
+            className="h-9 min-w-40 text-xs"
             value={orden.estado}
             disabled={cambiarEstado.isPending}
             onChange={(evento) => cambiarEstado.mutate({ id: orden.id, estado: evento.target.value as EstadoOrden })}
@@ -165,7 +166,7 @@ export default function OrdenesPage() {
         }
       />
 
-      <div className="mb-4 grid gap-3 lg:grid-cols-[1fr_240px]">
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_260px]">
         <SearchInput
           value={busqueda}
           onChange={(evento) => {

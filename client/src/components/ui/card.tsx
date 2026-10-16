@@ -5,7 +5,7 @@ export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        'rounded-2xl border border-border bg-card shadow-[0_1px_3px_rgba(0,0,0,0.35)] transition-colors',
+        'relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] transition-all duration-200 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent',
         className,
       )}
       {...props}
@@ -18,7 +18,7 @@ export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElemen
 }
 
 export function CardTitle({ className, ...props }: HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn('text-base font-semibold text-foreground', className)} {...props} />;
+  return <h3 className={cn('text-base font-bold tracking-tight text-foreground', className)} {...props} />;
 }
 
 export function CardDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
@@ -31,6 +31,6 @@ export function CardContent({ className, ...props }: HTMLAttributes<HTMLDivEleme
 
 export function CardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex items-center gap-3 border-t border-border p-5 pt-4', className)} {...props} />
+    <div className={cn('flex items-center gap-3 border-t border-white/[0.06] p-5 pt-4', className)} {...props} />
   );
 }

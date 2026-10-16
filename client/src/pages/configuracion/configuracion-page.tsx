@@ -68,19 +68,19 @@ export default function ConfiguracionPage() {
       </div>
 
       <div>
-        <h3 className="mb-3 text-sm font-semibold text-foreground">Secciones</h3>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <h3 className="mb-3.5 text-sm font-bold tracking-tight text-foreground">Ajustes del sistema</h3>
+        <div className="grid gap-3.5 sm:grid-cols-2">
           {enlaces.map(({ to, icono: Icono, titulo, descripcion }) => (
-            <Link key={to} to={to} className="block">
-              <Card className="flex items-center gap-4 p-5 transition-colors hover:border-border-strong">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Icono className="h-5 w-5" aria-hidden="true" />
+            <Link key={to} to={to} className="group block">
+              <Card className="flex items-center gap-4 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_10px_30px_-10px_rgba(245,158,11,0.2)]">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30 shadow-[0_0_12px_rgba(245,158,11,0.15)] transition-transform duration-200 group-hover:scale-105">
+                  <Icono className="h-5.5 w-5.5" aria-hidden="true" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-foreground">{titulo}</p>
-                  <p className="truncate text-sm text-muted">{descripcion}</p>
+                  <p className="font-bold text-foreground group-hover:text-primary transition-colors">{titulo}</p>
+                  <p className="truncate text-xs text-muted mt-0.5">{descripcion}</p>
                 </div>
-                <ChevronRight className="h-5 w-5 text-muted" aria-hidden="true" />
+                <ChevronRight className="h-5 w-5 text-muted transition-transform duration-200 group-hover:translate-x-1 group-hover:text-foreground" aria-hidden="true" />
               </Card>
             </Link>
           ))}

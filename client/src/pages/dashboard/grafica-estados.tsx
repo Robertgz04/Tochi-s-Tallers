@@ -35,23 +35,24 @@ interface Propiedades {
 }
 
 const estiloTooltip = {
-  backgroundColor: '#181D24',
-  border: '1px solid #262D36',
-  borderRadius: 12,
+  backgroundColor: '#151a23',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  borderRadius: 14,
   fontSize: 12,
-  color: '#F5F7FA',
+  color: '#F8FAFC',
+  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
 };
 
 export function GraficaEstados({ datos }: Propiedades) {
   return (
-    <section className="rounded-2xl border border-border bg-card p-5 lg:col-span-2">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 lg:col-span-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold text-foreground">Órdenes por estado</h3>
-          <p className="text-xs text-muted">Distribución actual</p>
+          <h3 className="text-sm font-bold tracking-tight text-foreground">Órdenes por estado</h3>
+          <p className="text-xs text-muted">Distribución de flujo de trabajo actual</p>
         </div>
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-info/10 text-info">
-          <Car className="h-4.5 w-4.5" aria-hidden="true" />
+        <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-info/15 text-info ring-1 ring-info/30 shadow-[0_0_14px_rgba(56,189,248,0.2)]">
+          <Car className="h-5 w-5" aria-hidden="true" />
         </span>
       </div>
 
@@ -81,18 +82,18 @@ export function GraficaEstados({ datos }: Propiedades) {
               </PieChart>
             </ResponsiveContainer>
           </div>
-          <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1.5">
+          <div className="mt-3 flex flex-wrap gap-2">
             {datos.map((punto) => (
               <span
                 key={punto.nombre}
-                className="flex items-center gap-1.5 text-[11px] text-muted"
+                className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-[#11151e] px-2.5 py-1 text-[11px] font-medium text-muted"
               >
                 <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: colorEstado(punto.nombre) }}
+                  className="h-2 w-2 rounded-full shadow-[0_0_6px_currentColor]"
+                  style={{ backgroundColor: colorEstado(punto.nombre), color: colorEstado(punto.nombre) }}
                   aria-hidden="true"
                 />
-                {punto.nombre} ({punto.valor})
+                {punto.nombre} <strong className="text-foreground">({punto.valor})</strong>
               </span>
             ))}
           </div>

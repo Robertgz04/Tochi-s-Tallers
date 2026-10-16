@@ -67,11 +67,11 @@ export default function ClientesPage() {
       encabezado: 'Cliente',
       render: (cliente) => (
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-xs font-bold text-primary">
+          <span className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500/20 to-amber-600/30 text-xs font-bold text-primary ring-1 ring-primary/40 shadow-sm">
             {iniciales(cliente.nombre, cliente.apellidos)}
           </span>
           <div className="min-w-0">
-            <p className="truncate font-medium text-foreground">
+            <p className="truncate font-semibold text-foreground">
               {nombreCompleto(cliente.nombre, cliente.apellidos)}
             </p>
             <p className="truncate text-xs text-muted">{cliente.correo ?? 'Sin correo'}</p>
@@ -82,14 +82,16 @@ export default function ClientesPage() {
     {
       clave: 'telefono',
       encabezado: 'Teléfono',
-      render: (cliente) => <span className="text-muted">{cliente.telefono ?? '—'}</span>,
+      render: (cliente) => <span className="font-medium text-foreground">{cliente.telefono ?? '—'}</span>,
     },
     {
       clave: 'vehiculos',
       encabezado: 'Vehículos',
       clase: 'text-center',
       render: (cliente) => (
-        <Badge variant={cliente.vehiculos > 0 ? 'info' : 'default'}>{cliente.vehiculos}</Badge>
+        <Badge variant={cliente.vehiculos > 0 ? 'sky' : 'default'} conPunto>
+          {cliente.vehiculos} {cliente.vehiculos === 1 ? 'vehículo' : 'vehículos'}
+        </Badge>
       ),
     },
     {
@@ -97,8 +99,8 @@ export default function ClientesPage() {
       encabezado: 'Registro',
       ocultoEnMovil: true,
       render: (cliente) => (
-        <span className="text-muted">
-          {format(parseISO(cliente.fechaRegistro), 'd MMM yyyy', { locale: es })}
+        <span className="text-xs text-muted">
+          {format(parseISO(cliente.fechaRegistro), 'dd MMM yyyy', { locale: es })}
         </span>
       ),
     },
@@ -107,7 +109,7 @@ export default function ClientesPage() {
       encabezado: 'Acciones',
       clase: 'text-right',
       render: (cliente) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-1.5">
           <Button
             variant="ghost"
             size="sm"
@@ -120,7 +122,7 @@ export default function ClientesPage() {
             variant="ghost"
             size="sm"
             aria-label={`Eliminar ${cliente.nombre}`}
-            className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+            className="text-destructive hover:bg-destructive/15 hover:text-destructive"
             onClick={() => setClientePorEliminar(cliente)}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -136,7 +138,7 @@ export default function ClientesPage() {
     <div className="animate-fade-in">
       <PageHeader
         titulo="Clientes"
-        descripcion="Directorio de clientes y sus vehículos registrados."
+        descripcion="Directorio de clientes y sus vehículos registrados en el taller."
         acciones={
           <Button onClick={abrirNuevo}>
             <UserPlus className="h-4 w-4" aria-hidden="true" />
@@ -145,12 +147,12 @@ export default function ClientesPage() {
         }
       />
 
-      <div className="mb-4">
+      <div className="mb-5 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md">
         <SearchInput
           value={busqueda}
           onChange={(evento) => setBusqueda(evento.target.value)}
           onLimpiar={() => setBusqueda('')}
-          placeholder="Buscar por nombre, teléfono o correo..."
+          placeholder="Buscar cliente por nombre, teléfono o correo..."
         />
       </div>
 
