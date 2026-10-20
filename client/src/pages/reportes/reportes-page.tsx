@@ -194,7 +194,7 @@ export default function ReportesPage() {
           <Button
             variant="secondary"
             onClick={() => setModalImportarAbierto(true)}
-            className="flex items-center gap-2 border-white/10 bg-[#161b24] hover:border-white/20 hover:bg-[#1a212d]"
+            className="flex items-center gap-2 border-white/10 bg-card hover:border-white/20 hover:bg-card-hover"
           >
             <ArrowDownToLine className="h-4 w-4 text-sky-400" />
             <span>{t('rep.importar')}</span>
@@ -213,7 +213,7 @@ export default function ReportesPage() {
 
             {menuExportarAbierto && (
               <div
-                className="absolute right-0 top-12 z-50 w-56 overflow-hidden rounded-2xl border border-white/10 bg-[#141922] p-1.5 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-scale-in"
+                className="absolute right-0 top-12 z-50 w-56 overflow-hidden rounded-2xl border border-white/10 bg-card p-1.5 shadow-[0_15px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-scale-in"
                 onMouseLeave={() => setMenuExportarAbierto(false)}
               >
                 <button
@@ -330,7 +330,7 @@ function ReportesContenido({
 
       {/* Órdenes por mes histórico */}
       {ordenesPorMes.length > 0 && (
-        <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+        <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
           <h3 className="mb-3.5 flex items-center gap-2 text-sm font-bold tracking-tight text-foreground">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30">
               <BarChart3 className="h-4 w-4" aria-hidden="true" />
@@ -339,7 +339,7 @@ function ReportesContenido({
           </h3>
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {ordenesPorMes.map((mes) => (
-              <div key={mes.mes} className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4 text-center transition-all hover:border-white/20 hover:-translate-y-0.5">
+              <div key={mes.mes} className="rounded-xl border border-white/[0.08] bg-card p-4 text-center transition-all hover:border-white/20 hover:-translate-y-0.5">
                 <p className="text-xs font-semibold capitalize text-muted">
                   {format(parseISO(`${mes.mes}-01`), 'MMM yy', { locale: es })}
                 </p>
@@ -394,7 +394,7 @@ function ReportesContenido({
           {t('rep.embudoCotizaciones')}
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          <div className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4.5 transition-all hover:border-white/20">
+          <div className="rounded-xl border border-white/[0.08] bg-card p-4.5 transition-all hover:border-white/20">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted">Enviadas</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.enviadas)}</p>
             <p className="text-xs text-muted">{formatMoney(cotizaciones.montoEnviado)}</p>
@@ -408,7 +408,7 @@ function ReportesContenido({
             <p className="text-xs font-semibold uppercase tracking-wider text-rose-400">Rechazadas</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-rose-400">{formatNumber(cotizaciones.rechazadas)}</p>
           </div>
-          <div className="rounded-xl border border-white/[0.08] bg-[#11151e] p-4.5 transition-all hover:border-white/20">
+          <div className="rounded-xl border border-white/[0.08] bg-card p-4.5 transition-all hover:border-white/20">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted">Total</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.total)}</p>
           </div>

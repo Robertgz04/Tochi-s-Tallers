@@ -22,7 +22,7 @@ interface Propiedades {
 
 export function TrabajosRecientes({ trabajos }: Propiedades) {
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       <div className="flex items-center justify-between gap-3 px-5 pb-2 pt-5">
         <div>
           <h3 className="text-sm font-bold tracking-tight text-foreground">Trabajos recientes</h3>
@@ -104,7 +104,7 @@ export function TrabajosRecientes({ trabajos }: Propiedades) {
             {trabajos.map((trabajo) => (
               <article
                 key={trabajo.id}
-                className="rounded-xl border border-white/[0.08] bg-[#10141d]/80 p-4 shadow-sm"
+                className="rounded-xl border border-white/[0.08] bg-background/60 p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">

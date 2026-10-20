@@ -24,7 +24,7 @@ export function EmptyState({
         className,
       )}
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-[#161b24] text-primary shadow-[0_0_24px_rgba(245,158,11,0.14)]">
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.08] bg-card text-primary shadow-[0_0_24px_rgba(245,158,11,0.14)]">
         {icono ?? <Inbox className="h-7 w-7" aria-hidden="true" />}
       </div>
       <h3 className="mt-4 text-base font-bold tracking-tight text-foreground">{titulo}</h3>

@@ -73,7 +73,7 @@ export function DataTable<T>({
   }
 
   return (
-    <div className={cn('relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent', className)}>
+    <div className={cn('relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent', className)}>
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">

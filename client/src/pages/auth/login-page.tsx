@@ -82,7 +82,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen bg-background">
       {/* Panel de marca (escritorio) */}
-      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-white/[0.08] bg-[#0c1017] p-12 lg:flex">
+      <div className="relative hidden w-1/2 flex-col justify-between overflow-hidden border-r border-white/[0.08] bg-surface p-12 lg:flex">
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.25]"
           style={{
@@ -111,10 +111,10 @@ export default function LoginPage() {
             desde una sola aplicación rápida y moderna.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3 text-xs">
-            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#141922] px-3.5 py-2 font-semibold text-foreground shadow-sm">
+            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-card px-3.5 py-2 font-semibold text-foreground shadow-sm">
               <Wrench className="h-4 w-4 text-primary" aria-hidden="true" /> Hecho para talleres
             </span>
-            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#141922] px-3.5 py-2 font-semibold text-foreground shadow-sm">
+            <span className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-card px-3.5 py-2 font-semibold text-foreground shadow-sm">
               <KeyRound className="h-4 w-4 text-primary" aria-hidden="true" /> Datos 100% seguros
             </span>
           </div>
@@ -126,7 +126,7 @@ export default function LoginPage() {
 
       {/* Formulario */}
       <div className="flex w-full items-center justify-center px-5 py-10 sm:px-10">
-        <div className="relative w-full max-w-md animate-fade-in overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-8 sm:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
+        <div className="relative w-full max-w-md animate-fade-in overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-8 sm:p-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
           <div className="mb-8">
             <Logo />
           </div>

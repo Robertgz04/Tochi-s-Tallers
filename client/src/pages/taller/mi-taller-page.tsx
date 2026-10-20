@@ -237,7 +237,7 @@ export default function MiTallerPage() {
 
         {/* Resumen de suscripción */}
         <aside className="h-fit space-y-4">
-          <Card className="relative overflow-hidden border border-primary/35 bg-gradient-to-br from-primary/[0.14] via-[#161c25] to-[#12161e] shadow-[0_12px_36px_-8px_rgba(245,158,11,0.25)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
+          <Card className="relative overflow-hidden border border-primary/35 bg-gradient-to-br from-primary/[0.14] via-card to-surface shadow-[0_12px_36px_-8px_rgba(245,158,11,0.25)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-bold tracking-tight">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/20 text-primary ring-1 ring-primary/40 shadow-sm">
@@ -276,7 +276,7 @@ export default function MiTallerPage() {
                   <BadgeCheck className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
                   Muestra de folio:
                 </span>
-                <span className="font-mono text-xs font-bold text-foreground bg-[#11151e] px-2 py-0.5 rounded border border-white/[0.08]">
+                <span className="font-mono text-xs font-bold text-foreground bg-card px-2 py-0.5 rounded border border-white/[0.08]">
                   {data.prefijoFolio}-000001
                 </span>
               </div>

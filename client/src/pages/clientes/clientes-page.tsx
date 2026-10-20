@@ -147,7 +147,7 @@ export default function ClientesPage() {
         }
       />
 
-      <div className="mb-5 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md">
+      <div className="mb-5 rounded-2xl border border-white/[0.08] bg-card/70 p-3 sm:p-4 shadow-sm backdrop-blur-md">
         <SearchInput
           value={busqueda}
           onChange={(evento) => setBusqueda(evento.target.value)}

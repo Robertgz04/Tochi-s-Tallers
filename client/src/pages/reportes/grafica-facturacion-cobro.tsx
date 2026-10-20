@@ -13,6 +13,7 @@ import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { ArrowUpRight, Banknote, CheckCircle2, TrendingUp } from 'lucide-react';
 import { formatMoney } from '@/lib/utils';
+import { useColoresGrafica } from '@/lib/graficas';
 
 export interface DatosFacturacionCobro {
   mes: string;
@@ -28,17 +29,9 @@ interface Propiedades {
   ingresosMensuales: { mes: string; total: number }[];
 }
 
-const estiloTooltip = {
-  backgroundColor: '#151a23',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 14,
-  fontSize: 12,
-  color: '#F8FAFC',
-  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
-};
-
 export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Propiedades) {
   const [vista, setVista] = useState<'comparativo' | 'acumulado'>('comparativo');
+  const { estiloTooltip, colorCuadricula } = useColoresGrafica();
 
   const datos = useMemo<DatosFacturacionCobro[]>(() => {
     // Mapa de ingresos cobrados indexados por mes "YYYY-MM"
@@ -77,7 +70,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
   }, [datos]);
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       {/* Encabezado */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -100,7 +93,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
         </div>
 
         {/* Selector de modo */}
-        <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-[#11151e] p-1">
+        <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-card p-1">
           <button
             type="button"
             onClick={() => setVista('comparativo')}
@@ -128,26 +121,26 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
 
       {/* Tarjetas KPI rápidas */}
       <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-        <div className="rounded-xl border border-white/[0.06] bg-[#10141d] p-3">
+        <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
           <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Facturado total</p>
           <p className="mt-1 text-base font-extrabold text-sky-400 tabular-nums">
             {formatMoney(totales.totalFacturado)}
           </p>
         </div>
-        <div className="rounded-xl border border-white/[0.06] bg-[#10141d] p-3">
+        <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
           <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Cobrado efectivo</p>
           <p className="mt-1 text-base font-extrabold text-emerald-400 tabular-nums">
             {formatMoney(totales.totalCobrado)}
           </p>
         </div>
-        <div className="rounded-xl border border-white/[0.06] bg-[#10141d] p-3">
+        <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
           <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Tasa de cobro</p>
           <p className="mt-1 flex items-center gap-1 text-base font-extrabold text-amber-400 tabular-nums">
             <CheckCircle2 className="h-4 w-4" />
             {totales.tasaCobro}%
           </p>
         </div>
-        <div className="rounded-xl border border-white/[0.06] bg-[#10141d] p-3">
+        <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
           <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Por recuperar</p>
           <p className="mt-1 flex items-center gap-1 text-base font-extrabold text-rose-400 tabular-nums">
             <ArrowUpRight className="h-4 w-4" />
@@ -164,7 +157,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
             margin={{ top: 12, right: 8, left: -10, bottom: 0 }}
             barGap={6}
           >
-            <CartesianGrid stroke="#262D36" strokeDasharray="4 6" vertical={false} />
+            <CartesianGrid stroke={colorCuadricula} strokeDasharray="4 6" vertical={false} />
             <XAxis
               dataKey="nombreMes"
               tick={{ fill: '#98A2B3', fontSize: 11 }}

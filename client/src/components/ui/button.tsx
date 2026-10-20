@@ -11,7 +11,7 @@ const variantes = cva(
         primary:
           'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:brightness-105 text-slate-950 font-bold shadow-[0_4px_18px_rgba(245,158,11,0.35)] hover:shadow-[0_6px_24px_rgba(245,158,11,0.5)]',
         secondary:
-          'bg-[#161b24] border border-white/[0.09] text-foreground hover:bg-[#1c222e] hover:border-white/20 shadow-sm',
+          'bg-card border border-white/[0.09] text-foreground hover:bg-card-hover hover:border-white/20 shadow-sm',
         ghost: 'text-muted hover:bg-surface/80 hover:text-foreground',
         danger:
           'bg-destructive/15 text-destructive border border-destructive/30 hover:bg-destructive/25 shadow-sm',

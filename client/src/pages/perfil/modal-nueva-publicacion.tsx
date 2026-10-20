@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Camera, Image as ImageIcon, Sparkles, Tag, Upload, X } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
@@ -107,7 +107,7 @@ export function ModalNuevaPublicacion({ abierto, onCerrar, onPublicar }: Propied
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
             placeholder="Ej. Cambio de balatas cerámicas y rectificado de discos"
-            className="mt-1 w-full rounded-xl border border-white/[0.08] bg-[#11151e] px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
+            className="mt-1 w-full rounded-xl border border-white/[0.08] bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
           />
         </div>
 
@@ -117,7 +117,7 @@ export function ModalNuevaPublicacion({ abierto, onCerrar, onPublicar }: Propied
             id="categoriaPost"
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
-            className="mt-1 w-full rounded-xl border border-white/[0.08] bg-[#11151e] px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
+            className="mt-1 w-full rounded-xl border border-white/[0.08] bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
           >
             {CATEGORIAS_TAGS.map((cat) => (
               <option key={cat} value={cat}>
@@ -166,7 +166,7 @@ export function ModalNuevaPublicacion({ abierto, onCerrar, onPublicar }: Propied
             ) : (
               <div
                 onClick={() => inputRef.current?.click()}
-                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.15] bg-[#11151e] p-6 text-center transition-colors hover:border-primary/50"
+                className="flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-white/[0.15] bg-card p-6 text-center transition-colors hover:border-primary/50"
               >
                 <input
                   ref={inputRef}

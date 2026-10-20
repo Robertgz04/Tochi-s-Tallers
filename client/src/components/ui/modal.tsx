@@ -10,6 +10,8 @@ interface PropiedadesModal {
   children: ReactNode;
   pie?: ReactNode;
   ancho?: 'sm' | 'md' | 'lg';
+  /** Alias de `ancho` (compatibilidad con páginas que envían `tamano`). */
+  tamano?: 'sm' | 'md' | 'lg';
 }
 
 export function Modal({
@@ -20,7 +22,9 @@ export function Modal({
   children,
   pie,
   ancho = 'md',
+  tamano,
 }: PropiedadesModal) {
+  const medida = tamano ?? ancho;
   useEffect(() => {
     if (!abierto) return;
     const alPresionar = (evento: KeyboardEvent) => {
@@ -49,10 +53,10 @@ export function Modal({
         aria-modal="true"
         aria-label={titulo}
         className={cn(
-          'relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/[0.1] bg-[#141922] p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] animate-scale-in sm:rounded-2xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent',
-          ancho === 'sm' && 'sm:max-w-sm',
-          ancho === 'md' && 'sm:max-w-lg',
-          ancho === 'lg' && 'sm:max-w-2xl',
+          'relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/[0.1] bg-card p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] animate-scale-in sm:rounded-2xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent',
+          medida === 'sm' && 'sm:max-w-sm',
+          medida === 'md' && 'sm:max-w-lg',
+          medida === 'lg' && 'sm:max-w-2xl',
         )}
       >
         <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] pb-4">

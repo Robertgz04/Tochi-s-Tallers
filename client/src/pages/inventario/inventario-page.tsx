@@ -131,7 +131,7 @@ export default function InventarioPage() {
         <StatCard titulo="Stock bajo" valor={formatNumber(data?.stockBajoTotal ?? 0)} icono={AlertTriangle} detalle="Requieren reorden urgente" destacado={(data?.stockBajoTotal ?? 0) > 0} />
       </div>
 
-      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_200px_auto]">
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-card/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_200px_auto]">
         <SearchInput
           value={busqueda}
           onChange={(e) => { setBusqueda(e.target.value); setPagina(1); }}

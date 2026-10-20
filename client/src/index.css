@@ -104,34 +104,30 @@ html.light aside {
   border-right-color: #e2e8f0 !important;
 }
 
-html.light .bg-gradient-to-b.from-\[\#161b24\].to-\[\#12161e\],
-html.light .bg-gradient-to-b.from-\[\#161b24\].to-\[\#11151e\],
-html.light .bg-gradient-to-b.from-\[\#141923\].to-\[\#10141d\] {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+/* Tarjetas con degradado: en modo día la sombra es más suave */
+html.light .bg-gradient-to-b.from-card,
+html.light .bg-gradient-to-br.from-card,
+html.light .bg-gradient-to-r.from-card {
+  box-shadow: 0 6px 24px -6px rgba(15, 23, 42, 0.12) !important;
 }
 
-html.light .bg-\[\#11151e\],
-html.light .bg-\[\#12161f\],
-html.light .bg-\[\#10141d\],
-html.light .bg-\[\#141922\],
-html.light .bg-\[\#18202d\],
-html.light .bg-\[\#0c0f16\],
-html.light .bg-\[\#0c1017\],
-html.light .bg-\[\#161c28\],
 html.light .bg-surface {
   background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
 }
 
 html.light .border-white\/\[0\.08\],
 html.light .border-white\/\[0\.06\],
 html.light .border-white\/\[0\.09\],
 html.light .border-white\/\[0\.1\],
+html.light .border-white\/\[0\.12\],
+html.light .border-white\/\[0\.15\],
 html.light .border-white\/10,
 html.light .border-white\/20 {
   border-color: #e2e8f0 !important;
+}
+
+html.light .hover\:border-white\/20:hover {
+  border-color: #cbd5e1 !important;
 }
 
 html.light .text-foreground {
@@ -144,6 +140,24 @@ html.light .text-muted {
 
 html.light .text-slate-300 {
   color: #334155 !important;
+}
+
+/* Fondos blancos translúcidos → neutros oscuros en modo día */
+html.light .bg-white\/5,
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\] {
+  background-color: rgba(15, 23, 42, 0.05) !important;
+}
+
+html.light .hover\:bg-white\/\[0\.02\]:hover,
+html.light .hover\:bg-white\/\[0\.03\]:hover,
+html.light .hover\:bg-white\/\[0\.04\]:hover,
+html.light .hover\:bg-white\/\[0\.05\]:hover {
+  background-color: rgba(15, 23, 42, 0.05) !important;
+}
+
+html.light .hover\:bg-white\/\[0\.08\]:hover {
+  background-color: rgba(15, 23, 42, 0.09) !important;
 }
 
 html.light input,

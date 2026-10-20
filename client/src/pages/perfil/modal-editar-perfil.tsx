@@ -1,16 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import {
   Camera,
-  Check,
-  Globe,
   Image as ImageIcon,
-  MessageCircle,
   Share2,
   Smile,
   Sparkles,
   Upload,
   User,
-  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/modal';
@@ -291,7 +287,7 @@ export function ModalEditarPerfil({
         {pestana === 'imagenes' && (
           <div className="space-y-4">
             {/* Foto de Perfil */}
-            <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-4">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4">
               <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
                 <Sparkles className="h-4 w-4 text-primary" />
                 Foto de Perfil / Avatar (Soporta GIF animados, JPG, PNG, WEBP)
@@ -346,7 +342,7 @@ export function ModalEditarPerfil({
             </div>
 
             {/* Portada / Banner */}
-            <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-4">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4">
               <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
                 <Camera className="h-4 w-4 text-sky-400" />
                 Portada de Perfil (Banner)
@@ -479,7 +475,7 @@ export function ModalEditarPerfil({
                     className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg transition-all ${
                       form.estadoEmoji === emoji
                         ? 'border-2 border-primary bg-primary/20 scale-110 shadow-[0_0_10px_rgba(245,158,11,0.4)]'
-                        : 'border border-white/[0.08] bg-[#11151e] hover:border-white/20'
+                        : 'border border-white/[0.08] bg-card hover:border-white/20'
                     }`}
                   >
                     {emoji}

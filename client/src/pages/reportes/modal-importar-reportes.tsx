@@ -1,12 +1,9 @@
 import { useState, useRef } from 'react';
 import {
-  AlertCircle,
   CheckCircle2,
   Download,
   FileSpreadsheet,
-  FileText,
   Upload,
-  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/modal';
@@ -177,7 +174,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
           className={`relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all ${
             arrastrando
               ? 'border-primary bg-primary/10 scale-[1.01]'
-              : 'border-white/[0.12] bg-[#11151e]/80 hover:border-primary/50 hover:bg-[#141a26]'
+              : 'border-white/[0.12] bg-card/80 hover:border-primary/50 hover:bg-card-hover'
           }`}
         >
           <input
@@ -205,7 +202,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
         </div>
 
         {/* Acciones auxiliares: Descarga de plantilla */}
-        <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#10141d] p-3 text-xs">
+        <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-background/60 p-3 text-xs">
           <div className="flex items-center gap-2 text-muted">
             <FileSpreadsheet className="h-4 w-4 text-emerald-400" />
             <span>¿No tienes el formato? Usa nuestra plantilla estándar.</span>
@@ -231,7 +228,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
               <span className="text-[11px] text-muted">Columnas mapeadas automáticamente</span>
             </div>
 
-            <div className="max-h-48 overflow-y-auto rounded-xl border border-white/[0.08] bg-[#0c0f16]">
+            <div className="max-h-48 overflow-y-auto rounded-xl border border-white/[0.08] bg-background/70">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-white/[0.08] bg-white/[0.03] text-muted">
                   <tr>

@@ -1,6 +1,7 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { Car } from 'lucide-react';
 import type { PuntoGrafica } from '@/pages/dashboard/grafica-ingresos';
+import { useColoresGrafica } from '@/lib/graficas';
 
 export const COLORES_ESTADOS: Record<string, string> = {
   RECIBIDO: '#64748B',
@@ -34,18 +35,11 @@ interface Propiedades {
   datos: PuntoGrafica[];
 }
 
-const estiloTooltip = {
-  backgroundColor: '#151a23',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 14,
-  fontSize: 12,
-  color: '#F8FAFC',
-  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
-};
-
 export function GraficaEstados({ datos }: Propiedades) {
+  const { estiloTooltip } = useColoresGrafica();
+
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 lg:col-span-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 lg:col-span-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-sm font-bold tracking-tight text-foreground">Órdenes por estado</h3>
@@ -86,7 +80,7 @@ export function GraficaEstados({ datos }: Propiedades) {
             {datos.map((punto) => (
               <span
                 key={punto.nombre}
-                className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-[#11151e] px-2.5 py-1 text-[11px] font-medium text-muted"
+                className="flex items-center gap-1.5 rounded-lg border border-white/[0.06] bg-card px-2.5 py-1 text-[11px] font-medium text-muted"
               >
                 <span
                   className="h-2 w-2 rounded-full shadow-[0_0_6px_currentColor]"

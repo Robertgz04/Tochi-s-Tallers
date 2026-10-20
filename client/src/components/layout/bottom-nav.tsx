@@ -23,7 +23,7 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-white/[0.08] bg-[#0c1017]/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-white/[0.08] bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
         aria-label="Navegación principal"
       >
         {itemsNavegacionMovil.slice(0, 2).map((item) => (
@@ -39,7 +39,7 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
           className="flex flex-1 flex-col items-center gap-1 text-[11px] font-bold text-primary"
           aria-label="Crear nuevo"
         >
-          <span className="-mt-6 flex h-14 w-14 items-center justify-center rounded-full border-4 border-[#090b0e] bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-[0_8px_25px_rgba(245,158,11,0.5)] transition-transform active:scale-95">
+          <span className="-mt-6 flex h-14 w-14 items-center justify-center rounded-full border-4 border-surface bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-[0_8px_25px_rgba(245,158,11,0.5)] transition-transform active:scale-95">
             <CirclePlus className="h-7 w-7" aria-hidden="true" />
           </span>
           Crear
@@ -77,7 +77,7 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
                 setCrearAbierto(false);
                 navigate(opcion.ruta);
               }}
-              className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-[#161b24] p-3.5 text-left text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-primary/10 cursor-pointer"
+              className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-card p-3.5 text-left text-sm font-semibold text-foreground transition-all hover:border-primary/40 hover:bg-primary/10 cursor-pointer"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
                 <opcion.icono className="h-4.5 w-4.5" aria-hidden="true" />

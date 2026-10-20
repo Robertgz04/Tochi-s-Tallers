@@ -17,7 +17,7 @@ export const SearchInput = forwardRef<HTMLInputElement, PropiedadesSearchInput>(
         ref={ref}
         type="search"
         value={value}
-        className="h-10 w-full rounded-xl border border-white/[0.09] bg-[#111620] pl-10 pr-9 text-sm text-foreground placeholder:text-muted/50 transition-all duration-200 hover:border-white/20 focus:border-primary/60 focus:bg-[#141a26] focus:outline-none focus:ring-2 focus:ring-primary/20 [&::-webkit-search-cancel-button]:hidden"
+        className="h-10 w-full rounded-xl border border-white/[0.09] bg-surface pl-10 pr-9 text-sm text-foreground placeholder:text-muted/50 transition-all duration-200 hover:border-white/20 focus:border-primary/60 focus:bg-card-hover focus:outline-none focus:ring-2 focus:ring-primary/20 [&::-webkit-search-cancel-button]:hidden"
         {...props}
       />
       {Boolean(value) && onLimpiar && (

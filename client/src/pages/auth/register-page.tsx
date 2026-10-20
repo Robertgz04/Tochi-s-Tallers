@@ -73,7 +73,7 @@ export default function RegisterPage() {
           Volver a iniciar sesión
         </Link>
 
-        <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-6 sm:p-9 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
+        <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-6 sm:p-9 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent">
           <Logo />
           <h1 className="mt-6 text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
             Crea tu taller

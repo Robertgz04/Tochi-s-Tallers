@@ -39,7 +39,7 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
     >
       <div className="space-y-4">
         {/* Tarjeta Visual de Perfil (Snapcard) */}
-        <div className="relative mx-auto max-w-xs overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-[#18202d] via-[#12161f] to-[#0c0f16] p-6 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] ring-1 ring-primary/20">
+        <div className="relative mx-auto max-w-xs overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-b from-card via-surface to-background p-6 text-center shadow-[0_20px_50px_rgba(0,0,0,0.8)] ring-1 ring-primary/20">
           <div className="absolute -top-12 left-1/2 h-24 w-24 -translate-x-1/2 rounded-full bg-primary/20 blur-xl pointer-events-none" />
 
           {/* Avatar / GIF */}
@@ -55,7 +55,7 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
                 {perfil.nombre.charAt(0)}
               </div>
             )}
-            <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full border-2 border-[#12161f] bg-emerald-400 shadow-sm" />
+            <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full border-2 border-card bg-emerald-400 shadow-sm" />
           </div>
 
           {/* Identidad */}

@@ -276,7 +276,7 @@ export default function ConfiguracionPage() {
 
       {/* Tarjetas KPI Superiores del Taller */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#11151e]">
+        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
             <CreditCard className="h-4 w-4 text-primary" /> Plan Contratado
           </p>
@@ -289,21 +289,21 @@ export default function ConfiguracionPage() {
             {taller.estadoSuscripcion}
           </Badge>
         </Card>
-        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#11151e]">
+        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
             <Hash className="h-4 w-4 text-sky-400" /> Prefijo de Folio
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{configGeneral.prefijoFolio}-</p>
           <p className="text-[11px] text-muted mt-1">Siguiente: #{configGeneral.siguienteFolio}</p>
         </Card>
-        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#11151e]">
+        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
             <Percent className="h-4 w-4 text-emerald-400" /> Tasa de IVA
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{configGeneral.iva}%</p>
           <p className="text-[11px] text-emerald-400 mt-1">Impuesto vigente</p>
         </Card>
-        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#11151e]">
+        <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
             <Wallet className="h-4 w-4 text-amber-400" /> Moneda Base
           </p>
@@ -315,7 +315,7 @@ export default function ConfiguracionPage() {
       {/* Accesos Rápidos Complementarios */}
       <div className="grid gap-3.5 sm:grid-cols-2">
         <Link to="/mi-taller" className="group block">
-          <Card className="flex items-center gap-4 p-4.5 transition-all hover:border-primary/40 hover:bg-[#161c28]">
+          <Card className="flex items-center gap-4 p-4.5 transition-all hover:border-primary/40 hover:bg-card-hover">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-primary/30">
               <Building2 className="h-5 w-5" />
             </span>
@@ -332,7 +332,7 @@ export default function ConfiguracionPage() {
         </Link>
 
         <Link to="/equipo" className="group block">
-          <Card className="flex items-center gap-4 p-4.5 transition-all hover:border-sky-500/40 hover:bg-[#161c28]">
+          <Card className="flex items-center gap-4 p-4.5 transition-all hover:border-sky-500/40 hover:bg-card-hover">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400 ring-1 ring-sky-500/30">
               <UsersRound className="h-5 w-5" />
             </span>
@@ -352,7 +352,7 @@ export default function ConfiguracionPage() {
       {/* ========================================================= */}
       {/* PESTAÑAS DE CONFIGURACIÓN MASIVA                          */}
       {/* ========================================================= */}
-      <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-2">
+      <div className="rounded-2xl border border-white/[0.08] bg-card p-2">
         <div className="flex flex-wrap gap-1 border-b border-white/[0.06] pb-2">
           <button
             type="button"
@@ -490,7 +490,7 @@ export default function ConfiguracionPage() {
                     onChange={(e) =>
                       setConfigGeneral({ ...configGeneral, moneda: e.target.value })
                     }
-                    className="mt-1 w-full rounded-xl border border-white/[0.08] bg-[#11151e] px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
+                    className="mt-1 w-full rounded-xl border border-white/[0.08] bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
                   >
                     <option value="MXN">MXN - Peso Mexicano</option>
                     <option value="USD">USD - Dólar Estadounidense</option>
@@ -572,7 +572,7 @@ export default function ConfiguracionPage() {
               </div>
 
               <div className="space-y-3">
-                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#11151e] p-3.5 cursor-pointer hover:border-white/20 transition-all">
+                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-foreground">Aviso de Recepción de Auto por WhatsApp</p>
                     <p className="text-[11px] text-muted">
@@ -592,7 +592,7 @@ export default function ConfiguracionPage() {
                   />
                 </label>
 
-                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#11151e] p-3.5 cursor-pointer hover:border-white/20 transition-all">
+                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-foreground">Envío de Cotización con Enlace Público</p>
                     <p className="text-[11px] text-muted">
@@ -612,7 +612,7 @@ export default function ConfiguracionPage() {
                   />
                 </label>
 
-                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#11151e] p-3.5 cursor-pointer hover:border-white/20 transition-all">
+                <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-foreground">Alerta de Vehículo Listo para Recoger</p>
                     <p className="text-[11px] text-muted">
@@ -655,7 +655,7 @@ export default function ConfiguracionPage() {
               <div className="border-t border-white/[0.06] pt-4">
                 <h4 className="text-sm font-bold text-foreground mb-3">Alertas Internas para el Equipo</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-[#11151e] p-3 cursor-pointer">
+                  <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-card p-3 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={configNotificaciones.alertaInventarioBajo}
@@ -671,7 +671,7 @@ export default function ConfiguracionPage() {
                       Avisar cuando haya refacciones con stock bajo
                     </span>
                   </label>
-                  <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-[#11151e] p-3 cursor-pointer">
+                  <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-card p-3 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={configNotificaciones.alertaCitasManana}
@@ -722,7 +722,7 @@ export default function ConfiguracionPage() {
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       tema === 'light'
                         ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                        : 'border-white/[0.08] bg-[#11151e] hover:border-white/20'
+                        : 'border-white/[0.08] bg-card hover:border-white/20'
                     }`}
                   >
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-500 ring-1 ring-amber-500/40">
@@ -746,7 +746,7 @@ export default function ConfiguracionPage() {
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       tema === 'dark'
                         ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                        : 'border-white/[0.08] bg-[#11151e] hover:border-white/20'
+                        : 'border-white/[0.08] bg-card hover:border-white/20'
                     }`}
                   >
                     <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-500/20 text-sky-400 ring-1 ring-sky-500/40">
@@ -783,7 +783,7 @@ export default function ConfiguracionPage() {
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       idioma === 'es'
                         ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                        : 'border-white/[0.08] bg-[#11151e] hover:border-white/20'
+                        : 'border-white/[0.08] bg-card hover:border-white/20'
                     }`}
                   >
                     <span className="text-3xl">🇲🇽</span>
@@ -805,7 +805,7 @@ export default function ConfiguracionPage() {
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       idioma === 'en'
                         ? 'border-primary bg-primary/10 shadow-[0_0_15px_rgba(245,158,11,0.2)]'
-                        : 'border-white/[0.08] bg-[#11151e] hover:border-white/20'
+                        : 'border-white/[0.08] bg-card hover:border-white/20'
                     }`}
                   >
                     <span className="text-3xl">🇺🇸</span>
@@ -910,7 +910,7 @@ export default function ConfiguracionPage() {
 
               {/* 2FA Autenticación en dos pasos */}
               <div className="border-t border-white/[0.06] pt-5">
-                <div className="flex items-center justify-between rounded-2xl border border-white/[0.08] bg-[#11151e] p-4">
+                <div className="flex items-center justify-between rounded-2xl border border-white/[0.08] bg-card p-4">
                   <div className="space-y-1">
                     <p className="text-xs font-bold text-foreground flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -952,7 +952,7 @@ export default function ConfiguracionPage() {
                     <Badge variant="success">Actual</Badge>
                   </div>
 
-                  <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#11151e] p-3 text-muted">
+                  <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-card p-3 text-muted">
                     <div className="flex items-center gap-3">
                       <Smartphone className="h-4 w-4 text-sky-400" />
                       <div>
@@ -986,7 +986,7 @@ export default function ConfiguracionPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-5 space-y-3">
+                <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/15 text-primary">
                       <Download className="h-5 w-5" />
@@ -1006,7 +1006,7 @@ export default function ConfiguracionPage() {
                   </Button>
                 </div>
 
-                <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-5 space-y-3">
+                <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
                   <div className="flex items-center gap-3">
                     <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400">
                       <Upload className="h-5 w-5" />
@@ -1029,7 +1029,7 @@ export default function ConfiguracionPage() {
 
               <div className="border-t border-white/[0.06] pt-5">
                 <h4 className="text-sm font-bold text-foreground mb-3">Mantenimiento y Rendimiento</h4>
-                <div className="flex flex-wrap items-center justify-between rounded-2xl border border-white/[0.08] bg-[#11151e] p-4 gap-3">
+                <div className="flex flex-wrap items-center justify-between rounded-2xl border border-white/[0.08] bg-card p-4 gap-3">
                   <div className="space-y-0.5">
                     <p className="text-xs font-bold text-foreground">Purgar Caché Local y Optimizar Consultas</p>
                     <p className="text-[11px] text-muted">
@@ -1065,7 +1065,7 @@ export default function ConfiguracionPage() {
 
               {/* Comparador de Planes */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-5 space-y-3">
+                <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
                   <p className="text-xs font-bold uppercase text-muted">Plan Básico</p>
                   <p className="text-2xl font-black text-foreground">
                     $499 <span className="text-xs text-muted font-normal">/mes</span>
@@ -1103,7 +1103,7 @@ export default function ConfiguracionPage() {
                   </Button>
                 </div>
 
-                <div className="rounded-2xl border border-white/[0.08] bg-[#11151e] p-5 space-y-3">
+                <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
                   <p className="text-xs font-bold uppercase text-muted">Plan Empresa / Multitaller</p>
                   <p className="text-2xl font-black text-foreground">
                     $1,499 <span className="text-xs text-muted font-normal">/mes</span>

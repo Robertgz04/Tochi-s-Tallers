@@ -9,6 +9,7 @@ import {
 } from 'recharts';
 import { DollarSign } from 'lucide-react';
 import { formatMoney } from '@/lib/utils';
+import { useColoresGrafica } from '@/lib/graficas';
 
 export interface PuntoGrafica {
   nombre: string;
@@ -19,18 +20,11 @@ interface Propiedades {
   datos: PuntoGrafica[];
 }
 
-const estiloTooltip = {
-  backgroundColor: '#151a23',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 14,
-  fontSize: 12,
-  color: '#F8FAFC',
-  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
-};
-
 export function GraficaIngresos({ datos }: Propiedades) {
+  const { estiloTooltip, colorCuadricula } = useColoresGrafica();
+
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 lg:col-span-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 lg:col-span-3 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-sm font-bold tracking-tight text-foreground">Ingresos del taller</h3>
@@ -49,7 +43,7 @@ export function GraficaIngresos({ datos }: Propiedades) {
                 <stop offset="100%" stopColor="#F59E0B" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <CartesianGrid stroke="#262D36" strokeDasharray="4 6" vertical={false} />
+            <CartesianGrid stroke={colorCuadricula} strokeDasharray="4 6" vertical={false} />
             <XAxis
               dataKey="nombre"
               tick={{ fill: '#98A2B3', fontSize: 11 }}

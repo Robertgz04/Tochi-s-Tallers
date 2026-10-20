@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { CreditCard, DollarSign, PieChart as PieIcon, Sparkles } from 'lucide-react';
+import { PieChart as PieIcon, Sparkles } from 'lucide-react';
 import { formatMoney, formatNumber } from '@/lib/utils';
 import { ETIQUETAS_METODO_PAGO, type MetodoPago } from '@/types';
+import { useColoresGrafica } from '@/lib/graficas';
 
 export interface MetodoGrafica {
   metodo: string;
@@ -30,16 +31,9 @@ const PALETA_METODOS: Record<string, string> = {
   OTRO: '#94A3B8', // Slate
 };
 
-const estiloTooltip = {
-  backgroundColor: '#151a23',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 14,
-  fontSize: 12,
-  color: '#F8FAFC',
-  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
-};
-
 export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
+  const { estiloTooltip } = useColoresGrafica();
+
   const { datos, totalMonto, totalOperaciones } = useMemo(() => {
     const total = ingresosPorMetodo.reduce((acc, curr) => acc + Number(curr.monto || 0), 0);
     const transacciones = ingresosPorMetodo.reduce(
@@ -68,7 +62,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
   }, [ingresosPorMetodo]);
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       {/* Encabezado */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -144,7 +138,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
             {datos.map((item) => (
               <div
                 key={item.metodo}
-                className="group relative flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#11151e] p-3 transition-all hover:border-white/20 hover:bg-[#141a26]"
+                className="group relative flex items-center justify-between rounded-xl border border-white/[0.06] bg-card p-3 transition-all hover:border-white/20 hover:bg-card-hover"
               >
                 <div className="flex items-center gap-3">
                   <span

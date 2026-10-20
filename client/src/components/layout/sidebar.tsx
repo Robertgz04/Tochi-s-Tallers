@@ -124,7 +124,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
       {/* Escritorio */}
       <aside
         className={cn(
-          'sticky top-0 hidden h-screen shrink-0 border-r border-white/[0.08] bg-[#0c1017]/90 backdrop-blur-xl transition-[width] duration-200 md:block',
+          'sticky top-0 hidden h-screen shrink-0 border-r border-white/[0.08] bg-surface/90 backdrop-blur-xl transition-[width] duration-200 md:block',
           colapsada ? 'w-[4.5rem]' : 'w-64',
         )}
       >
@@ -145,7 +145,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
         />
         <aside
           className={cn(
-            'absolute left-0 top-0 h-full w-[17rem] max-w-[85vw] border-r border-white/[0.08] bg-[#12161f] shadow-2xl transition-transform duration-200',
+            'absolute left-0 top-0 h-full w-[17rem] max-w-[85vw] border-r border-white/[0.08] bg-card shadow-2xl transition-transform duration-200',
             abiertaMovil ? 'translate-x-0' : '-translate-x-full',
           )}
         >

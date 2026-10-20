@@ -9,8 +9,9 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Award, ChevronRight, DollarSign, Hammer, Wrench } from 'lucide-react';
+import { Award, DollarSign, Hammer, Wrench } from 'lucide-react';
 import { formatMoney, formatNumber } from '@/lib/utils';
+import { useColoresGrafica } from '@/lib/graficas';
 
 export interface MecanicoRendimiento {
   mecanicoId: string;
@@ -29,19 +30,11 @@ interface Propiedades {
   }[];
 }
 
-const estiloTooltip = {
-  backgroundColor: '#151a23',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  borderRadius: 14,
-  fontSize: 12,
-  color: '#F8FAFC',
-  boxShadow: '0 12px 30px -5px rgba(0, 0, 0, 0.65)',
-};
-
 const COLORES_RANKING = ['#F59E0B', '#38BDF8', '#A78BFA', '#10B981', '#FB923C', '#64748B'];
 
 export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
   const [metrica, setMetrica] = useState<'facturado' | 'ordenes'>('facturado');
+  const { estiloTooltip, colorCuadricula, colorTextoAltoContraste } = useColoresGrafica();
 
   const datos = useMemo<MecanicoRendimiento[]>(() => {
     return topMecanicos
@@ -65,7 +58,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
   const lider = datos[0];
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#161b24] to-[#12161e] p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
+    <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
       {/* Encabezado */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -88,7 +81,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
         </div>
 
         {/* Toggle métrica */}
-        <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-[#11151e] p-1">
+        <div className="flex items-center gap-1 rounded-xl border border-white/[0.08] bg-card p-1">
           <button
             type="button"
             onClick={() => setMetrica('facturado')}
@@ -161,7 +154,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
                 layout="vertical"
                 margin={{ top: 8, right: 18, left: 10, bottom: 0 }}
               >
-                <CartesianGrid stroke="#262D36" strokeDasharray="4 6" horizontal={false} />
+                <CartesianGrid stroke={colorCuadricula} strokeDasharray="4 6" horizontal={false} />
                 <XAxis
                   type="number"
                   tick={{ fill: '#98A2B3', fontSize: 11 }}
@@ -178,7 +171,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
                 <YAxis
                   type="category"
                   dataKey="mecanico"
-                  tick={{ fill: '#F8FAFC', fontSize: 11, fontWeight: 500 }}
+                  tick={{ fill: colorTextoAltoContraste, fontSize: 11, fontWeight: 500 }}
                   axisLine={false}
                   tickLine={false}
                   width={110}
@@ -211,7 +204,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
             {datos.slice(0, 3).map((item, idx) => (
               <div
                 key={item.mecanicoId}
-                className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-[#11151e] p-3 text-xs"
+                className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-card p-3 text-xs"
               >
                 <div className="flex items-center gap-2">
                   <span

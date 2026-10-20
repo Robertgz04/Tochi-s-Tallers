@@ -166,7 +166,7 @@ export default function OrdenesPage() {
         }
       />
 
-      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_260px]">
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-card/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_260px]">
         <SearchInput
           value={busqueda}
           onChange={(evento) => {

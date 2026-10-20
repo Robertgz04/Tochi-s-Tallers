@@ -146,7 +146,7 @@ export default function PerfilPage() {
       {/* ========================================================= */}
       {/* PORTADA Y ENCABEZADO SOCIAL ESTILO FACEBOOK / SNAPCHAT    */}
       {/* ========================================================= */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#12161f] shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+      <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-card shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
         {/* Banner de Portada (Soporta GIF animados e imágenes) */}
         <div className="relative h-48 w-full sm:h-64 lg:h-72 overflow-hidden bg-gradient-to-r from-amber-600/30 via-sky-600/20 to-purple-600/30">
           {perfil.portadaUrl ? (
@@ -162,7 +162,7 @@ export default function PerfilPage() {
           )}
 
           {/* Gradiente oscuro inferior para contraste */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#12161f] via-transparent to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-black/30" />
 
           {/* Botón flotante para editar portada */}
           <button
@@ -182,7 +182,7 @@ export default function PerfilPage() {
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 -mt-16 sm:-mt-20">
               {/* Avatar circular con borde de estado y soporte GIF */}
               <div className="relative group">
-                <div className="relative h-28 w-28 sm:h-36 sm:w-36 overflow-hidden rounded-full border-4 border-[#12161f] bg-[#18202d] shadow-[0_0_25px_rgba(245,158,11,0.35)] ring-2 ring-primary">
+                <div className="relative h-28 w-28 sm:h-36 sm:w-36 overflow-hidden rounded-full border-4 border-card bg-card-hover shadow-[0_0_25px_rgba(245,158,11,0.35)] ring-2 ring-primary">
                   {perfil.fotoUrl ? (
                     <img
                       src={perfil.fotoUrl}
@@ -199,7 +199,7 @@ export default function PerfilPage() {
                 {/* Badge en línea */}
                 <span
                   title="En línea en el taller"
-                  className="absolute bottom-2 right-2 h-5 w-5 rounded-full border-2 border-[#12161f] bg-emerald-400 shadow-[0_0_10px_#10B981]"
+                  className="absolute bottom-2 right-2 h-5 w-5 rounded-full border-2 border-card bg-emerald-400 shadow-[0_0_10px_#10B981]"
                 />
 
                 {/* Botón rápido de cámara sobre el avatar */}
@@ -235,7 +235,7 @@ export default function PerfilPage() {
                 </div>
 
                 {/* Frase / Estado de ánimo estilo Snapchat */}
-                <div className="mt-1.5 inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-[#0c0f16]/80 px-3 py-1.5 text-xs text-foreground backdrop-blur-sm">
+                <div className="mt-1.5 inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-background/80 px-3 py-1.5 text-xs text-foreground backdrop-blur-sm">
                   <span className="text-base">{perfil.estadoEmoji}</span>
                   <span className="font-medium text-slate-300">{perfil.estadoAnimo}</span>
                 </div>
@@ -341,7 +341,7 @@ export default function PerfilPage() {
           {/* Feed de Publicaciones */}
           <div className="space-y-5 lg:col-span-8">
             {/* Barra rápida "Crear publicación" */}
-            <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-[#12161f] p-4 shadow-sm">
+            <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-card p-4 shadow-sm">
               <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-primary/40 bg-surface">
                 {perfil.fotoUrl ? (
                   <img src={perfil.fotoUrl} alt="Avatar" className="h-full w-full object-cover" />
@@ -354,7 +354,7 @@ export default function PerfilPage() {
               <button
                 type="button"
                 onClick={() => setModalPublicarAbierto(true)}
-                className="w-full rounded-xl border border-white/[0.08] bg-[#18202d] px-4 py-2.5 text-left text-xs text-muted transition-colors hover:border-primary/40 hover:text-foreground cursor-pointer"
+                className="w-full rounded-xl border border-white/[0.08] bg-card-hover px-4 py-2.5 text-left text-xs text-muted transition-colors hover:border-primary/40 hover:text-foreground cursor-pointer"
               >
                 ¿Qué reparación o afinación estás realizando hoy? Sube fotos o GIFs...
               </button>
@@ -372,12 +372,12 @@ export default function PerfilPage() {
             {publicaciones.map((post) => (
               <article
                 key={post.id}
-                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-[#141923] to-[#10141d] p-5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] transition-all hover:border-white/20"
+                className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] transition-all hover:border-white/20"
               >
                 {/* Cabecera del post */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 overflow-hidden rounded-full border border-primary/50 bg-[#18202d]">
+                    <div className="h-10 w-10 overflow-hidden rounded-full border border-primary/50 bg-card-hover">
                       {perfil.fotoUrl ? (
                         <img
                           src={perfil.fotoUrl}
@@ -475,7 +475,7 @@ export default function PerfilPage() {
           {/* Barra Lateral: Resumen de Biografía y Redes */}
           <div className="space-y-4 lg:col-span-4">
             {/* Tarjeta Sobre Mí Compacta */}
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-5 space-y-3">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" /> Presentación
               </h3>
@@ -493,7 +493,7 @@ export default function PerfilPage() {
             </div>
 
             {/* Redes Sociales Vinculadas */}
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-5 space-y-3">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
                 <Globe className="h-4 w-4 text-sky-400" /> Conexiones Sociales
               </h3>
@@ -512,19 +512,19 @@ export default function PerfilPage() {
                   </a>
                 )}
                 {perfil.instagram && (
-                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#18202d] p-2.5 text-pink-400">
+                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card-hover p-2.5 text-pink-400">
                     <span className="font-bold">Instagram</span>
                     <span className="text-muted font-mono">{perfil.instagram}</span>
                   </div>
                 )}
                 {perfil.facebook && (
-                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#18202d] p-2.5 text-sky-400">
+                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card-hover p-2.5 text-sky-400">
                     <span className="font-bold">Facebook</span>
                     <span className="text-muted font-mono">{perfil.facebook}</span>
                   </div>
                 )}
                 {perfil.tiktok && (
-                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-[#18202d] p-2.5 text-purple-400">
+                  <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card-hover p-2.5 text-purple-400">
                     <span className="font-bold">TikTok / Snap</span>
                     <span className="text-muted font-mono">{perfil.tiktok}</span>
                   </div>
@@ -540,7 +540,7 @@ export default function PerfilPage() {
       {/* ========================================================= */}
       {pestanaActiva === 'sobre_mi' && (
         <div className="grid gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-6 space-y-4">
+          <div className="rounded-2xl border border-white/[0.08] bg-card p-6 space-y-4">
             <h3 className="text-base font-bold text-foreground flex items-center gap-2">
               <UserCheck className="h-5 w-5 text-primary" /> Información Profesional
             </h3>
@@ -570,20 +570,20 @@ export default function PerfilPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-6 space-y-4">
+          <div className="rounded-2xl border border-white/[0.08] bg-card p-6 space-y-4">
             <h3 className="text-base font-bold text-foreground flex items-center gap-2">
               <Award className="h-5 w-5 text-amber-400" /> Certificaciones & Cursos
             </h3>
             <div className="space-y-2.5 text-xs">
-              <div className="rounded-xl border border-white/[0.06] bg-[#18202d] p-3">
+              <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
                 <p className="font-bold text-foreground">Certificación Master en Inyección Electrónica</p>
                 <p className="text-[11px] text-muted">Bosch Automotive Training • 2024</p>
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-[#18202d] p-3">
+              <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
                 <p className="font-bold text-foreground">Diagnóstico Avanzado con Osciloscopio & CAN Bus</p>
                 <p className="text-[11px] text-muted">Snap-on Diagnostics Academy • 2025</p>
               </div>
-              <div className="rounded-xl border border-white/[0.06] bg-[#18202d] p-3">
+              <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
                 <p className="font-bold text-foreground">Especialización en Transmisiones Automáticas y DSG</p>
                 <p className="text-[11px] text-muted">ZF Services Motorsport • 2025</p>
               </div>
@@ -598,22 +598,22 @@ export default function PerfilPage() {
       {pestanaActiva === 'estadisticas' && (
         <div className="space-y-5">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-4 text-center">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
               <p className="text-xs font-semibold text-muted uppercase">Órdenes Atendidas</p>
               <p className="mt-1 text-2xl font-black text-primary">128</p>
               <p className="text-[11px] text-emerald-400 mt-1">98% a tiempo</p>
             </div>
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-4 text-center">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
               <p className="text-xs font-semibold text-muted uppercase">Calificación Promedio</p>
               <p className="mt-1 text-2xl font-black text-amber-400">4.9 / 5</p>
               <p className="text-[11px] text-muted mt-1">⭐ 84 reseñas</p>
             </div>
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-4 text-center">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
               <p className="text-xs font-semibold text-muted uppercase">Facturación Generada</p>
               <p className="mt-1 text-2xl font-black text-sky-400">$384,500</p>
               <p className="text-[11px] text-muted mt-1">MXN acumulado</p>
             </div>
-            <div className="rounded-2xl border border-white/[0.08] bg-[#12161f] p-4 text-center">
+            <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
               <p className="text-xs font-semibold text-muted uppercase">Tiempo Promedio</p>
               <p className="mt-1 text-2xl font-black text-emerald-400">1.8 días</p>
               <p className="text-[11px] text-muted mt-1">por vehículo</p>

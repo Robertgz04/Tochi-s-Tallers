@@ -117,7 +117,7 @@ export default function AgendaPage() {
   return (
     <div className="animate-fade-in">
       <PageHeader titulo="Agenda" descripcion="Citas y entregas programadas del taller." acciones={<Button onClick={() => { setEditando(null); setFormAbierto(true); }}><Plus className="h-4 w-4" aria-hidden="true" /> Nueva cita</Button>} />
-      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-[#141922]/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_240px]">
+      <div className="mb-5 grid gap-3 rounded-2xl border border-white/[0.08] bg-card/70 p-3 sm:p-4 shadow-sm backdrop-blur-md lg:grid-cols-[1fr_240px]">
         <SearchInput value={busqueda} onChange={(e) => { setBusqueda(e.target.value); setPagina(1); }} onLimpiar={() => { setBusqueda(''); setPagina(1); }} placeholder="Buscar cita por título, cliente o placa..." />
         <Select value={estado} onChange={(e) => { setEstado(e.target.value); setPagina(1); }}>
           <option value="">Todos los estados</option>

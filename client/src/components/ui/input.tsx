@@ -16,9 +16,9 @@ export const Input = forwardRef<HTMLInputElement, PropiedadesInput>(
           id={idCampo}
           aria-invalid={error ? true : undefined}
           className={cn(
-            'flex h-11 w-full rounded-xl border border-white/[0.09] bg-[#111620] px-4 text-sm text-foreground placeholder:text-muted/50 transition-all duration-200',
+            'flex h-11 w-full rounded-xl border border-white/[0.09] bg-surface px-4 text-sm text-foreground placeholder:text-muted/50 transition-all duration-200',
             'hover:border-white/20',
-            'focus:border-primary/60 focus:bg-[#141a26] focus:outline-none focus:ring-2 focus:ring-primary/20',
+            'focus:border-primary/60 focus:bg-card-hover focus:outline-none focus:ring-2 focus:ring-primary/20',
             'disabled:cursor-not-allowed disabled:opacity-50',
             error && 'border-rose-500/70 focus:border-rose-500 focus:ring-rose-500/20',
             className,

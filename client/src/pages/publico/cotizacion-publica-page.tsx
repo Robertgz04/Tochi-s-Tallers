@@ -140,7 +140,7 @@ export default function CotizacionPublicaPage() {
 
       <div className="flex flex-wrap items-center justify-center gap-3 border-t border-white/[0.08] pt-4 text-xs text-muted">
         {datos.taller.telefono && (
-          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#11151e] px-3 py-1.5 font-medium hover:border-white/20 hover:text-foreground" href={`tel:${datos.taller.telefono}`}>
+          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-card px-3 py-1.5 font-medium hover:border-white/20 hover:text-foreground" href={`tel:${datos.taller.telefono}`}>
             <Phone className="h-3.5 w-3.5 text-primary" aria-hidden="true" /> {datos.taller.telefono}
           </a>
         )}
@@ -150,7 +150,7 @@ export default function CotizacionPublicaPage() {
           </a>
         )}
         {datos.taller.correo && (
-          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-[#11151e] px-3 py-1.5 hover:border-white/20 hover:text-foreground" href={`mailto:${datos.taller.correo}`}>
+          <a className="flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-card px-3 py-1.5 hover:border-white/20 hover:text-foreground" href={`mailto:${datos.taller.correo}`}>
             {datos.taller.correo}
           </a>
         )}
@@ -162,7 +162,7 @@ export default function CotizacionPublicaPage() {
 function Pantalla({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen items-start justify-center bg-background p-4 sm:items-center sm:py-8">
-      <div className="relative w-full max-w-lg space-y-4 overflow-hidden rounded-3xl border border-white/[0.09] bg-gradient-to-b from-[#161b24] to-[#12161e] p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent animate-fade-in">
+      <div className="relative w-full max-w-lg space-y-4 overflow-hidden rounded-3xl border border-white/[0.09] bg-gradient-to-b from-card to-surface p-6 sm:p-8 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent animate-fade-in">
         {children}
       </div>
     </div>
@@ -171,7 +171,7 @@ function Pantalla({ children }: { children: ReactNode }) {
 
 function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
-    <div className="space-y-2 rounded-2xl border border-white/[0.08] bg-[#11151e] p-4.5">
+    <div className="space-y-2 rounded-2xl border border-white/[0.08] bg-card p-4.5">
       <p className="text-xs font-bold uppercase tracking-wider text-muted">{titulo}</p>
       <div className="space-y-1.5">{children}</div>
     </div>
@@ -211,7 +211,7 @@ function RespuestaEstado({ estado }: { estado: string }) {
     );
   }
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-[#11151e] p-4.5">
+    <div className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-card p-4.5">
       <div>
         <p className="font-bold text-foreground">Esta cotización ya fue respondida</p>
         <p className="text-xs text-muted mt-0.5">Estado actual: {ETIQUETAS_COTIZACION[estado as keyof typeof ETIQUETAS_COTIZACION] ?? estado}.</p>

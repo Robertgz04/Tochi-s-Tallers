@@ -74,7 +74,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
   const rol = usuario ? ETIQUETAS_ROLES[usuario.rol as Rol] : '';
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-white/[0.08] bg-[#090b0e]/85 px-4 backdrop-blur-xl sm:px-6 lg:px-8 transition-colors">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-white/[0.08] bg-background/85 px-4 backdrop-blur-xl sm:px-6 lg:px-8 transition-colors">
       <button
         type="button"
         onClick={onAbrirMenu}
@@ -149,7 +149,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
           className="relative cursor-pointer rounded-xl border border-white/[0.08] bg-surface/80 p-2 text-muted transition-colors hover:border-white/20 hover:text-foreground"
         >
           <Bell className="h-4.5 w-4.5" aria-hidden="true" />
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-[#090b0e]" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-primary ring-2 ring-background" />
         </button>
 
         {/* Menú de Usuario */}
@@ -178,7 +178,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
           </button>
 
           {menuAbierto && usuario && (
-            <div className="absolute right-0 top-12 w-64 overflow-hidden rounded-2xl border border-white/[0.1] bg-[#141922]/95 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-scale-in">
+            <div className="absolute right-0 top-12 w-64 overflow-hidden rounded-2xl border border-white/[0.1] bg-card/95 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-scale-in">
               <div className="border-b border-white/[0.06] bg-surface/50 px-4 py-3.5">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-primary/40 bg-surface shadow-sm">
