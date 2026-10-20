@@ -4,6 +4,7 @@ import { Logo } from '@/components/logo';
 import { itemsInferiores, itemsMenu } from '@/components/layout/nav';
 import { cn } from '@/lib/utils';
 import { useSesionTransicion } from '@/hooks/useSesionTransicion';
+import { useI18nStore } from '@/store/i18nStore';
 
 interface PropiedadesSidebar {
   colapsada: boolean;
@@ -12,8 +13,25 @@ interface PropiedadesSidebar {
   onCerrarMovil: () => void;
 }
 
+const MAPA_RUTAS_I18N: Record<string, string> = {
+  '/dashboard': 'nav.dashboard',
+  '/clientes': 'nav.clientes',
+  '/vehiculos': 'nav.vehiculos',
+  '/ordenes': 'nav.ordenes',
+  '/cotizaciones': 'nav.cotizaciones',
+  '/pagos': 'nav.pagos',
+  '/inventario': 'nav.inventario',
+  '/agenda': 'nav.agenda',
+  '/reportes': 'nav.reportes',
+  '/equipo': 'nav.equipo',
+  '/configuracion': 'nav.configuracion',
+  '/mi-taller': 'nav.miTaller',
+  '/perfil': 'nav.perfil',
+};
+
 export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: PropiedadesSidebar) {
   const { despedir } = useSesionTransicion();
+  const { t } = useI18nStore();
 
   const enlaceClase = ({ isActive }: { isActive: boolean }) =>
     cn(
@@ -46,21 +64,27 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-        {itemsMenu.map((item) => (
-          <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
-            <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
-            {!colapsada && <span className="truncate">{item.etiqueta}</span>}
-          </NavLink>
-        ))}
+        {itemsMenu.map((item) => {
+          const etiqueta = t(MAPA_RUTAS_I18N[item.ruta] ?? '', item.etiqueta);
+          return (
+            <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
+              <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
+              {!colapsada && <span className="truncate">{etiqueta}</span>}
+            </NavLink>
+          );
+        })}
       </nav>
 
       <div className="space-y-1 border-t border-white/[0.08] px-3 py-4">
-        {itemsInferiores.map((item) => (
-          <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
-            <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
-            {!colapsada && <span className="truncate">{item.etiqueta}</span>}
-          </NavLink>
-        ))}
+        {itemsInferiores.map((item) => {
+          const etiqueta = t(MAPA_RUTAS_I18N[item.ruta] ?? '', item.etiqueta);
+          return (
+            <NavLink key={item.ruta} to={item.ruta} className={enlaceClase} onClick={onCerrarMovil}>
+              <item.icono className="h-5 w-5 shrink-0 transition-transform group-hover:scale-105" aria-hidden="true" />
+              {!colapsada && <span className="truncate">{etiqueta}</span>}
+            </NavLink>
+          );
+        })}
         <button
           type="button"
           onClick={() => {
@@ -73,7 +97,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
           )}
         >
           <LogOut className="h-5 w-5 shrink-0" aria-hidden="true" />
-          {!colapsada && <span>Cerrar sesión</span>}
+          {!colapsada && <span>{t('nav.cerrarSesion')}</span>}
         </button>
 
         <button
@@ -89,7 +113,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
             className={cn('h-5 w-5 shrink-0 transition-transform', colapsada && 'rotate-180')}
             aria-hidden="true"
           />
-          {!colapsada && <span>Contraer</span>}
+          {!colapsada && <span>{t('nav.contraer')}</span>}
         </button>
       </div>
     </div>

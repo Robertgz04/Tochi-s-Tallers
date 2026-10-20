@@ -35,6 +35,7 @@ export const itemsMenu: ItemNavegacion[] = [
 ];
 
 export const itemsInferiores: ItemNavegacion[] = [
+  { ruta: '/perfil', etiqueta: 'Mi Perfil', icono: UserRound },
   { ruta: '/configuracion', etiqueta: 'Configuración', icono: Settings },
   { ruta: '/mi-taller', etiqueta: 'Mi taller', icono: Building2 },
 ];
@@ -43,6 +44,7 @@ export const itemsNavegacionMovil: ItemNavegacion[] = [
   { ruta: '/dashboard', etiqueta: 'Inicio', icono: LayoutDashboard },
   { ruta: '/ordenes', etiqueta: 'Órdenes', icono: ClipboardList },
   { ruta: '/clientes', etiqueta: 'Clientes', icono: Users },
+  { ruta: '/perfil', etiqueta: 'Perfil', icono: UserRound },
 ];
 
 export const opcionesCrear = [
@@ -65,4 +67,5 @@ export const titulosRutas: Record<string, string> = {
   '/equipo': 'Equipo',
   '/configuracion': 'Configuración',
   '/mi-taller': 'Mi taller',
+  '/perfil': 'Mi Perfil',
 };

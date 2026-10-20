@@ -18,6 +18,7 @@ const ReportesPage = lazy(() => import('@/pages/reportes/reportes-page'));
 const InventarioPage = lazy(() => import('@/pages/inventario/inventario-page'));
 const AgendaPage = lazy(() => import('@/pages/agenda/agenda-page'));
 const ConfiguracionPage = lazy(() => import('@/pages/configuracion/configuracion-page'));
+const PerfilPage = lazy(() => import('@/pages/perfil/perfil-page'));
 const NotFoundPage = lazy(() => import('@/pages/placeholder/not-found-page'));
 
 export function AppRoutes() {
@@ -49,6 +50,7 @@ export function AppRoutes() {
         <Route path="/inventario" element={<InventarioPage />} />
         <Route path="/agenda" element={<AgendaPage />} />
         <Route path="/configuracion" element={<ConfiguracionPage />} />
+        <Route path="/perfil" element={<PerfilPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>
