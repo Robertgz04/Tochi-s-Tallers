@@ -4,40 +4,88 @@
    Tochi'sTaller — Paleta automotriz premium (Modo Noche y Día)
    ============================================================ */
 :root {
-  --background: #090b0e;
-  --surface: #0f131a;
-  --card: #151a23;
-  --card-hover: #1b212c;
+  --background: #0a0c10;
+  --surface: #10141b;
+  --card: #161c26;
+  --card-hover: #1c2430;
+  --card-elevated: #1a212d;
   --border: #232a35;
   --border-strong: #323b49;
+  --border-focus: #f59e0b;
   --foreground: #f8fafc;
+  --foreground-secondary: #cbd5e1;
   --muted-foreground: #94a3b8;
+  --muted-foreground-light: #64748b;
   --primary: #f59e0b;
   --primary-hover: #fbbf24;
   --primary-foreground: #090b0e;
+  --primary-glow: rgba(245, 158, 11, 0.35);
+  --primary-glow-strong: rgba(245, 158, 11, 0.55);
   --success: #10b981;
+  --success-foreground: #064e3b;
   --destructive: #f43f5e;
+  --destructive-foreground: #ffffff;
   --info: #38bdf8;
+  --info-foreground: #0c4a6e;
   --warning: #f59e0b;
+  --warning-foreground: #713f12;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 40px rgba(245, 158, 11, 0.25);
+  --radius-sm: 0.375rem;
+  --radius: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --font-sans: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 html.light,
 [data-theme='light'] {
-  --background: #f8fafc;
+  --background: #fafafa;
   --surface: #ffffff;
   --card: #ffffff;
-  --card-hover: #f1f5f9;
+  --card-hover: #f5f7fa;
+  --card-elevated: #ffffff;
   --border: #e2e8f0;
   --border-strong: #cbd5e1;
+  --border-focus: #d97706;
   --foreground: #0f172a;
+  --foreground-secondary: #334155;
   --muted-foreground: #64748b;
+  --muted-foreground-light: #94a3b8;
   --primary: #d97706;
   --primary-hover: #b45309;
   --primary-foreground: #ffffff;
+  --primary-glow: rgba(217, 119, 6, 0.15);
+  --primary-glow-strong: rgba(217, 119, 6, 0.25);
   --success: #059669;
   --destructive: #e11d48;
   --info: #0284c7;
   --warning: #d97706;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+  --shadow-glow: 0 0 40px rgba(217, 119, 6, 0.12);
   color-scheme: light;
 }
 
@@ -46,19 +94,41 @@ html.light,
   --color-surface: var(--surface);
   --color-card: var(--card);
   --color-card-hover: var(--card-hover);
+  --color-card-elevated: var(--card-elevated);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
   --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
   --color-muted: var(--muted-foreground);
+  --color-muted-light: var(--muted-foreground-light);
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-glow: var(--primary-glow);
+  --color-primary-glow-strong: var(--primary-glow-strong);
   --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
   --color-warning: var(--warning);
-  --font-sans: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --color-warning-foreground: var(--warning-foreground);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-glow: var(--shadow-glow);
+  --radius-sm: var(--radius-sm);
+  --radius: var(--radius);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 html {
@@ -75,44 +145,44 @@ body {
   margin: 0;
   background-color: var(--background);
   background-image:
-    radial-gradient(ellipse 90% 50% at 50% -12%, rgba(245, 158, 11, 0.06), transparent 70%),
-    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.03), transparent 45%);
+    radial-gradient(ellipse 90% 50% at 50% -12%, rgba(245, 158, 11, 0.05), transparent 70%),
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.025), transparent 45%);
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html.light body {
   background-color: var(--background);
   color: var(--foreground);
   background-image:
-    radial-gradient(ellipse 90% 50% at 50% -12%, rgba(217, 119, 6, 0.08), transparent 70%),
-    radial-gradient(circle at 100% 0%, rgba(2, 132, 199, 0.05), transparent 45%);
+    radial-gradient(ellipse 90% 50% at 50% -12%, rgba(217, 119, 6, 0.06), transparent 70%),
+    radial-gradient(circle at 100% 0%, rgba(2, 132, 199, 0.04), transparent 45%);
 }
 
-html.light header {
-  background-color: rgba(255, 255, 255, 0.9) !important;
+/* --- Sobreescritura de componentes base en modo claro --- */
+html.light header,
+html.light [role="banner"] {
+  background-color: rgba(255, 255, 255, 0.92) !important;
   border-bottom-color: #e2e8f0 !important;
 }
 
-html.light aside {
+html.light aside,
+html.light [role="navigation"] {
   background-color: rgba(255, 255, 255, 0.96) !important;
   border-right-color: #e2e8f0 !important;
 }
 
-/* Tarjetas con degradado: en modo día la sombra es más suave */
 html.light .bg-gradient-to-b.from-card,
 html.light .bg-gradient-to-br.from-card,
 html.light .bg-gradient-to-r.from-card {
   box-shadow: 0 6px 24px -6px rgba(15, 23, 42, 0.12) !important;
-}
-
-html.light .bg-surface {
-  background-color: #ffffff !important;
 }
 
 html.light .border-white\/\[0\.08\],
@@ -349,5 +419,274 @@ html.light .rejilla-taller {
   .animate-halo,
   .animate-rise {
     animation: none !important;
+  }
+}
+
+/* --- Utilidades de tipografía --- */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* --- Utilidades de elevación y sombra --- */
+.elevate-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.elevate {
+  box-shadow: var(--shadow);
+}
+
+.elevate-md {
+  box-shadow: var(--shadow-md);
+}
+
+.elevate-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.elevate-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+.elevate-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+.hover-elevate {
+  transition: box-shadow var(--transition-base), transform var(--transition-base);
+}
+
+.hover-elevate:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* --- Estados de focus anillo consistentes --- */
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.focus-ring-primary:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* --- Scrollbar mejorada --- */
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--foreground);
+  opacity: 0.5;
+}
+
+/* --- Nuevas animaciones --- */
+@keyframes tochi-pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--primary-glow);
+  }
+  50% {
+    box-shadow: 0 0 40px var(--primary-glow-strong);
+  }
+}
+
+@keyframes tochi-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes tochi-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tochi-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: tochi-pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.06),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: tochi-shimmer 1.5s infinite;
+}
+
+.animate-slide-up {
+  animation: tochi-slide-up 0.4s ease-out both;
+}
+
+.animate-slide-down {
+  animation: tochi-slide-down 0.3s ease-out both;
+}
+
+/* --- Estados de carga (skeleton) --- */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--card) 0%,
+    var(--card-hover) 50%,
+    var(--card) 100%
+  );
+  background-size: 200% 100%;
+  animation: tochi-shimmer 1.5s infinite;
+  border-radius: var(--radius);
+  opacity: 0.7;
+}
+
+html.light .skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--card-hover) 0%,
+    #f1f5f9 50%,
+    var(--card-hover) 100%
+  );
+}
+
+/* --- Utilidades de vidrio y superficies --- */
+.glass-card {
+  background: rgba(21, 26, 35, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+html.light .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.backdrop-blur-soft {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-strong {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* --- Bordes con degradado --- */
+.border-gradient {
+  position: relative;
+  border-radius: inherit;
+}
+
+.border-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--primary), transparent);
+  -webkit-mask:
+    linear-gradient(#fff 0 0),
+    content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0),
+    content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* --- Texto con degradado --- */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--info));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Estados activos en botones --- */
+.btn-active-ring:active {
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.3);
+}
+
+html.light .btn-active-ring:active {
+  box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.3);
+}
+
+/* --- Tarjetas con estado de borde izquierdo --- */
+.card-state-success {
+  border-left: 3px solid var(--success);
+}
+
+.card-state-warning {
+  border-left: 3px solid var(--warning);
+}
+
+.card-state-danger {
+  border-left: 3px solid var(--destructive);
+}
+
+.card-state-info {
+  border-left: 3px solid var(--info);
+}
+
+/* --- Selección de texto --- */
+::selection {
+  background-color: rgba(245, 158, 11, 0.35);
+  color: #ffffff;
+}
+
+/* --- Reducción de movimiento extendida --- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-pulse-glow,
+  .animate-shimmer,
+  .skeleton {
+    animation: none !important;
+  }
+  .hover-elevate:hover {
+    transform: none;
   }
 }

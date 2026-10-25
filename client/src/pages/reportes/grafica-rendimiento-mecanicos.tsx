@@ -12,6 +12,7 @@ import {
 import { Award, DollarSign, Hammer, Wrench } from 'lucide-react';
 import { formatMoney, formatNumber } from '@/lib/utils';
 import { useColoresGrafica } from '@/lib/graficas';
+import { useI18nStore } from '@/store/i18nStore';
 
 export interface MecanicoRendimiento {
   mecanicoId: string;
@@ -35,6 +36,7 @@ const COLORES_RANKING = ['#F59E0B', '#38BDF8', '#A78BFA', '#10B981', '#FB923C', 
 export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
   const [metrica, setMetrica] = useState<'facturado' | 'ordenes'>('facturado');
   const { estiloTooltip, colorCuadricula, colorTextoAltoContraste } = useColoresGrafica();
+  const { t, idioma } = useI18nStore();
 
   const datos = useMemo<MecanicoRendimiento[]>(() => {
     return topMecanicos
@@ -44,7 +46,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
         const promedioOrden = ordenes > 0 ? Math.round(facturado / ordenes) : 0;
         return {
           mecanicoId: item.mecanicoId,
-          mecanico: item.mecanico || 'Sin asignar',
+          mecanico: item.mecanico || (idioma === 'en' ? 'Unassigned' : 'Sin asignar'),
           ordenes,
           facturado,
           promedioOrden,
@@ -53,7 +55,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
       .sort((a, b) =>
         metrica === 'facturado' ? b.facturado - a.facturado : b.ordenes - a.ordenes,
       );
-  }, [topMecanicos, metrica]);
+  }, [topMecanicos, metrica, idioma]);
 
   const lider = datos[0];
 
@@ -68,14 +70,14 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-bold tracking-tight text-foreground">
-                Rendimiento por Técnico / Mecánico
+                {t('rep.rendimientoMecanicos')}
               </h3>
               <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-0.5 text-[10px] font-bold text-violet-400">
-                Productividad
+                {t('rep.productividad')}
               </span>
             </div>
             <p className="text-xs text-muted">
-              Comparativa de volumen de órdenes entregadas e ingresos producidos por cada especialista.
+              {t('rep.rendimientoDescripcion')}
             </p>
           </div>
         </div>
@@ -92,7 +94,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
             }`}
           >
             <DollarSign className="h-3.5 w-3.5" />
-            Facturación
+            {t('rep.facturacion')}
           </button>
           <button
             type="button"
@@ -104,14 +106,14 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
             }`}
           >
             <Hammer className="h-3.5 w-3.5" />
-            Órdenes
+            {t('rep.ordenesTotales')}
           </button>
         </div>
       </div>
 
       {datos.length === 0 ? (
         <div className="flex h-64 items-center justify-center text-sm text-muted">
-          Aún no hay técnicos con órdenes registradas.
+          {t('rep.sinTecnicos')}
         </div>
       ) : (
         <>
@@ -124,22 +126,22 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
                 </span>
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-wider text-amber-400">
-                    Técnico Más Productivo
+                    {t('rep.tecnicoProductivo')}
                   </p>
                   <p className="text-sm font-extrabold text-foreground">{lider.mecanico}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 text-xs">
                 <div>
-                  <span className="text-muted">Facturación: </span>
+                  <span className="text-muted">{t('rep.facturacion')}: </span>
                   <span className="font-bold text-amber-400">{formatMoney(lider.facturado)}</span>
                 </div>
                 <div>
-                  <span className="text-muted">Órdenes: </span>
+                  <span className="text-muted">{t('rep.colOrdenes')}: </span>
                   <span className="font-bold text-foreground">{formatNumber(lider.ordenes)}</span>
                 </div>
                 <div>
-                  <span className="text-muted">Ticket Prom: </span>
+                  <span className="text-muted">{t('rep.ticketPromedio')}: </span>
                   <span className="font-bold text-emerald-400">{formatMoney(lider.promedioOrden)}</span>
                 </div>
               </div>
@@ -180,7 +182,7 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
                   contentStyle={estiloTooltip}
                   formatter={(val) => [
                     metrica === 'facturado' ? formatMoney(Number(val)) : `${val} órdenes`,
-                    metrica === 'facturado' ? 'Monto facturado' : 'Órdenes completadas',
+                    metrica === 'facturado' ? t('rep.facturadoTotal') : t('rep.ordenesCompletadas'),
                   ]}
                 />
                 <Bar
@@ -229,4 +231,3 @@ export function GraficaRendimientoMecanicos({ topMecanicos }: Propiedades) {
     </section>
   );
 }
-

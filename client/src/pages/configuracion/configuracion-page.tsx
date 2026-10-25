@@ -127,8 +127,8 @@ export default function ConfiguracionPage() {
   if (isError || !taller) {
     return (
       <ErrorState
-        titulo="No pudimos cargar la configuración"
-        descripcion={error instanceof Error ? error.message : 'Inténtalo nuevamente.'}
+        titulo={t('cfg.errorTitulo')}
+        descripcion={error instanceof Error ? error.message : t('cfg.tryAgain')}
         onReintentar={() => refetch()}
       />
     );
@@ -137,36 +137,36 @@ export default function ConfiguracionPage() {
   const handleGuardarGeneral = (e: React.FormEvent) => {
     e.preventDefault();
     localStorage.setItem('tochis_config_general', JSON.stringify(configGeneral));
-    toast.success('Ajustes generales y de facturación guardados correctamente');
+    toast.success(t('cfg.toastGeneral'));
   };
 
   const handleGuardarNotificaciones = (e: React.FormEvent) => {
     e.preventDefault();
     localStorage.setItem('tochis_config_notificaciones', JSON.stringify(configNotificaciones));
-    toast.success('Preferencias de notificaciones y WhatsApp actualizadas');
+    toast.success(t('cfg.toastNotificaciones'));
   };
 
   const handleGuardarApariencia = (e: React.FormEvent) => {
     e.preventDefault();
     localStorage.setItem('tochis_config_apariencia', JSON.stringify(configApariencia));
-    toast.success('Configuración visual y tema actualizados con éxito');
+    toast.success(t('cfg.toastApariencia'));
   };
 
   const handleCambiarPassword = (e: React.FormEvent) => {
     e.preventDefault();
     if (!passwordForm.actual) {
-      toast.error('Ingresa tu contraseña actual');
+      toast.error(t('cfg.toastPasswordActual'));
       return;
     }
     if (passwordForm.nueva.length < 8) {
-      toast.error('La nueva contraseña debe tener al menos 8 caracteres');
+      toast.error(t('cfg.toastPasswordLongitud'));
       return;
     }
     if (passwordForm.nueva !== passwordForm.confirmacion) {
-      toast.error('Las contraseñas no coinciden');
+      toast.error(t('cfg.toastPasswordMismatch'));
       return;
     }
-    toast.success('Contraseña actualizada con éxito');
+    toast.success(t('cfg.toastPasswordGuardado'));
     setPasswordForm({ actual: '', nueva: '', confirmacion: '' });
   };
 
@@ -206,7 +206,7 @@ export default function ConfiguracionPage() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success('Copia de seguridad completa (JSON) generada y descargada');
+    toast.success(t('cfg.toastBackupDescargado'));
   };
 
   const handleRestaurarBackup = () => {
@@ -233,9 +233,9 @@ export default function ConfiguracionPage() {
           if (parsed.configuraciones?.idiomaActual) {
             establecerIdioma(parsed.configuraciones.idiomaActual);
           }
-          toast.success('¡Copia de seguridad restaurada con éxito!');
+          toast.success(t('cfg.toastBackupRestaurado'));
         } catch {
-          toast.error('El archivo de respaldo no es válido.');
+          toast.error(t('cfg.toastBackupInvalido'));
         }
       };
       reader.readAsText(file);
@@ -247,9 +247,9 @@ export default function ConfiguracionPage() {
     toast.promise(
       new Promise((resolve) => setTimeout(resolve, 800)),
       {
-        loading: 'Optimizando almacenamiento y purgando caché local...',
-        success: '¡Caché optimizada y liberada correctamente!',
-        error: 'Error al limpiar caché',
+        loading: t('cfg.toastCacheLoading'),
+        success: t('cfg.toastCacheSuccess'),
+        error: t('cfg.toastCacheError'),
       },
     );
   };
@@ -278,7 +278,7 @@ export default function ConfiguracionPage() {
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
-            <CreditCard className="h-4 w-4 text-primary" /> Plan Contratado
+            <CreditCard className="h-4 w-4 text-primary" /> {t('cfg.planContratado')}
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{taller.plan}</p>
           <Badge
@@ -291,24 +291,24 @@ export default function ConfiguracionPage() {
         </Card>
         <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
-            <Hash className="h-4 w-4 text-sky-400" /> Prefijo de Folio
+            <Hash className="h-4 w-4 text-sky-400" /> {t('cfg.prefijoFolio')}
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{configGeneral.prefijoFolio}-</p>
-          <p className="text-[11px] text-muted mt-1">Siguiente: #{configGeneral.siguienteFolio}</p>
+          <p className="text-[11px] text-muted mt-1">{t('cfg.siguiente')} #{configGeneral.siguienteFolio}</p>
         </Card>
         <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
-            <Percent className="h-4 w-4 text-emerald-400" /> Tasa de IVA
+            <Percent className="h-4 w-4 text-emerald-400" /> {t('cfg.tasaIva')}
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{configGeneral.iva}%</p>
-          <p className="text-[11px] text-emerald-400 mt-1">Impuesto vigente</p>
+          <p className="text-[11px] text-emerald-400 mt-1">{t('cfg.impuestoVigente')}</p>
         </Card>
         <Card className="p-5 border-white/[0.08] bg-gradient-to-b from-card to-surface">
           <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted">
-            <Wallet className="h-4 w-4 text-amber-400" /> Moneda Base
+            <Wallet className="h-4 w-4 text-amber-400" /> {t('cfg.monedaBase')}
           </p>
           <p className="mt-2 text-xl font-black text-foreground">{configGeneral.moneda}</p>
-          <p className="text-[11px] text-muted mt-1">Pesos Mexicanos</p>
+          <p className="text-[11px] text-muted mt-1">{t('cfg.pesosMexicanos')}</p>
         </Card>
       </div>
 
@@ -321,10 +321,10 @@ export default function ConfiguracionPage() {
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-bold text-foreground group-hover:text-primary transition-colors text-sm">
-                Datos Fiscales y Domicilio del Taller
+                {t('cfg.datosFiscales')}
               </p>
               <p className="truncate text-xs text-muted">
-                Razón social, RFC, teléfono del taller y dirección en factura.
+                {t('cfg.datosFiscalesDesc')}
               </p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted group-hover:translate-x-1 transition-transform" />
@@ -338,10 +338,10 @@ export default function ConfiguracionPage() {
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-bold text-foreground group-hover:text-sky-400 transition-colors text-sm">
-                Equipo de Mecánicos y Roles de Acceso
+                {t('cfg.equipoRoles')}
               </p>
               <p className="truncate text-xs text-muted">
-                Altas, bajas, contraseñas de mecánicos y permisos de cajero.
+                {t('cfg.equipoRolesDesc')}
               </p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted group-hover:translate-x-1 transition-transform" />
@@ -434,15 +434,15 @@ export default function ConfiguracionPage() {
           {pestana === 'general' && (
             <form onSubmit={handleGuardarGeneral} className="space-y-6">
               <div>
-                <h4 className="text-sm font-bold text-foreground">Ajustes de Folios e Impuestos</h4>
+                <h4 className="text-sm font-bold text-foreground">{t('cfg.ajustesFolios')}</h4>
                 <p className="text-xs text-muted">
-                  Configura los números consecutivos de órdenes y cotizaciones.
+                  {t('cfg.foliosDesc')}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <div>
-                  <Label htmlFor="prefijo">Prefijo de Folio</Label>
+                  <Label htmlFor="prefijo">{t('cfg.prefijoFolio')}</Label>
                   <Input
                     id="prefijo"
                     value={configGeneral.prefijoFolio}
@@ -454,11 +454,11 @@ export default function ConfiguracionPage() {
                     }
                     className="mt-1"
                   />
-                  <p className="mt-1 text-[11px] text-muted">Ejemplo: TCH-1001</p>
+                  <p className="mt-1 text-[11px] text-muted">{t('cfg.ejemplo')}</p>
                 </div>
 
                 <div>
-                  <Label htmlFor="sigFolio">Siguiente Folio Consecutivo</Label>
+                  <Label htmlFor="sigFolio">{t('cfg.folioConsecutivo')}</Label>
                   <Input
                     id="sigFolio"
                     value={configGeneral.siguienteFolio}
@@ -470,7 +470,7 @@ export default function ConfiguracionPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="ivaInput">IVA Aplicable (%)</Label>
+                  <Label htmlFor="ivaInput">{t('cfg.ivaAplicable')}</Label>
                   <Input
                     id="ivaInput"
                     type="number"
@@ -483,7 +483,7 @@ export default function ConfiguracionPage() {
                 </div>
 
                 <div>
-                  <Label htmlFor="monedaSelect">Moneda Principal</Label>
+                  <Label htmlFor="monedaSelect">{t('cfg.monedaPrincipal')}</Label>
                   <select
                     id="monedaSelect"
                     value={configGeneral.moneda}
@@ -492,19 +492,19 @@ export default function ConfiguracionPage() {
                     }
                     className="mt-1 w-full rounded-xl border border-white/[0.08] bg-card px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
                   >
-                    <option value="MXN">MXN - Peso Mexicano</option>
-                    <option value="USD">USD - Dólar Estadounidense</option>
+                    <option value="MXN">MXN - {idioma === 'en' ? 'Mexican Peso' : 'Peso Mexicano'}</option>
+                    <option value="USD">USD - {idioma === 'en' ? 'US Dollar' : 'Dólar Estadounidense'}</option>
                     <option value="EUR">EUR - Euro</option>
-                    <option value="COP">COP - Peso Colombiano</option>
+                    <option value="COP">COP - {idioma === 'en' ? 'Colombian Peso' : 'Peso Colombiano'}</option>
                   </select>
                 </div>
               </div>
 
               <div className="border-t border-white/[0.06] pt-5">
-                <h4 className="text-sm font-bold text-foreground">Operatividad y Horarios de Taller</h4>
+                <h4 className="text-sm font-bold text-foreground">{t('cfg.horarios')}</h4>
                 <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div>
-                    <Label htmlFor="diasLab">Días Laborales</Label>
+                    <Label htmlFor="diasLab">{t('cfg.diasLaborales')}</Label>
                     <Input
                       id="diasLab"
                       value={configGeneral.diasLaborales}
@@ -515,7 +515,7 @@ export default function ConfiguracionPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="horApertura">Horario Apertura</Label>
+                    <Label htmlFor="horApertura">{t('cfg.horarioApertura')}</Label>
                     <Input
                       id="horApertura"
                       type="time"
@@ -527,7 +527,7 @@ export default function ConfiguracionPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="horCierre">Horario Cierre</Label>
+                    <Label htmlFor="horCierre">{t('cfg.horarioCierre')}</Label>
                     <Input
                       id="horCierre"
                       type="time"
@@ -542,7 +542,7 @@ export default function ConfiguracionPage() {
               </div>
 
               <div className="border-t border-white/[0.06] pt-5">
-                <Label htmlFor="terminosGarantia">Términos de Garantía Impresos en Presupuestos</Label>
+                <Label htmlFor="terminosGarantia">{t('cfg.terminosGarantia')}</Label>
                 <Textarea
                   id="terminosGarantia"
                   rows={3}
@@ -567,16 +567,16 @@ export default function ConfiguracionPage() {
           {pestana === 'notificaciones' && (
             <form onSubmit={handleGuardarNotificaciones} className="space-y-6">
               <div>
-                <h4 className="text-sm font-bold text-foreground">Mensajería Automática WhatsApp & SMS</h4>
-                <p className="text-xs text-muted">Mantén a tus clientes informados del avance de sus autos.</p>
+                <h4 className="text-sm font-bold text-foreground">{t('cfg.whatsappSms')}</h4>
+                <p className="text-xs text-muted">{t('cfg.notificacionesDesc')}</p>
               </div>
 
               <div className="space-y-3">
                 <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-foreground">Aviso de Recepción de Auto por WhatsApp</p>
+                    <p className="text-xs font-bold text-foreground">{t('cfg.avisoRecepcion')}</p>
                     <p className="text-[11px] text-muted">
-                      Envía confirmación con número de orden e inventario inicial.
+                      {t('cfg.avisoRecepcionDesc')}
                     </p>
                   </div>
                   <input
@@ -594,9 +594,9 @@ export default function ConfiguracionPage() {
 
                 <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-foreground">Envío de Cotización con Enlace Público</p>
+                    <p className="text-xs font-bold text-foreground">{t('cfg.envioCotizacion')}</p>
                     <p className="text-[11px] text-muted">
-                      Permite al cliente aprobar refacciones y mano de obra desde su celular.
+                      {t('cfg.envioCotizacionDesc')}
                     </p>
                   </div>
                   <input
@@ -614,9 +614,9 @@ export default function ConfiguracionPage() {
 
                 <label className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-card p-3.5 cursor-pointer hover:border-white/20 transition-all">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-foreground">Alerta de Vehículo Listo para Recoger</p>
+                    <p className="text-xs font-bold text-foreground">{t('cfg.avisoVehiculoListo')}</p>
                     <p className="text-[11px] text-muted">
-                      Notifica al cliente tan pronto el mecánico marca la orden como LISTA.
+                      {t('cfg.avisoVehiculoListoDesc')}
                     </p>
                   </div>
                   <input
@@ -634,7 +634,7 @@ export default function ConfiguracionPage() {
               </div>
 
               <div>
-                <Label htmlFor="plantillaWhatsApp">Plantilla del Mensaje de Vehículo Listo</Label>
+                <Label htmlFor="plantillaWhatsApp">{t('cfg.plantillaListo')}</Label>
                 <Textarea
                   id="plantillaWhatsApp"
                   rows={2}
@@ -648,12 +648,12 @@ export default function ConfiguracionPage() {
                   className="mt-1"
                 />
                 <p className="mt-1 text-[11px] text-muted">
-                  Variables dinámicas soportadas: {'{cliente}'}, {'{vehiculo}'}, {'{total}'}, {'{taller}'}.
+                  {t('cfg.variablesDinamicas')} {'{cliente}'}, {'{vehiculo}'}, {'{total}'}, {'{taller}'}.
                 </p>
               </div>
 
               <div className="border-t border-white/[0.06] pt-4">
-                <h4 className="text-sm font-bold text-foreground mb-3">Alertas Internas para el Equipo</h4>
+                <h4 className="text-sm font-bold text-foreground mb-3">{t('cfg.alertasEquipo')}</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-card p-3 cursor-pointer">
                     <input
@@ -668,7 +668,7 @@ export default function ConfiguracionPage() {
                       className="h-4 w-4 accent-amber-500 rounded cursor-pointer"
                     />
                     <span className="text-xs font-medium text-foreground">
-                      Avisar cuando haya refacciones con stock bajo
+                      {t('cfg.alertaStock')}
                     </span>
                   </label>
                   <label className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-card p-3 cursor-pointer">
@@ -684,7 +684,7 @@ export default function ConfiguracionPage() {
                       className="h-4 w-4 accent-amber-500 rounded cursor-pointer"
                     />
                     <span className="text-xs font-medium text-foreground">
-                      Resumen de citas agendadas para el día siguiente
+                      {t('cfg.resumenCitas')}
                     </span>
                   </label>
                 </div>
@@ -709,7 +709,9 @@ export default function ConfiguracionPage() {
                   {t('cfg.modoTema')}
                 </h4>
                 <p className="text-xs text-muted">
-                  Selecciona la apariencia adecuada para el nivel de iluminación de tu taller.
+                  {idioma === 'en'
+                    ? 'Choose the appearance that best suits your shop lighting.'
+                    : 'Selecciona la apariencia adecuada para el nivel de iluminación de tu taller.'}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -717,7 +719,7 @@ export default function ConfiguracionPage() {
                     type="button"
                     onClick={() => {
                       establecerTema('light');
-                      toast.info('☀️ Modo Día (Claro) activado');
+                      toast.info(`☀️ ${idioma === 'en' ? 'Light mode enabled' : 'Modo Día (Claro) activado'}`);
                     }}
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       tema === 'light'
@@ -731,7 +733,7 @@ export default function ConfiguracionPage() {
                     <div className="flex-1">
                       <p className="text-xs font-bold text-foreground">{t('cfg.modoClaro')}</p>
                       <p className="text-[11px] text-muted">
-                        Fondo blanco pulcro y tipografía oscura para máxima claridad con luz natural.
+                        {t('cfg.modoClaroDesc')}
                       </p>
                     </div>
                     {tema === 'light' && <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />}
@@ -741,7 +743,7 @@ export default function ConfiguracionPage() {
                     type="button"
                     onClick={() => {
                       establecerTema('dark');
-                      toast.info('🌙 Modo Noche (Oscuro) activado');
+                      toast.info(`🌙 ${idioma === 'en' ? 'Dark mode enabled' : 'Modo Noche (Oscuro) activado'}`);
                     }}
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       tema === 'dark'
@@ -755,7 +757,7 @@ export default function ConfiguracionPage() {
                     <div className="flex-1">
                       <p className="text-xs font-bold text-foreground">{t('cfg.modoOscuro')}</p>
                       <p className="text-[11px] text-muted">
-                        Fondo grafito automotriz con reflejos ámbar para menor fatiga visual.
+                        {t('cfg.modoOscuroDesc')}
                       </p>
                     </div>
                     {tema === 'dark' && <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />}
@@ -770,7 +772,7 @@ export default function ConfiguracionPage() {
                   {t('cfg.idioma')}
                 </h4>
                 <p className="text-xs text-muted">
-                  Cambia de manera instantánea el idioma de toda la plataforma en tiempo real.
+                  {t('cfg.idiomaDesc')}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -778,7 +780,7 @@ export default function ConfiguracionPage() {
                     type="button"
                     onClick={() => {
                       establecerIdioma('es');
-                      toast.success('🇲🇽 Idioma cambiado a Español');
+                      toast.success(`🇲🇽 ${idioma === 'en' ? 'Language switched to Spanish' : 'Idioma cambiado a Español'}`);
                     }}
                     className={`flex items-center gap-3.5 rounded-2xl border p-4 text-left transition-all cursor-pointer ${
                       idioma === 'es'
@@ -790,7 +792,7 @@ export default function ConfiguracionPage() {
                     <div className="flex-1">
                       <p className="text-xs font-bold text-foreground">Español (Latinoamérica)</p>
                       <p className="text-[11px] text-muted">
-                        Términos automotrices en español y formato regional de fechas.
+                        {t('cfg.idiomaEspañol')}
                       </p>
                     </div>
                     {idioma === 'es' && <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />}
@@ -812,7 +814,7 @@ export default function ConfiguracionPage() {
                     <div className="flex-1">
                       <p className="text-xs font-bold text-foreground">English (United States)</p>
                       <p className="text-[11px] text-muted">
-                        Automotive shop terms in English and standard US format.
+                        {t('cfg.idiomaEnglish')}
                       </p>
                     </div>
                     {idioma === 'en' && <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />}
@@ -822,7 +824,7 @@ export default function ConfiguracionPage() {
 
               {/* DENSIDAD DE TABLAS */}
               <div className="border-t border-white/[0.06] pt-5">
-                <h4 className="text-sm font-bold text-foreground mb-2">Densidad de las Tablas y Listados</h4>
+                <h4 className="text-sm font-bold text-foreground mb-2">{t('cfg.densidadTablas')}</h4>
                 <div className="flex gap-4">
                   <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
                     <input
@@ -835,7 +837,7 @@ export default function ConfiguracionPage() {
                       }
                       className="accent-amber-500"
                     />
-                    <span>Modo Cómodo (Espaciado amplio para tabletas)</span>
+                    <span>{t('cfg.modoComodo')}</span>
                   </label>
                   <label className="flex items-center gap-2 text-xs font-medium cursor-pointer">
                     <input
@@ -848,7 +850,7 @@ export default function ConfiguracionPage() {
                       }
                       className="accent-amber-500"
                     />
-                    <span>Modo Compacto (Mayor cantidad de filas en pantalla)</span>
+                    <span>{t('cfg.modoCompacto')}</span>
                   </label>
                 </div>
               </div>
@@ -866,10 +868,10 @@ export default function ConfiguracionPage() {
           {pestana === 'seguridad' && (
             <div className="space-y-6">
               <form onSubmit={handleCambiarPassword} className="space-y-4">
-                <h4 className="text-sm font-bold text-foreground">Cambio de Contraseña de Acceso</h4>
+                <h4 className="text-sm font-bold text-foreground">{t('cfg.cambiarPassword')}</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <Label htmlFor="passActual">Contraseña Actual</Label>
+                    <Label htmlFor="passActual">{t('cfg.passwordActual')}</Label>
                     <Input
                       id="passActual"
                       type="password"
@@ -879,7 +881,7 @@ export default function ConfiguracionPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="passNueva">Nueva Contraseña</Label>
+                    <Label htmlFor="passNueva">{t('cfg.passwordNueva')}</Label>
                     <Input
                       id="passNueva"
                       type="password"
@@ -889,7 +891,7 @@ export default function ConfiguracionPage() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="passConfirm">Confirmar Nueva Contraseña</Label>
+                    <Label htmlFor="passConfirm">{t('cfg.passwordConfirmar')}</Label>
                     <Input
                       id="passConfirm"
                       type="password"
@@ -903,7 +905,7 @@ export default function ConfiguracionPage() {
                 </div>
                 <div className="flex justify-end">
                   <Button type="submit" variant="secondary" className="text-xs">
-                    Actualizar Contraseña
+                    {t('cfg.actualizarPassword')}
                   </Button>
                 </div>
               </form>
@@ -914,10 +916,10 @@ export default function ConfiguracionPage() {
                   <div className="space-y-1">
                     <p className="text-xs font-bold text-foreground flex items-center gap-2">
                       <ShieldCheck className="h-4 w-4 text-emerald-400" />
-                      Autenticación en Dos Pasos (2FA con Google Authenticator)
+                      {t('cfg.dosFactores')}
                     </p>
                     <p className="text-[11px] text-muted">
-                      Solicita un código de 6 dígitos cada vez que inicies sesión desde un nuevo equipo.
+                      {t('cfg.dosFactoresDesc')}
                     </p>
                   </div>
                   <Button
@@ -925,47 +927,47 @@ export default function ConfiguracionPage() {
                     onClick={() => {
                       setDosFactores(!dosFactores);
                       toast.success(
-                        dosFactores ? '2FA Desactivado' : '¡2FA Activado correctamente!',
+                        dosFactores ? t('cfg.toast2faOff') : t('cfg.toast2faOn'),
                       );
                     }}
                     className="text-xs"
                   >
-                    {dosFactores ? 'Desactivar 2FA' : 'Activar 2FA'}
+                    {dosFactores ? t('cfg.desactivar2fa') : t('cfg.activar2fa')}
                   </Button>
                 </div>
               </div>
 
               {/* Sesiones activas */}
               <div className="border-t border-white/[0.06] pt-5 space-y-3">
-                <h4 className="text-sm font-bold text-foreground">Sesiones y Dispositivos Activos</h4>
+                <h4 className="text-sm font-bold text-foreground">{t('cfg.sesionesActivas')}</h4>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 text-foreground">
                     <div className="flex items-center gap-3">
                       <Laptop className="h-4 w-4 text-emerald-400" />
                       <div>
-                        <p className="font-bold">Windows 11 • Chrome 130 (Este equipo)</p>
+                        <p className="font-bold">{t('cfg.dispositivoEsteEquipo')}</p>
                         <p className="text-[11px] text-muted">
-                          IP: 187.190.45.12 • Guadalajara, Jal. • Activa ahora
+                          {idioma === 'en' ? 'IP: 187.190.45.12 • Guadalajara, MX • Active now' : 'IP: 187.190.45.12 • Guadalajara, Jal. • Activa ahora'}
                         </p>
                       </div>
                     </div>
-                    <Badge variant="success">Actual</Badge>
+                    <Badge variant="success">{t('cfg.actual')}</Badge>
                   </div>
 
                   <div className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-card p-3 text-muted">
                     <div className="flex items-center gap-3">
                       <Smartphone className="h-4 w-4 text-sky-400" />
                       <div>
-                        <p className="font-bold text-foreground">iPhone 15 Pro • Safari Móvil</p>
-                        <p className="text-[11px] text-muted">IP: 187.190.45.98 • Hace 3 horas</p>
+                        <p className="font-bold text-foreground">{t('cfg.dispositivoMovil')}</p>
+                        <p className="text-[11px] text-muted">{idioma === 'en' ? 'IP: 187.190.45.98 • 3 hours ago' : 'IP: 187.190.45.98 • Hace 3 horas'}</p>
                       </div>
                     </div>
                     <button
                       type="button"
-                      onClick={() => toast.success('Sesión móvil cerrada')}
+                      onClick={() => toast.success(t('cfg.toastSesionCerrada'))}
                       className="text-rose-400 hover:underline text-[11px] font-semibold cursor-pointer"
                     >
-                      Cerrar
+                      {t('cfg.cerrar')}
                     </button>
                   </div>
                 </div>
@@ -978,10 +980,10 @@ export default function ConfiguracionPage() {
             <div className="space-y-6">
               <div>
                 <h4 className="text-sm font-bold text-foreground">
-                  Gestión de Copias de Seguridad & Mantenimiento
+                  {t('cfg.gestionBackup')}
                 </h4>
                 <p className="text-xs text-muted">
-                  Exporta, importa y descarga backups integrales de toda la base de datos de tu taller.
+                  {t('cfg.backupDesc')}
                 </p>
               </div>
 
@@ -992,8 +994,8 @@ export default function ConfiguracionPage() {
                       <Download className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-foreground">Descargar Backup Integral (JSON)</p>
-                      <p className="text-[11px] text-muted">Clientes, autos, historial de órdenes y caja.</p>
+                      <p className="text-sm font-bold text-foreground">{t('cfg.backupIntegral')}</p>
+                      <p className="text-[11px] text-muted">{t('cfg.backupContenido')}</p>
                     </div>
                   </div>
                   <Button
@@ -1012,8 +1014,8 @@ export default function ConfiguracionPage() {
                       <Upload className="h-5 w-5" />
                     </span>
                     <div>
-                      <p className="text-sm font-bold text-foreground">Restaurar Copia de Seguridad</p>
-                      <p className="text-[11px] text-muted">Carga un archivo de respaldo JSON para sincronizar.</p>
+                      <p className="text-sm font-bold text-foreground">{t('cfg.restaurarBackup')}</p>
+                      <p className="text-[11px] text-muted">{t('cfg.restaurarDesc')}</p>
                     </div>
                   </div>
                   <Button
@@ -1028,12 +1030,12 @@ export default function ConfiguracionPage() {
               </div>
 
               <div className="border-t border-white/[0.06] pt-5">
-                <h4 className="text-sm font-bold text-foreground mb-3">Mantenimiento y Rendimiento</h4>
+                <h4 className="text-sm font-bold text-foreground mb-3">{t('cfg.mantenimientoRendimiento')}</h4>
                 <div className="flex flex-wrap items-center justify-between rounded-2xl border border-white/[0.08] bg-card p-4 gap-3">
                   <div className="space-y-0.5">
-                    <p className="text-xs font-bold text-foreground">Purgar Caché Local y Optimizar Consultas</p>
+                    <p className="text-xs font-bold text-foreground">{t('cfg.purgarCache')}</p>
                     <p className="text-[11px] text-muted">
-                      Libera memoria de tablas cacheadas y recarga los datos más recientes del servidor.
+                      {t('cfg.purgarCacheDesc')}
                     </p>
                   </div>
                   <Button
@@ -1053,73 +1055,73 @@ export default function ConfiguracionPage() {
             <div className="space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
-                  <h4 className="text-base font-bold text-foreground">Plan Actual: {taller.plan}</h4>
+                  <h4 className="text-base font-bold text-foreground">{t('cfg.planActual')} {taller.plan}</h4>
                   <p className="text-xs text-muted">
-                    Tu suscripción se encuentra activa y vence el {taller.fechaVencimiento || '2026-12-31'}.
+                    {t('cfg.suscripcionVence')} {taller.fechaVencimiento || '2026-12-31'}.
                   </p>
                 </div>
                 <Badge variant="success" conPunto className="px-3 py-1">
-                  Suscripción Activa
+                  {t('cfg.suscripcionActiva')}
                 </Badge>
               </div>
 
               {/* Comparador de Planes */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
-                  <p className="text-xs font-bold uppercase text-muted">Plan Básico</p>
+                  <p className="text-xs font-bold uppercase text-muted">{t('cfg.planBasico')}</p>
                   <p className="text-2xl font-black text-foreground">
-                    $499 <span className="text-xs text-muted font-normal">/mes</span>
+                    $499 <span className="text-xs text-muted font-normal">{t('cfg.porMes')}</span>
                   </p>
                   <ul className="space-y-1.5 text-xs text-muted">
-                    <li>✓ Hasta 2 mecánicos</li>
-                    <li>✓ Órdenes ilimitadas</li>
-                    <li>✓ 5 GB almacenamiento fotos</li>
+                    <li>✓ {t('cfg.hastaMecanicos')}</li>
+                    <li>✓ {t('cfg.ordenesIlimitadas')}</li>
+                    <li>✓ {t('cfg.almacenamientoFotos')}</li>
                   </ul>
-                  <Button variant="secondary" className="w-full text-xs" onClick={() => toast.info('Seleccionado')}>
-                    Mantener
+                  <Button variant="secondary" className="w-full text-xs" onClick={() => toast.info(t('cfg.toastSeleccionado'))}>
+                    {t('cfg.mantener')}
                   </Button>
                 </div>
 
                 <div className="relative rounded-2xl border-2 border-primary bg-primary/5 p-5 space-y-3 shadow-[0_0_20px_rgba(245,158,11,0.2)]">
                   <span className="absolute -top-3 right-4 rounded-full bg-primary px-2.5 py-0.5 text-[10px] font-black text-black">
-                    RECOMENDADO
+                    {t('cfg.recomendado')}
                   </span>
-                  <p className="text-xs font-bold uppercase text-primary">Plan Pro</p>
+                  <p className="text-xs font-bold uppercase text-primary">{t('cfg.planPro')}</p>
                   <p className="text-2xl font-black text-foreground">
-                    $899 <span className="text-xs text-muted font-normal">/mes</span>
+                    $899 <span className="text-xs text-muted font-normal">{t('cfg.porMes')}</span>
                   </p>
                   <ul className="space-y-1.5 text-xs text-slate-300">
-                    <li>✓ Mecánicos ilimitados</li>
-                    <li>✓ Alertas de WhatsApp automáticas</li>
-                    <li>✓ Reportes financieros avanzados</li>
-                    <li>✓ 50 GB almacenamiento en la nube</li>
+                    <li>✓ {t('cfg.mecanicosIlimitados')}</li>
+                    <li>✓ {t('cfg.alertasWhatsapp')}</li>
+                    <li>✓ {t('cfg.reportesAvanzados')}</li>
+                    <li>✓ {t('cfg.almacenamientoNube')}</li>
                   </ul>
                   <Button
                     variant="primary"
                     className="w-full text-xs"
-                    onClick={() => toast.success('¡Solicitud para mejorar al Plan Pro enviada con éxito!')}
+                    onClick={() => toast.success(t('cfg.toastMejoraSolicitada'))}
                   >
-                    Mejorar al Plan Pro
+                    {t('cfg.mejorarPlan')}
                   </Button>
                 </div>
 
                 <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
-                  <p className="text-xs font-bold uppercase text-muted">Plan Empresa / Multitaller</p>
+                  <p className="text-xs font-bold uppercase text-muted">{t('cfg.planEmpresa')}</p>
                   <p className="text-2xl font-black text-foreground">
-                    $1,499 <span className="text-xs text-muted font-normal">/mes</span>
+                    $1,499 <span className="text-xs text-muted font-normal">{t('cfg.porMes')}</span>
                   </p>
                   <ul className="space-y-1.5 text-xs text-muted">
-                    <li>✓ Sucursales múltiples</li>
-                    <li>✓ Facturación fiscal CFDI directa</li>
-                    <li>✓ 200 GB almacenamiento de fotos</li>
-                    <li>✓ Soporte técnico VIP 24/7</li>
+                    <li>✓ {t('cfg.sucursalesMultiples')}</li>
+                    <li>✓ {t('cfg.facturacionCfdi')}</li>
+                    <li>✓ {t('cfg.almacenamientoEmpresa')}</li>
+                    <li>✓ {t('cfg.soporteVip')}</li>
                   </ul>
                   <Button
                     variant="secondary"
                     className="w-full text-xs"
-                    onClick={() => toast.info('Contactando con soporte corporativo')}
+                    onClick={() => toast.info(t('cfg.toastSoporte'))}
                   >
-                    Contactar Ventas
+                    {t('cfg.contactarVentas')}
                   </Button>
                 </div>
               </div>

@@ -8,6 +8,7 @@ import {
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
+import { useI18nStore } from '@/store/i18nStore';
 
 interface Propiedades {
   abierto: boolean;
@@ -24,6 +25,7 @@ interface RegistroPreview {
 }
 
 export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Propiedades) {
+  const { t, idioma } = useI18nStore();
   const [archivo, setArchivo] = useState<File | null>(null);
   const [arrastrando, setArrastrando] = useState(false);
   const [procesando, setProcesando] = useState(false);
@@ -33,8 +35,8 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
   const procesarArchivo = (file: File) => {
     const extension = file.name.split('.').pop()?.toLowerCase();
     if (!['csv', 'json', 'txt'].includes(extension || '')) {
-      toast.error('Formato no soportado', {
-        description: 'Por favor selecciona un archivo CSV o JSON.',
+      toast.error(t('rep.importar.formatoNoSoportado'), {
+        description: t('rep.importar.seleccionaCsvJson'),
       });
       return;
     }
@@ -106,12 +108,12 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
                 ],
           );
         }
-        toast.info('Archivo cargado correctamente', {
-          description: `Se detectaron registros listos para conciliar en ${file.name}.`,
+        toast.info(t('rep.importar.archivoCargado'), {
+          description: `${t('rep.importar.registrosDetectados')} ${file.name}.`,
         });
       } catch {
-        toast.error('Error al leer el archivo', {
-          description: 'Asegúrate de que el formato CSV/JSON sea válido.',
+        toast.error(t('rep.importar.errorLectura'), {
+          description: t('rep.importar.csvInvalido'),
         });
       }
     };
@@ -129,7 +131,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success('Plantilla CSV descargada con éxito');
+    toast.success(t('rep.importar.plantillaDescargada'));
   };
 
   const handleConfirmarImportacion = () => {
@@ -137,8 +139,10 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
     setProcesando(true);
     setTimeout(() => {
       setProcesando(false);
-      toast.success('¡Datos importados con éxito!', {
-        description: `Se han procesado e integrado los datos de "${archivo.name}" al módulo de reportes.`,
+      toast.success(t('rep.importar.datosImportados'), {
+        description: `${t('rep.importar.registrosIntegrados')} "${archivo.name}"${
+          idioma === 'en' ? ' to reports.' : ' al módulo de reportes.'
+        }`,
       });
       onImportarExito?.();
       onCerrar();
@@ -151,8 +155,8 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
     <Modal
       abierto={abierto}
       onCerrar={onCerrar}
-      titulo="Importar Datos de Reportes"
-      descripcion="Carga archivos CSV o JSON para conciliar transacciones, órdenes históricas o balances financieros."
+      titulo={t('rep.importar.titulo')}
+      descripcion={t('rep.importar.descripcion')}
       tamano="lg"
     >
       <div className="space-y-4">
@@ -194,10 +198,10 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
           </span>
 
           <p className="mt-3 text-sm font-bold text-foreground">
-            {archivo ? archivo.name : 'Arrastra tu archivo aquí o haz clic para explorar'}
+            {archivo ? archivo.name : t('rep.importar.arrastraArchivo')}
           </p>
           <p className="mt-1 text-xs text-muted">
-            Formatos aceptados: .CSV (valores separados por coma) o .JSON estructurado. Hasta 15MB.
+            {t('rep.importar.formatosAceptados')}
           </p>
         </div>
 
@@ -205,7 +209,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
         <div className="flex items-center justify-between rounded-xl border border-white/[0.08] bg-background/60 p-3 text-xs">
           <div className="flex items-center gap-2 text-muted">
             <FileSpreadsheet className="h-4 w-4 text-emerald-400" />
-            <span>¿No tienes el formato? Usa nuestra plantilla estándar.</span>
+            <span>{t('rep.importar.sinFormato')}</span>
           </div>
           <button
             type="button"
@@ -213,7 +217,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
             className="flex items-center gap-1.5 font-bold text-primary hover:underline"
           >
             <Download className="h-3.5 w-3.5" />
-            Descargar Plantilla CSV
+            {t('rep.importar.descargarPlantilla')}
           </button>
         </div>
 
@@ -223,20 +227,20 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-foreground flex items-center gap-1.5">
                 <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                Vista Previa de Filas Detectadas ({registros.length} muestra)
+                {t('rep.importar.vistaPrevia')} ({registros.length} {t('rep.importar.muestra')})
               </span>
-              <span className="text-[11px] text-muted">Columnas mapeadas automáticamente</span>
+              <span className="text-[11px] text-muted">{t('rep.importar.columnasMapeadas')}</span>
             </div>
 
             <div className="max-h-48 overflow-y-auto rounded-xl border border-white/[0.08] bg-background/70">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-white/[0.08] bg-white/[0.03] text-muted">
                   <tr>
-                    <th className="p-2.5 font-semibold">Fecha</th>
-                    <th className="p-2.5 font-semibold">Concepto</th>
-                    <th className="p-2.5 font-semibold">Cliente</th>
-                    <th className="p-2.5 font-semibold">Método</th>
-                    <th className="p-2.5 text-right font-semibold">Monto</th>
+                    <th className="p-2.5 font-semibold">{t('rep.importar.fecha')}</th>
+                    <th className="p-2.5 font-semibold">{t('rep.importar.concepto')}</th>
+                    <th className="p-2.5 font-semibold">{t('rep.colCliente')}</th>
+                    <th className="p-2.5 font-semibold">{t('rep.importar.metodo')}</th>
+                    <th className="p-2.5 text-right font-semibold">{t('rep.importar.monto')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.04]">
@@ -251,7 +255,7 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
                         </span>
                       </td>
                       <td className="p-2.5 text-right font-bold text-emerald-400">
-                        ${reg.monto.toLocaleString('es-MX')}
+                        ${reg.monto.toLocaleString(idioma === 'en' ? 'en-US' : 'es-MX')}
                       </td>
                     </tr>
                   ))}
@@ -264,18 +268,17 @@ export function ModalImportarReportes({ abierto, onCerrar, onImportarExito }: Pr
         {/* Pie y Botones de acción */}
         <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-white/[0.06]">
           <Button variant="ghost" onClick={onCerrar} disabled={procesando}>
-            Cancelar
+            {t('editor.cancelar')}
           </Button>
           <Button
             variant="primary"
             onClick={handleConfirmarImportacion}
             disabled={!archivo || procesando}
           >
-            {procesando ? 'Procesando e integrando...' : 'Confirmar e Importar Datos'}
+            {procesando ? t('rep.importar.procesando') : t('rep.importar.confirmar')}
           </Button>
         </div>
       </div>
     </Modal>
   );
 }
-

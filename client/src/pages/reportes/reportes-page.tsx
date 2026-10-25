@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { format, parseISO } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { enUS, es } from 'date-fns/locale';
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -53,27 +53,42 @@ interface FilaMecanico {
   facturado: number;
 }
 
+const ETIQUETAS_ESTADOS_EN: Record<EstadoOrden, string> = {
+  RECIBIDO: 'Received',
+  DIAGNOSTICO: 'Diagnosis',
+  ESPERANDO_AUTORIZACION: 'Awaiting approval',
+  AUTORIZADO: 'Approved',
+  EN_REPARACION: 'In repair',
+  PRUEBAS: 'Testing',
+  LISTO: 'Ready',
+  ENTREGADO: 'Delivered',
+  CANCELADO: 'Canceled',
+};
+
 export default function ReportesPage() {
   const { data, isPending, isError, error, refetch } = useReporteQuery();
-  const { t } = useI18nStore();
+  const { t, idioma } = useI18nStore();
+  const locale = idioma === 'en' ? enUS : es;
   const [modalImportarAbierto, setModalImportarAbierto] = useState(false);
   const [menuExportarAbierto, setMenuExportarAbierto] = useState(false);
 
   const ingresos = useMemo<PuntoGrafica[]>(() => {
     if (!data) return [];
     return data.ingresosMensuales.map((punto) => ({
-      nombre: format(parseISO(`${punto.mes}-01`), "MMM ''yy", { locale: es }),
+      nombre: format(parseISO(`${punto.mes}-01`), "MMM ''yy", { locale }),
       valor: punto.total,
     }));
-  }, [data]);
+  }, [data, locale]);
 
   const estados = useMemo<PuntoGrafica[]>(() => {
     if (!data) return [];
     return data.ordenesPorEstado.map((punto) => ({
-      nombre: ETIQUETAS_ESTADOS[punto.estado as EstadoOrden] ?? punto.estado,
+      nombre: idioma === 'en'
+        ? ETIQUETAS_ESTADOS_EN[punto.estado as EstadoOrden]
+        : ETIQUETAS_ESTADOS[punto.estado as EstadoOrden] ?? punto.estado,
       valor: punto.cantidad,
     }));
-  }, [data]);
+  }, [data, idioma]);
 
   const handleExportarCSV = () => {
     if (!data) return;
@@ -122,7 +137,7 @@ export default function ReportesPage() {
     link.click();
     document.body.removeChild(link);
     setMenuExportarAbierto(false);
-    toast.success('Reporte CSV extraído exitosamente');
+    toast.success(t('rep.toastCsv'));
   };
 
   const handleExportarJSON = () => {
@@ -146,12 +161,12 @@ export default function ReportesPage() {
     link.click();
     document.body.removeChild(link);
     setMenuExportarAbierto(false);
-    toast.success('Archivo de datos JSON extraído correctamente');
+    toast.success(t('rep.toastJson'));
   };
 
   const handleImprimir = () => {
     setMenuExportarAbierto(false);
-    toast.info('Preparando vista de impresión del informe...');
+    toast.info(t('rep.toastImprimir'));
     setTimeout(() => {
       window.print();
     }, 300);
@@ -173,8 +188,8 @@ export default function ReportesPage() {
   if (isError) {
     return (
       <ErrorState
-        titulo="No pudimos cargar los reportes"
-        descripcion={mensajeError(error, 'Revisa tu conexión e inténtalo de nuevo.')}
+        titulo={t('rep.errorTitulo')}
+        descripcion={mensajeError(error, t('rep.errorDescripcion'))}
         onReintentar={() => refetch()}
       />
     );
@@ -248,7 +263,7 @@ export default function ReportesPage() {
                   <Printer className="h-4 w-4 text-amber-400" />
                   <div>
                     <p className="font-bold">{t('rep.imprimir')}</p>
-                    <p className="text-[10px] text-muted">Formato ejecutivo para gerencia</p>
+                    <p className="text-[10px] text-muted">{t('rep.detalleFormato')}</p>
                   </div>
                 </button>
               </div>
@@ -279,20 +294,21 @@ function ReportesContenido({
   estados: PuntoGrafica[];
 }) {
   const { totales, cotizaciones, topClientes, topMecanicos, ingresosPorMetodo, ordenesPorMes } = data;
-  const { t } = useI18nStore();
+  const { t, idioma } = useI18nStore();
+  const locale = idioma === 'en' ? enUS : es;
 
   const columnasClientes: Columna<FilaCliente>[] = [
-    { clave: 'cliente', encabezado: 'Cliente', render: (fila) => <span className="font-medium text-foreground">{fila.cliente}</span> },
-    { clave: 'ordenes', encabezado: 'Órdenes', clase: 'text-center', render: (fila) => <Badge variant="info">{formatNumber(fila.ordenes)}</Badge> },
-    { clave: 'facturado', encabezado: 'Facturado', clase: 'text-right', ocultoEnMovil: true, render: (fila) => <span className="text-muted">{formatMoney(fila.facturado)}</span> },
-    { clave: 'pagado', encabezado: 'Pagado', clase: 'text-right', ocultoEnMovil: true, render: (fila) => <span className="text-muted">{formatMoney(fila.pagado)}</span> },
-    { clave: 'saldo', encabezado: 'Saldo', clase: 'text-right', render: (fila) => <span className={fila.saldo > 0 ? 'font-semibold text-warning' : 'font-semibold text-success'}>{formatMoney(fila.saldo)}</span> },
+    { clave: 'cliente', encabezado: t('rep.colCliente'), render: (fila) => <span className="font-medium text-foreground">{fila.cliente}</span> },
+    { clave: 'ordenes', encabezado: t('rep.colOrdenes'), clase: 'text-center', render: (fila) => <Badge variant="info">{formatNumber(fila.ordenes)}</Badge> },
+    { clave: 'facturado', encabezado: t('rep.colFacturado'), clase: 'text-right', ocultoEnMovil: true, render: (fila) => <span className="text-muted">{formatMoney(fila.facturado)}</span> },
+    { clave: 'pagado', encabezado: t('rep.colPagado'), clase: 'text-right', ocultoEnMovil: true, render: (fila) => <span className="text-muted">{formatMoney(fila.pagado)}</span> },
+    { clave: 'saldo', encabezado: t('rep.colSaldo'), clase: 'text-right', render: (fila) => <span className={fila.saldo > 0 ? 'font-semibold text-warning' : 'font-semibold text-success'}>{formatMoney(fila.saldo)}</span> },
   ];
 
   const columnasMecanicos: Columna<FilaMecanico>[] = [
-    { clave: 'mecanico', encabezado: 'Responsable', render: (fila) => <span className="font-medium text-foreground">{fila.mecanico}</span> },
-    { clave: 'ordenes', encabezado: 'Órdenes', clase: 'text-center', render: (fila) => <Badge variant="default">{formatNumber(fila.ordenes)}</Badge> },
-    { clave: 'facturado', encabezado: 'Facturado', clase: 'text-right', render: (fila) => <span className="font-semibold">{formatMoney(fila.facturado)}</span> },
+    { clave: 'mecanico', encabezado: t('rep.colResponsable'), render: (fila) => <span className="font-medium text-foreground">{fila.mecanico}</span> },
+    { clave: 'ordenes', encabezado: t('rep.colOrdenes'), clase: 'text-center', render: (fila) => <Badge variant="default">{formatNumber(fila.ordenes)}</Badge> },
+    { clave: 'facturado', encabezado: t('rep.colFacturado'), clase: 'text-right', render: (fila) => <span className="font-semibold">{formatMoney(fila.facturado)}</span> },
   ];
 
   return (
@@ -303,10 +319,10 @@ function ReportesContenido({
           <DollarSign className="h-4 w-4 text-primary" aria-hidden="true" /> {t('rep.finanzas')}
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
-          <StatCard titulo={t('rep.ingresosMes')} valor={formatMoney(totales.ingresosMes)} icono={DollarSign} detalle="Cobrado este mes" destacado />
-          <StatCard titulo={t('rep.facturado')} valor={formatMoney(totales.facturado)} icono={Banknote} detalle="Órdenes no canceladas" />
-          <StatCard titulo={t('rep.cobrado')} valor={formatMoney(totales.cobrado)} icono={Wallet} detalle="Pagos registrados" />
-          <StatCard titulo={t('rep.porCobrar')} valor={formatMoney(totales.porCobrar)} icono={Wallet} detalle="Saldo pendiente" />
+          <StatCard titulo={t('rep.ingresosMes')} valor={formatMoney(totales.ingresosMes)} icono={DollarSign} detalle={t('rep.detalleCobradoMes')} destacado />
+          <StatCard titulo={t('rep.facturado')} valor={formatMoney(totales.facturado)} icono={Banknote} detalle={t('rep.detalleOrdenesNoCanceladas')} />
+          <StatCard titulo={t('rep.cobrado')} valor={formatMoney(totales.cobrado)} icono={Wallet} detalle={t('rep.detallePagosRegistrados')} />
+          <StatCard titulo={t('rep.porCobrar')} valor={formatMoney(totales.porCobrar)} icono={Wallet} detalle={t('rep.detalleSaldoPendiente')} />
         </div>
       </div>
 
@@ -335,13 +351,13 @@ function ReportesContenido({
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary/15 text-primary ring-1 ring-primary/30">
               <BarChart3 className="h-4 w-4" aria-hidden="true" />
             </span>
-            Órdenes por mes (últimos 6 meses)
+            {t('rep.ordenesPorMes')}
           </h3>
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
             {ordenesPorMes.map((mes) => (
               <div key={mes.mes} className="rounded-xl border border-white/[0.08] bg-card p-4 text-center transition-all hover:border-white/20 hover:-translate-y-0.5">
                 <p className="text-xs font-semibold capitalize text-muted">
-                  {format(parseISO(`${mes.mes}-01`), 'MMM yy', { locale: es })}
+                  {format(parseISO(`${mes.mes}-01`), 'MMM yy', { locale })}
                 </p>
                 <p className="mt-1 text-xl font-extrabold tabular-nums text-foreground">{formatNumber(mes.ordenes)}</p>
                 <p className="text-[11px] font-medium text-muted">{formatMoney(mes.facturado)}</p>
@@ -363,8 +379,8 @@ function ReportesContenido({
           columnas={columnasClientes}
           datos={topClientes}
           claveFila={(fila) => fila.clienteId}
-          vacioTitulo="Sin clientes con facturación"
-          vacioDescripcion="Aún no hay órdenes asociadas a clientes."
+          vacioTitulo={t('rep.sinClientes')}
+          vacioDescripcion={t('rep.sinOrdenesClientes')}
         />
       </div>
 
@@ -380,8 +396,8 @@ function ReportesContenido({
           columnas={columnasMecanicos}
           datos={topMecanicos}
           claveFila={(fila) => fila.mecanicoId}
-          vacioTitulo="Sin órdenes asignadas"
-          vacioDescripcion="Asigna mecánicos a las órdenes para medir productividad."
+          vacioTitulo={t('rep.sinOrdenesAsignadas')}
+          vacioDescripcion={t('rep.asignarMecanicos')}
         />
       </div>
 
@@ -395,25 +411,25 @@ function ReportesContenido({
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
           <div className="rounded-xl border border-white/[0.08] bg-card p-4.5 transition-all hover:border-white/20">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Enviadas</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">{t('rep.enviadas')}</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.enviadas)}</p>
             <p className="text-xs text-muted">{formatMoney(cotizaciones.montoEnviado)}</p>
           </div>
           <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4.5 transition-all hover:border-emerald-500/50">
-            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Aprobadas</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">{t('rep.aprobadas')}</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-emerald-400">{formatNumber(cotizaciones.aprobadas)}</p>
             <p className="text-xs text-emerald-400/70">{formatMoney(cotizaciones.montoAprobado)}</p>
           </div>
           <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4.5 transition-all hover:border-rose-500/50">
-            <p className="text-xs font-semibold uppercase tracking-wider text-rose-400">Rechazadas</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-rose-400">{t('rep.rechazadas')}</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-rose-400">{formatNumber(cotizaciones.rechazadas)}</p>
           </div>
           <div className="rounded-xl border border-white/[0.08] bg-card p-4.5 transition-all hover:border-white/20">
-            <p className="text-xs font-semibold uppercase tracking-wider text-muted">Total</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted">{t('rep.total')}</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-foreground">{formatNumber(cotizaciones.total)}</p>
           </div>
           <div className="rounded-xl border border-primary/30 bg-primary/10 p-4.5 transition-all hover:border-primary/50 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
-            <p className="text-xs font-semibold uppercase tracking-wider text-primary">Tasa de aprobación</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary">{t('rep.tasaAprobacion')}</p>
             <p className="mt-1 text-2xl font-extrabold tabular-nums text-primary">
               {cotizaciones.total > 0 ? `${Math.round((cotizaciones.aprobadas / cotizaciones.total) * 100)}%` : '—'}
             </p>
@@ -427,10 +443,10 @@ function ReportesContenido({
           <Car className="h-4 w-4 text-info" aria-hidden="true" /> {t('rep.resumenOperativo')}
         </h3>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatCard titulo={t('rep.clientes')} valor={formatNumber(totales.clientes)} icono={UsersRound} detalle="Registrados" />
-          <StatCard titulo={t('rep.vehiculos')} valor={formatNumber(totales.vehiculos)} icono={Car} detalle="En el sistema" />
-          <StatCard titulo={t('rep.ordenesTotales')} valor={formatNumber(totales.ordenes)} icono={ClipboardList} detalle="Histórico" />
-          <StatCard titulo={t('rep.entregadas')} valor={formatNumber(totales.ordenesEntregadas)} icono={Wrench} detalle="Trabajos cerrados" />
+          <StatCard titulo={t('rep.clientes')} valor={formatNumber(totales.clientes)} icono={UsersRound} detalle={t('rep.registrados')} />
+          <StatCard titulo={t('rep.vehiculos')} valor={formatNumber(totales.vehiculos)} icono={Car} detalle={t('rep.enSistema')} />
+          <StatCard titulo={t('rep.ordenesTotales')} valor={formatNumber(totales.ordenes)} icono={ClipboardList} detalle={t('rep.historico')} />
+          <StatCard titulo={t('rep.entregadas')} valor={formatNumber(totales.ordenesEntregadas)} icono={Wrench} detalle={t('rep.trabajosCerrados')} />
         </div>
       </div>
     </div>

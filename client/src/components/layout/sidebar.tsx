@@ -35,7 +35,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
 
   const enlaceClase = ({ isActive }: { isActive: boolean }) =>
     cn(
-      'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-150',
+      'group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all duration-200 focus-ring',
       isActive
         ? 'bg-gradient-to-r from-primary/18 via-primary/8 to-transparent text-primary shadow-[inset_0_1px_0_rgba(245,158,11,0.15)] before:absolute before:left-0 before:top-2.5 before:bottom-2.5 before:w-1 before:rounded-r-full before:bg-primary before:shadow-[0_0_10px_rgba(245,158,11,0.85)]'
         : 'text-muted hover:bg-white/[0.04] hover:text-foreground',
@@ -92,7 +92,7 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
             despedir();
           }}
           className={cn(
-            'flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-destructive/15 hover:text-destructive',
+            'flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-all duration-200 hover:bg-destructive/15 hover:text-destructive focus-ring',
             colapsada && 'justify-center px-0',
           )}
         >
@@ -105,12 +105,12 @@ export function Sidebar({ colapsada, onAlternar, abiertaMovil, onCerrarMovil }: 
           onClick={onAlternar}
           aria-label={colapsada ? 'Expandir menú' : 'Contraer menú'}
           className={cn(
-            'hidden w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-colors hover:bg-white/[0.04] hover:text-foreground md:flex',
+            'hidden w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-muted transition-all duration-200 hover:bg-white/[0.04] hover:text-foreground md:flex focus-ring',
             colapsada && 'justify-center px-0',
           )}
         >
           <ChevronsLeft
-            className={cn('h-5 w-5 shrink-0 transition-transform', colapsada && 'rotate-180')}
+            className={cn('h-5 w-5 shrink-0 transition-transform duration-200', colapsada && 'rotate-180')}
             aria-hidden="true"
           />
           {!colapsada && <span>{t('nav.contraer')}</span>}

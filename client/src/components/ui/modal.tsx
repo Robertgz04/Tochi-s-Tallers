@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,10 +42,10 @@ export function Modal({
 
   if (!abierto) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center p-0 sm:items-center sm:p-4">
+  return createPortal(
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-0">
       <div
-        className="absolute inset-0 bg-black/80 backdrop-blur-md animate-fade-in"
+        className="absolute inset-0 z-[50] bg-black/80 backdrop-blur-md animate-fade-in"
         onClick={onCerrar}
         aria-hidden="true"
       />
@@ -53,22 +54,22 @@ export function Modal({
         aria-modal="true"
         aria-label={titulo}
         className={cn(
-          'relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-white/[0.1] bg-card p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] animate-scale-in sm:rounded-2xl before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-gradient-to-r before:from-transparent before:via-primary/50 before:to-transparent',
-          medida === 'sm' && 'sm:max-w-sm',
-          medida === 'md' && 'sm:max-w-lg',
-          medida === 'lg' && 'sm:max-w-2xl',
+          'relative z-[60] w-full max-w-full overflow-y-auto rounded-[1.5rem] border border-white/[0.1] bg-card p-4 sm:p-6 shadow-[0_25px_80px_rgba(0,0,0,0.9)] shadow-primary/10 animate-slide-up max-h-[calc(100vh_-_2rem)]',
+          medida === 'sm' && 'max-w-sm',
+          medida === 'md' && 'max-w-lg',
+          medida === 'lg' && 'max-w-3xl',
         )}
       >
         <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] pb-4">
           <div>
             <h2 className="text-lg font-bold tracking-tight text-foreground">{titulo}</h2>
-            {descripcion && <p className="mt-1 text-sm text-muted">{descripcion}</p>}
+            {descripcion && <p className="mt-1 text-sm text-muted leading-relaxed">{descripcion}</p>}
           </div>
           <button
             type="button"
             onClick={onCerrar}
             aria-label="Cerrar"
-            className="rounded-xl border border-white/[0.08] bg-surface p-1.5 text-muted transition-colors hover:border-white/20 hover:text-foreground cursor-pointer"
+            className="rounded-xl border border-white/[0.08] bg-surface p-1.5 text-muted transition-all duration-200 hover:border-white/20 hover:text-foreground cursor-pointer focus-ring"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
@@ -76,6 +77,7 @@ export function Modal({
         <div className="mt-5">{children}</div>
         {pie && <div className="mt-6 flex justify-end gap-3 border-t border-white/[0.06] pt-4">{pie}</div>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

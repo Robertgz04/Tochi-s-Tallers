@@ -4,6 +4,7 @@ import { PieChart as PieIcon, Sparkles } from 'lucide-react';
 import { formatMoney, formatNumber } from '@/lib/utils';
 import { ETIQUETAS_METODO_PAGO, type MetodoPago } from '@/types';
 import { useColoresGrafica } from '@/lib/graficas';
+import { useI18nStore } from '@/store/i18nStore';
 
 export interface MetodoGrafica {
   metodo: string;
@@ -33,6 +34,14 @@ const PALETA_METODOS: Record<string, string> = {
 
 export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
   const { estiloTooltip } = useColoresGrafica();
+  const { t, idioma } = useI18nStore();
+  const etiquetasMetodoEn: Record<MetodoPago, string> = {
+    EFECTIVO: 'Cash',
+    TARJETA: 'Card',
+    TRANSFERENCIA: 'Bank transfer',
+    MIXTO: 'Mixed',
+    OTRO: 'Other',
+  };
 
   const { datos, totalMonto, totalOperaciones } = useMemo(() => {
     const total = ingresosPorMetodo.reduce((acc, curr) => acc + Number(curr.monto || 0), 0);
@@ -46,7 +55,10 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
       const pct = total > 0 ? (monto / total) * 100 : 0;
       return {
         metodo: item.metodo,
-        nombre: ETIQUETAS_METODO_PAGO[item.metodo] ?? item.metodo,
+        nombre:
+          idioma === 'en'
+            ? etiquetasMetodoEn[item.metodo]
+            : ETIQUETAS_METODO_PAGO[item.metodo] ?? item.metodo,
         monto,
         cantidad: Number(item.cantidad) || 0,
         porcentaje: Math.round(pct * 10) / 10,
@@ -59,7 +71,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
       totalMonto: total,
       totalOperaciones: transacciones,
     };
-  }, [ingresosPorMetodo]);
+  }, [ingresosPorMetodo, idioma]);
 
   return (
     <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-card to-surface p-5.5 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/[0.12] before:to-transparent">
@@ -72,14 +84,14 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-bold tracking-tight text-foreground">
-                Distribución de Cobranza por Canal
+                {t('rep.distribucionPago')}
               </h3>
               <span className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold text-sky-400">
-                Mix de Pago
+                {t('rep.mixPago')}
               </span>
             </div>
             <p className="text-xs text-muted">
-              Participación porcentual y montos por cada método de recepción de fondos.
+              {t('rep.metodosPagoDesc')}
             </p>
           </div>
         </div>
@@ -87,7 +99,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
 
       {datos.length === 0 ? (
         <div className="flex h-64 items-center justify-center text-sm text-muted">
-          Aún no hay pagos registrados para graficar.
+          {t('rep.sinPagosGrafica')}
         </div>
       ) : (
         <div className="mt-4 grid items-center gap-6 lg:grid-cols-12">
@@ -122,13 +134,13 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
             {/* Texto en el centro de la dona */}
             <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center">
               <span className="text-[11px] font-semibold uppercase tracking-wider text-muted">
-                Total Recaudado
+                {t('rep.totalRecaudado')}
               </span>
               <span className="text-lg font-black text-foreground">
                 {formatMoney(totalMonto)}
               </span>
               <span className="text-[10px] font-medium text-emerald-400">
-                {totalOperaciones} pagos
+                {totalOperaciones} {t('rep.pagos')}
               </span>
             </div>
           </div>
@@ -150,7 +162,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
                       {item.nombre}
                     </p>
                     <p className="text-[11px] text-muted">
-                      {formatNumber(item.cantidad)} transacción(es) registrada(s)
+                      {formatNumber(item.cantidad)} {t('rep.transaccionesRegistradas')}
                     </p>
                   </div>
                 </div>
@@ -176,7 +188,7 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
             <div className="mt-2 flex items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3 py-2 text-xs text-emerald-300">
               <span className="flex items-center gap-1.5 font-medium">
                 <Sparkles className="h-4 w-4 text-emerald-400" />
-                Canal predominante: {datos[0]?.nombre} ({datos[0]?.porcentaje}%)
+                {t('rep.canalPredominante')} {datos[0]?.nombre} ({datos[0]?.porcentaje}%)
               </span>
               <span className="font-bold">{formatMoney(datos[0]?.monto ?? 0)}</span>
             </div>
@@ -186,4 +198,3 @@ export function GraficaMetodosPago({ ingresosPorMetodo }: Propiedades) {
     </section>
   );
 }
-

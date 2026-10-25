@@ -41,6 +41,14 @@ const MAPA_TITULOS_I18N: Record<string, string> = {
   '/perfil': 'nav.perfil',
 };
 
+const ETIQUETAS_ROLES_EN: Record<Rol, string> = {
+  SUPER_ADMIN: 'Super Admin',
+  PROPIETARIO: 'Owner',
+  ADMINISTRADOR: 'Administrator',
+  RECEPCIONISTA: 'Service Advisor',
+  MECANICO: 'Mechanic',
+};
+
 export function Header({ onAbrirMenu }: PropiedadesHeader) {
   const location = useLocation();
   const usuario = useAuthStore((estado) => estado.usuario);
@@ -71,24 +79,28 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
 
   const nombre = usuario ? nombreCompleto(usuario.nombre, usuario.apellidos) : '';
   const avatar = usuario ? iniciales(usuario.nombre, usuario.apellidos) : '?';
-  const rol = usuario ? ETIQUETAS_ROLES[usuario.rol as Rol] : '';
+  const rol = usuario
+    ? idioma === 'en'
+      ? ETIQUETAS_ROLES_EN[usuario.rol as Rol]
+      : ETIQUETAS_ROLES[usuario.rol as Rol]
+    : '';
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-white/[0.08] bg-background/85 px-4 backdrop-blur-xl sm:px-6 lg:px-8 transition-colors">
+    <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-white/[0.08] bg-background/90 backdrop-blur-xl sm:px-6 lg:px-8 transition-colors hover-elevate">
       <button
         type="button"
         onClick={onAbrirMenu}
-        aria-label="Abrir menú"
-        className="cursor-pointer rounded-xl border border-white/[0.08] p-2 text-muted transition-colors hover:border-white/20 hover:bg-surface hover:text-foreground md:hidden"
+        aria-label={t('header.abrirMenu')}
+        className="cursor-pointer rounded-xl border border-white/[0.08] p-2 text-muted transition-all duration-200 hover:border-white/20 hover:bg-surface hover:text-foreground md:hidden focus-ring"
       >
         <Menu className="h-5 w-5" aria-hidden="true" />
       </button>
 
       <div className="flex min-w-0 items-center gap-3">
-        <h1 className="truncate text-base font-bold tracking-tight text-foreground sm:text-lg">
+        <h1 className="truncate text-base font-bold tracking-tight text-foreground sm:text-lg text-balance">
           {titulo}
         </h1>
-        <span className="hidden items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400 sm:inline-flex shadow-[0_0_12px_rgba(16,185,129,0.15)]">
+        <span className="hidden items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-400 sm:inline-flex shadow-[0_0_12px_rgba(16,185,129,0.15)] animate-pulse-glow">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
           {t('nav.enLinea')}
         </span>
@@ -107,7 +119,9 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
           onClick={() => {
             alternarTema();
             toast.info(
-              tema === 'dark' ? '☀️ Modo Día activado' : '🌙 Modo Noche activado',
+              tema === 'dark'
+                ? `☀️ ${t('header.temaDiaActivado')}`
+                : `🌙 ${t('header.temaNocheActivado')}`,
             );
           }}
           aria-label={tema === 'dark' ? t('header.modoDia') : t('header.modoNoche')}
@@ -158,7 +172,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
             type="button"
             onClick={() => setMenuAbierto((valor) => !valor)}
             className="flex h-10 cursor-pointer items-center gap-2 rounded-xl border border-white/[0.09] bg-surface/90 pl-1.5 pr-3 transition-all hover:border-white/20 hover:bg-surface"
-            aria-label="Menú de usuario"
+            aria-label={t('header.menuUsuario')}
             aria-expanded={menuAbierto}
           >
             <span className="flex h-7 w-7 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-amber-500/20 to-amber-600/30 text-xs font-bold text-primary ring-1 ring-primary/40 shadow-sm">
@@ -178,7 +192,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
           </button>
 
           {menuAbierto && usuario && (
-            <div className="absolute right-0 top-12 w-64 overflow-hidden rounded-2xl border border-white/[0.1] bg-card/95 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-xl animate-scale-in">
+            <div className="absolute right-0 top-12 w-64 overflow-hidden rounded-2xl border border-white/[0.1] bg-card/95 shadow-xl shadow-primary/10 backdrop-blur-xl animate-scale-in hover-elevate">
               <div className="border-b border-white/[0.06] bg-surface/50 px-4 py-3.5">
                 <div className="flex items-center gap-3">
                   <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border border-primary/40 bg-surface shadow-sm">
@@ -203,21 +217,21 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
               <div className="space-y-0.5 p-1.5">
                 <Link
                   to="/perfil"
-                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-white/[0.05] hover:text-foreground"
+                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-all duration-200 hover:bg-white/[0.05] hover:text-foreground focus-ring"
                 >
                   <UserRound className="h-4 w-4 text-sky-400" aria-hidden="true" />
                   {t('header.miPerfilSocial')}
                 </Link>
                 <Link
                   to="/configuracion"
-                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-white/[0.05] hover:text-foreground"
+                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-all duration-200 hover:bg-white/[0.05] hover:text-foreground focus-ring"
                 >
                   <Settings className="h-4 w-4 text-amber-400" aria-hidden="true" />
                   {t('nav.configuracion')}
                 </Link>
                 <Link
                   to="/mi-taller"
-                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-white/[0.05] hover:text-foreground"
+                  className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-all duration-200 hover:bg-white/[0.05] hover:text-foreground focus-ring"
                 >
                   <Building2 className="h-4 w-4 text-emerald-400" aria-hidden="true" />
                   {t('nav.miTaller')}
@@ -229,7 +243,7 @@ export function Header({ onAbrirMenu }: PropiedadesHeader) {
                     setMenuAbierto(false);
                     despedir();
                   }}
-                  className="flex w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-colors hover:bg-destructive/15 hover:text-destructive"
+                  className="flex w-full cursor-pointer items-center gap-2.5 rounded-xl px-3 py-2 text-sm text-muted transition-all duration-200 hover:bg-destructive/15 hover:text-destructive focus-ring"
                 >
                   <LogOut className="h-4 w-4" aria-hidden="true" />
                   {t('nav.cerrarSesion')}

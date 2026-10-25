@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
+import { useI18nStore } from '@/store/i18nStore';
 import type { PerfilData } from './modal-editar-perfil';
 
 interface Propiedades {
@@ -12,19 +13,20 @@ interface Propiedades {
 }
 
 export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades) {
+  const { t } = useI18nStore();
   const [copiado, setCopiado] = useState(false);
   const urlPerfil = window.location.origin + '/perfil';
 
   const handleCopiarEnlace = () => {
     navigator.clipboard.writeText(urlPerfil);
     setCopiado(true);
-    toast.success('¡Enlace copiado al portapapeles!');
+    toast.success(t('perfil.enlaceCopiado'));
     setTimeout(() => setCopiado(false), 2500);
   };
 
   const handleCompartirWhatsApp = () => {
     const texto = encodeURIComponent(
-      `¡Hola! Te comparto mi perfil profesional en Tochi's Taller: ${perfil.nombre} ${perfil.apellidos} (${perfil.puesto}).\nConsulta mis trabajos y servicios aquí: ${urlPerfil}`,
+      `${t('perfil.saludoCompartir')} ${perfil.nombre} ${perfil.apellidos} (${perfil.puesto}).\n${t('perfil.consultaPerfil')} ${urlPerfil}`,
     );
     window.open(`https://api.whatsapp.com/send?text=${texto}`, '_blank');
   };
@@ -33,8 +35,8 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
     <Modal
       abierto={abierto}
       onCerrar={onCerrar}
-      titulo="Compartir Ficha de Perfil"
-      descripcion="Comparte tu perfil profesional de mecánico con clientes y colegas estilo Snapchat/Instagram."
+      titulo={t('perfil.modalCompartir')}
+      descripcion={t('perfil.modalCompartirDesc')}
       tamano="md"
     >
       <div className="space-y-4">
@@ -63,7 +65,7 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
             {perfil.nombre} {perfil.apellidos}
           </h4>
           <p className="text-xs font-bold text-primary">{perfil.handle || '@mecanico_tochi'}</p>
-          <p className="mt-0.5 text-[11px] text-muted">{perfil.puesto || 'Técnico Especialista'}</p>
+          <p className="mt-0.5 text-[11px] text-muted">{perfil.puesto || t('perfil.tecnicoEspecialista')}</p>
 
           {/* Simulación Código QR / Snapcode */}
           <div className="my-4 mx-auto flex h-28 w-28 items-center justify-center rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm shadow-inner">
@@ -71,8 +73,8 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
           </div>
 
           <div className="rounded-xl border border-white/[0.08] bg-white/[0.03] p-2 text-[11px] text-muted">
-            <p className="font-semibold text-foreground">Tochi’s Taller Mecánico</p>
-            <p className="text-[10px] text-primary">{perfil.estadoEmoji} {perfil.estadoAnimo || 'En línea'}</p>
+            <p className="font-semibold text-foreground">{t('perfil.nombreTaller')}</p>
+            <p className="text-[10px] text-primary">{perfil.estadoEmoji} {perfil.estadoAnimo || t('perfil.sobreLinea')}</p>
           </div>
         </div>
 
@@ -84,7 +86,7 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
             className="w-full flex items-center justify-center gap-2"
           >
             {copiado ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            {copiado ? '¡Enlace Copiado!' : 'Copiar Enlace de Perfil'}
+            {copiado ? t('perfil.enlaceCopiadoBoton') : t('perfil.copiarEnlace')}
           </Button>
 
           <Button
@@ -93,11 +95,10 @@ export function ModalCompartirPerfil({ abierto, onCerrar, perfil }: Propiedades)
             className="w-full flex items-center justify-center gap-2 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10"
           >
             <Share2 className="h-4 w-4" />
-            Compartir por WhatsApp
+            {t('perfil.compartirWhatsapp')}
           </Button>
         </div>
       </div>
     </Modal>
   );
 }
-

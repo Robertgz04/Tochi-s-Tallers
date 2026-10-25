@@ -14,20 +14,23 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
   const navigate = useNavigate();
   const itemClientes = itemsNavegacionMovil[2];
 
-  const enlaceClase = ({ isActive }: { isActive: boolean }) =>
-    cn(
-      'flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium transition-colors',
-      isActive ? 'text-primary' : 'text-muted',
-    );
-
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-white/[0.08] bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden"
+        className="fixed bottom-0 left-0 right-0 z-40 flex border-t border-white/[0.08] bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden hover-elevate"
         aria-label="Navegación principal"
       >
         {itemsNavegacionMovil.slice(0, 2).map((item) => (
-          <NavLink key={item.ruta} to={item.ruta} className={enlaceClase}>
+          <NavLink
+            key={item.ruta}
+            to={item.ruta}
+            className={({ isActive }: { isActive: boolean }) =>
+              cn(
+                'flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium transition-all duration-200',
+                isActive ? 'text-primary' : 'text-muted hover:text-primary',
+              )
+            }
+          >
             <item.icono className="h-5 w-5" aria-hidden="true" />
             {item.etiqueta}
           </NavLink>
@@ -36,16 +39,21 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
         <button
           type="button"
           onClick={() => setCrearAbierto(true)}
-          className="flex flex-1 flex-col items-center gap-1 text-[11px] font-bold text-primary"
+          className="flex flex-1 flex-col items-center gap-1 text-[11px] font-bold text-primary animate-pulse-glow"
           aria-label="Crear nuevo"
         >
-          <span className="-mt-6 flex h-14 w-14 items-center justify-center rounded-full border-4 border-surface bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 shadow-[0_8px_25px_rgba(245,158,11,0.5)] transition-transform active:scale-95">
+          <span className="-mt-6 flex h-14 w-14 items-center justify-center rounded-full border-4 border-surface bg-gradient-to-r from-primary via-primary-hover to-primary text-primary-foreground shadow-[0_8px_25px_rgba(245,158,11,0.5)] transition-all duration-200 active:scale-95 hover:shadow-[0_12px_30px_rgba(245,158,11,0.6)]">
             <CirclePlus className="h-7 w-7" aria-hidden="true" />
           </span>
           Crear
         </button>
 
-        <NavLink to={itemClientes.ruta} className={enlaceClase}>
+        <NavLink to={itemClientes.ruta} className={({ isActive }: { isActive: boolean }) =>
+          cn(
+            'flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium transition-all duration-200',
+            isActive ? 'text-primary' : 'text-muted hover:text-primary',
+          )
+        }>
           <itemClientes.icono className="h-5 w-5" aria-hidden="true" />
           {itemClientes.etiqueta}
         </NavLink>
@@ -53,7 +61,7 @@ export function BottomNav({ onAbrirMenu }: PropiedadesBottomNav) {
         <button
           type="button"
           onClick={onAbrirMenu}
-          className="flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-semibold text-muted"
+          className="flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-semibold text-muted transition-all duration-200 hover:text-primary focus-ring"
           aria-label="Más opciones"
         >
           <Menu className="h-5 w-5" aria-hidden="true" />

@@ -10,10 +10,11 @@ import {
   YAxis,
 } from 'recharts';
 import { format, parseISO } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { enUS, es } from 'date-fns/locale';
 import { ArrowUpRight, Banknote, CheckCircle2, TrendingUp } from 'lucide-react';
 import { formatMoney } from '@/lib/utils';
 import { useColoresGrafica } from '@/lib/graficas';
+import { useI18nStore } from '@/store/i18nStore';
 
 export interface DatosFacturacionCobro {
   mes: string;
@@ -32,6 +33,8 @@ interface Propiedades {
 export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Propiedades) {
   const [vista, setVista] = useState<'comparativo' | 'acumulado'>('comparativo');
   const { estiloTooltip, colorCuadricula } = useColoresGrafica();
+  const { t, idioma } = useI18nStore();
+  const locale = idioma === 'en' ? enUS : es;
 
   const datos = useMemo<DatosFacturacionCobro[]>(() => {
     // Mapa de ingresos cobrados indexados por mes "YYYY-MM"
@@ -44,7 +47,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
     return ordenesPorMes.map((item) => {
       let nombreMes = item.mes;
       try {
-        nombreMes = format(parseISO(`${item.mes}-01`), "MMM ''yy", { locale: es });
+        nombreMes = format(parseISO(`${item.mes}-01`), "MMM ''yy", { locale });
       } catch {
         // fallback
       }
@@ -59,7 +62,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
         ordenes: item.ordenes,
       };
     });
-  }, [ordenesPorMes, ingresosMensuales]);
+  }, [ordenesPorMes, ingresosMensuales, locale]);
 
   const totales = useMemo(() => {
     const totalFacturado = datos.reduce((acc, curr) => acc + curr.facturado, 0);
@@ -80,14 +83,14 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
           <div>
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-bold tracking-tight text-foreground">
-                Facturación vs Cobranza Mensual
+                {t('rep.factVsCobro')}
               </h3>
               <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-400">
-                Comparativo Real
+                {t('rep.comparativoReal')}
               </span>
             </div>
             <p className="text-xs text-muted">
-              Contraste entre el total facturado en órdenes y los importes efectivamente cobrados.
+              {t('rep.facturacionDescripcion')}
             </p>
           </div>
         </div>
@@ -103,7 +106,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
                 : 'text-muted hover:text-foreground'
             }`}
           >
-            Barras dobles
+            {t('rep.barrasDobles')}
           </button>
           <button
             type="button"
@@ -114,7 +117,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
                 : 'text-muted hover:text-foreground'
             }`}
           >
-            Apilado
+            {t('rep.apilado')}
           </button>
         </div>
       </div>
@@ -122,26 +125,26 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
       {/* Tarjetas KPI rápidas */}
       <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
         <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
-          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Facturado total</p>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">{t('rep.facturadoTotal')}</p>
           <p className="mt-1 text-base font-extrabold text-sky-400 tabular-nums">
             {formatMoney(totales.totalFacturado)}
           </p>
         </div>
         <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
-          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Cobrado efectivo</p>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">{t('rep.cobradoEfectivo')}</p>
           <p className="mt-1 text-base font-extrabold text-emerald-400 tabular-nums">
             {formatMoney(totales.totalCobrado)}
           </p>
         </div>
         <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
-          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Tasa de cobro</p>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">{t('rep.tasaCobro')}</p>
           <p className="mt-1 flex items-center gap-1 text-base font-extrabold text-amber-400 tabular-nums">
             <CheckCircle2 className="h-4 w-4" />
             {totales.tasaCobro}%
           </p>
         </div>
         <div className="rounded-xl border border-white/[0.06] bg-background/60 p-3">
-          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">Por recuperar</p>
+          <p className="text-[11px] font-medium uppercase tracking-wider text-muted">{t('rep.porRecuperar')}</p>
           <p className="mt-1 flex items-center gap-1 text-base font-extrabold text-rose-400 tabular-nums">
             <ArrowUpRight className="h-4 w-4" />
             {formatMoney(totales.pendiente)}
@@ -176,9 +179,9 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
               contentStyle={estiloTooltip}
               formatter={(valor, name) => [
                 formatMoney(Number(valor)),
-                name === 'facturado' ? 'Total facturado' : 'Importe cobrado',
+                name === 'facturado' ? t('rep.facturadoTotal') : t('rep.importeCobrado'),
               ]}
-              labelFormatter={(label) => `Periodo: ${label}`}
+              labelFormatter={(label) => `${t('rep.periodo')}: ${label}`}
             />
             <Legend
               verticalAlign="top"
@@ -187,7 +190,7 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
               wrapperStyle={{ paddingBottom: 10, fontSize: 12 }}
               formatter={(value) => (
                 <span className="text-xs font-medium text-muted">
-                  {value === 'facturado' ? 'Facturado' : 'Cobrado'}
+                  {value === 'facturado' ? t('rep.facturado') : t('rep.cobrado')}
                 </span>
               )}
             />
@@ -223,4 +226,3 @@ export function GraficaFacturacionCobro({ ordenesPorMes, ingresosMensuales }: Pr
     </section>
   );
 }
-

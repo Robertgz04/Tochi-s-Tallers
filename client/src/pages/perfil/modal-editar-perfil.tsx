@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useI18nStore } from '@/store/i18nStore';
 
 export interface PerfilData {
   nombre: string;
@@ -68,6 +69,7 @@ export function ModalEditarPerfil({
   datosActuales,
   onGuardar,
 }: Propiedades) {
+  const { t } = useI18nStore();
   const [form, setForm] = useState<PerfilData>(datosActuales);
   const [pestana, setPestana] = useState<'info' | 'imagenes' | 'redes' | 'estado'>('info');
   const inputAvatarRef = useRef<HTMLInputElement>(null);
@@ -82,7 +84,7 @@ export function ModalEditarPerfil({
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Solo puedes subir imágenes o animaciones GIF.');
+      toast.error(t('perfil.toastSoloImagenes'));
       return;
     }
 
@@ -91,7 +93,7 @@ export function ModalEditarPerfil({
       const result = reader.result as string;
       setForm((prev) => ({ ...prev, fotoUrl: result }));
       toast.success(
-        file.type.includes('gif') ? '¡GIF de perfil cargado!' : '¡Foto de perfil actualizada!',
+        file.type.includes('gif') ? t('perfil.toastGifPerfil') : t('perfil.toastFotoPerfil'),
       );
     };
     reader.readAsDataURL(file);
@@ -102,7 +104,7 @@ export function ModalEditarPerfil({
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      toast.error('Solo puedes subir imágenes o animaciones GIF.');
+      toast.error(t('perfil.toastSoloImagenes'));
       return;
     }
 
@@ -111,7 +113,7 @@ export function ModalEditarPerfil({
       const result = reader.result as string;
       setForm((prev) => ({ ...prev, portadaUrl: result }));
       toast.success(
-        file.type.includes('gif') ? '¡GIF de portada cargado!' : '¡Portada actualizada!',
+        file.type.includes('gif') ? t('perfil.toastGifPortada') : t('perfil.toastPortadaActualizada'),
       );
     };
     reader.readAsDataURL(file);
@@ -120,11 +122,11 @@ export function ModalEditarPerfil({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.nombre.trim()) {
-      toast.error('El nombre es obligatorio.');
+      toast.error(t('perfil.toastNombreObligatorio'));
       return;
     }
     onGuardar(form);
-    toast.success('¡Perfil actualizado con éxito!');
+    toast.success(t('perfil.toastGuardado'));
     onCerrar();
   };
 
@@ -132,13 +134,15 @@ export function ModalEditarPerfil({
     <Modal
       abierto={abierto}
       onCerrar={onCerrar}
-      titulo="Editar Perfil Social"
-      descripcion="Personaliza tu foto, portada (GIF o imagen), biografía, frase del día y redes de contacto estilo Facebook y Snapchat."
+      titulo={t('editor.titulo')}
+      descripcion={t('editor.descripcion')}
       tamano="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Navegación por pestañas del modal */}
-        <div className="flex border-b border-white/[0.08] pb-1">
+      <form onSubmit={handleSubmit}>
+        {/* Contenido scrollable del modal */}
+        <div className="max-h-[calc(100vh_-_20rem)] overflow-y-auto space-y-4 pr-2">
+          {/* Navegación por pestañas del modal */}
+          <div className="flex border-b border-white/[0.08] pb-1 sticky top-0 bg-card/95 backdrop-blur z-10">
           <button
             type="button"
             onClick={() => setPestana('info')}
@@ -149,7 +153,7 @@ export function ModalEditarPerfil({
             }`}
           >
             <User className="h-3.5 w-3.5" />
-            Identidad & Bio
+            {t('editor.info')}
           </button>
           <button
             type="button"
@@ -161,7 +165,7 @@ export function ModalEditarPerfil({
             }`}
           >
             <ImageIcon className="h-3.5 w-3.5" />
-            Avatar & Portada (GIF)
+            {t('editor.imagenes')}
           </button>
           <button
             type="button"
@@ -173,7 +177,7 @@ export function ModalEditarPerfil({
             }`}
           >
             <Share2 className="h-3.5 w-3.5" />
-            Redes Sociales
+            {t('editor.redes')}
           </button>
           <button
             type="button"
@@ -185,7 +189,7 @@ export function ModalEditarPerfil({
             }`}
           >
             <Smile className="h-3.5 w-3.5" />
-            Estado & Mood
+            {t('editor.estado')}
           </button>
         </div>
 
@@ -194,7 +198,7 @@ export function ModalEditarPerfil({
           <div className="space-y-3">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
-                <Label htmlFor="nombre">Nombre(s) *</Label>
+                <Label htmlFor="nombre">{t('editor.nombre')}</Label>
                 <Input
                   id="nombre"
                   value={form.nombre}
@@ -204,7 +208,7 @@ export function ModalEditarPerfil({
                 />
               </div>
               <div>
-                <Label htmlFor="apellidos">Apellidos *</Label>
+                <Label htmlFor="apellidos">{t('editor.apellidos')}</Label>
                 <Input
                   id="apellidos"
                   value={form.apellidos}
@@ -217,7 +221,7 @@ export function ModalEditarPerfil({
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
-                <Label htmlFor="handle">Usuario / Handle Social (@)</Label>
+                <Label htmlFor="handle">{t('editor.handle')}</Label>
                 <Input
                   id="handle"
                   value={form.handle}
@@ -232,7 +236,7 @@ export function ModalEditarPerfil({
                 />
               </div>
               <div>
-                <Label htmlFor="puesto">Puesto / Especialidad</Label>
+                <Label htmlFor="puesto">{t('editor.puesto')}</Label>
                 <Input
                   id="puesto"
                   value={form.puesto}
@@ -245,7 +249,7 @@ export function ModalEditarPerfil({
 
             <div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="biografia">Biografía / Presentación</Label>
+                <Label htmlFor="biografia">{t('editor.biografia')}</Label>
                 <span className="text-[11px] text-muted">{form.biografia.length}/280</span>
               </div>
               <Textarea
@@ -253,14 +257,14 @@ export function ModalEditarPerfil({
                 value={form.biografia}
                 onChange={(e) => setForm({ ...form, biografia: e.target.value.slice(0, 280) })}
                 rows={3}
-                placeholder="Cuéntale a tu equipo y clientes sobre tu pasión por los motores, experiencia o certificaciones..."
+                placeholder={t('editor.biografiaPlaceholder')}
                 className="mt-1"
               />
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
-                <Label htmlFor="telefono">Teléfono Directo</Label>
+                <Label htmlFor="telefono">{t('editor.telefono')}</Label>
                 <Input
                   id="telefono"
                   value={form.telefono}
@@ -270,7 +274,7 @@ export function ModalEditarPerfil({
                 />
               </div>
               <div>
-                <Label htmlFor="ciudad">Ciudad / Taller</Label>
+                <Label htmlFor="ciudad">{t('editor.ciudad')}</Label>
                 <Input
                   id="ciudad"
                   value={form.ciudad}
@@ -290,10 +294,10 @@ export function ModalEditarPerfil({
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4">
               <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
                 <Sparkles className="h-4 w-4 text-primary" />
-                Foto de Perfil / Avatar (Soporta GIF animados, JPG, PNG, WEBP)
+                {t('editor.fotoTitulo')}
               </p>
               <p className="text-[11px] text-muted mt-0.5">
-                Al subir un GIF animado, se reproducirá en tu perfil y barra de navegación.
+                {t('editor.fotoAyuda')}
               </p>
 
               <div className="mt-3 flex items-center gap-4">
@@ -301,7 +305,7 @@ export function ModalEditarPerfil({
                   {form.fotoUrl ? (
                     <img
                       src={form.fotoUrl}
-                      alt="Avatar"
+                      alt={t('editor.fotoTitulo')}
                       className="h-full w-full object-cover"
                     />
                   ) : (
@@ -326,7 +330,7 @@ export function ModalEditarPerfil({
                     className="flex items-center gap-1.5 text-xs"
                   >
                     <Upload className="h-3.5 w-3.5 text-primary" />
-                    Subir Foto o GIF
+                    {t('editor.subirFoto')}
                   </Button>
                   {form.fotoUrl && (
                     <button
@@ -334,7 +338,7 @@ export function ModalEditarPerfil({
                       onClick={() => setForm({ ...form, fotoUrl: '' })}
                       className="block text-[11px] text-rose-400 hover:underline"
                     >
-                      Remover foto
+                      {t('editor.removerFoto')}
                     </button>
                   )}
                 </div>
@@ -345,22 +349,22 @@ export function ModalEditarPerfil({
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4">
               <p className="text-xs font-bold text-foreground flex items-center gap-1.5">
                 <Camera className="h-4 w-4 text-sky-400" />
-                Portada de Perfil (Banner)
+                {t('editor.portadaTitulo')}
               </p>
               <p className="text-[11px] text-muted mt-0.5">
-                Sube tu propio GIF animado o imagen personalizada de tu taller.
+                {t('editor.portadaAyuda')}
               </p>
 
               <div className="mt-3 h-28 w-full overflow-hidden rounded-xl border border-white/[0.08] relative">
                 {form.portadaUrl ? (
                   <img
                     src={form.portadaUrl}
-                    alt="Portada"
+                    alt={t('editor.portadaTitulo')}
                     className="h-full w-full object-cover"
                   />
                 ) : (
                   <div className="h-full w-full bg-gradient-to-r from-amber-500/20 via-sky-500/20 to-purple-500/20 flex items-center justify-center text-xs text-muted">
-                    Sin portada asignada
+                    {t('editor.sinPortada')}
                   </div>
                 )}
                 <div className="absolute bottom-2 right-2 flex gap-1.5">
@@ -377,14 +381,14 @@ export function ModalEditarPerfil({
                     onClick={() => inputPortadaRef.current?.click()}
                     className="h-7 text-[11px] px-2.5 flex items-center gap-1"
                   >
-                    <Upload className="h-3 w-3" /> Subir Portada (GIF/JPG)
+                    <Upload className="h-3 w-3" /> {t('editor.subirPortada')} (GIF/JPG)
                   </Button>
                 </div>
               </div>
 
               {/* Presets de Portada */}
               <div className="mt-3">
-                <p className="text-[11px] font-semibold text-muted mb-1.5">O elige un fondo automotriz preset:</p>
+                <p className="text-[11px] font-semibold text-muted mb-1.5">{t('editor.elegirFondo')}</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {FONDOS_PORTADA_PRESET.map((p) => (
                     <button
@@ -409,7 +413,7 @@ export function ModalEditarPerfil({
         {pestana === 'redes' && (
           <div className="space-y-3">
             <div>
-              <Label htmlFor="whatsapp">WhatsApp Directo</Label>
+              <Label htmlFor="whatsapp">{t('editor.whatsapp')}</Label>
               <Input
                 id="whatsapp"
                 value={form.whatsapp}
@@ -419,7 +423,7 @@ export function ModalEditarPerfil({
               />
             </div>
             <div>
-              <Label htmlFor="instagram">Instagram (@usuario)</Label>
+              <Label htmlFor="instagram">{t('editor.instagram')}</Label>
               <Input
                 id="instagram"
                 value={form.instagram}
@@ -429,7 +433,7 @@ export function ModalEditarPerfil({
               />
             </div>
             <div>
-              <Label htmlFor="facebook">Facebook (Enlace o perfil)</Label>
+              <Label htmlFor="facebook">{t('editor.facebook')}</Label>
               <Input
                 id="facebook"
                 value={form.facebook}
@@ -439,7 +443,7 @@ export function ModalEditarPerfil({
               />
             </div>
             <div>
-              <Label htmlFor="tiktok">TikTok / Snapchat</Label>
+              <Label htmlFor="tiktok">{t('editor.tiktok')}</Label>
               <Input
                 id="tiktok"
                 value={form.tiktok}
@@ -465,7 +469,7 @@ export function ModalEditarPerfil({
         {pestana === 'estado' && (
           <div className="space-y-3">
             <div>
-              <Label>Emoji de Estado / Mood actual</Label>
+              <Label>{t('editor.mood')}</Label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {EMOJIS_ESTADO.map((emoji) => (
                   <button
@@ -485,32 +489,36 @@ export function ModalEditarPerfil({
             </div>
 
             <div>
-              <Label htmlFor="estadoAnimo">Frase de Estado (Estilo Snapchat / WhatsApp)</Label>
+              <Label htmlFor="estadoAnimo">{t('editor.fraseEstado')}</Label>
               <Input
                 id="estadoAnimo"
                 value={form.estadoAnimo}
                 onChange={(e) => setForm({ ...form, estadoAnimo: e.target.value })}
-                placeholder="Ej. 🔧 Ajustando motores V8 hoy | Disponible para diagnósticos express"
+                placeholder="e.g. 🔧 Tuning V8 engines today | Available for express diagnostics"
                 className="mt-1"
               />
               <p className="mt-1 text-[11px] text-muted">
-                Esta frase aparecerá debajo de tu nombre en el encabezado de tu perfil social.
+                {t('editor.fraseAyuda')}
               </p>
             </div>
           </div>
         )}
 
-        {/* Botones de acción */}
-        <div className="flex items-center justify-end gap-2.5 border-t border-white/[0.06] pt-3">
-          <Button type="button" variant="ghost" onClick={onCerrar}>
-            Cancelar
-          </Button>
-          <Button type="submit" variant="primary">
-            Guardar Cambios de Perfil
-          </Button>
+        </div>
+        {/* Cierre del contenedor scrollable */}
+
+        {/* Botones de acción fijos en la parte inferior */}
+        <div className="sticky bottom-0 bg-card/95 backdrop-blur border-t border-white/[0.1] pt-3 pb-4 z-10">
+          <div className="flex items-center justify-end gap-2.5 border-t border-white/[0.06] pt-3">
+            <Button type="button" variant="ghost" onClick={onCerrar}>
+              {t('editor.cancelar')}
+            </Button>
+            <Button type="submit" variant="primary">
+              {t('editor.guardar')}
+            </Button>
+          </div>
         </div>
       </form>
     </Modal>
   );
 }
-

@@ -142,11 +142,11 @@ export default function PerfilPage() {
   };
 
   return (
-    <div className="animate-fade-in space-y-6">
+    <div className="animate-fade-in space-y-6 p-4 sm:p-6 lg:p-8">
       {/* ========================================================= */}
       {/* PORTADA Y ENCABEZADO SOCIAL ESTILO FACEBOOK / SNAPCHAT    */}
       {/* ========================================================= */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-card shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+      <div className="relative overflow-hidden rounded-3xl border border-white/[0.10] bg-gradient-to-b from-card to-card-elevated shadow-[0_20px_50px_rgba(0,0,0,0.7)] hover:border-white/20 transition-all duration-300">
         {/* Banner de Portada (Soporta GIF animados e imágenes) */}
         <div className="relative h-48 w-full sm:h-64 lg:h-72 overflow-hidden bg-gradient-to-r from-amber-600/30 via-sky-600/20 to-purple-600/30">
           {perfil.portadaUrl ? (
@@ -157,7 +157,7 @@ export default function PerfilPage() {
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-sm text-muted">
-              Haz clic en "Cambiar portada" para subir un GIF o foto
+              {t('perfil.sinPortada')}
             </div>
           )}
 
@@ -198,7 +198,7 @@ export default function PerfilPage() {
 
                 {/* Badge en línea */}
                 <span
-                  title="En línea en el taller"
+                  title={t('perfil.enLineaTaller')}
                   className="absolute bottom-2 right-2 h-5 w-5 rounded-full border-2 border-card bg-emerald-400 shadow-[0_0_10px_#10B981]"
                 />
 
@@ -206,7 +206,7 @@ export default function PerfilPage() {
                 <button
                   type="button"
                   onClick={() => setModalEditarAbierto(true)}
-                  title="Subir foto o GIF de perfil"
+                  title={t('perfil.subirFoto')}
                   className="absolute inset-0 flex items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 backdrop-blur-xs cursor-pointer"
                 >
                   <Camera className="h-6 w-6 text-primary" />
@@ -279,13 +279,13 @@ export default function PerfilPage() {
               <Flame className="h-3.5 w-3.5 text-amber-400 animate-pulse" /> {t('perfil.rachaActiva')}
             </span>
             <span className="flex items-center gap-1 rounded-lg border border-violet-500/30 bg-violet-500/10 px-2.5 py-1 text-xs font-bold text-violet-400">
-              <Award className="h-3.5 w-3.5" /> Master Tech en Motores V8
+              <Award className="h-3.5 w-3.5" /> {t('perfil.insigniaMaster')}
             </span>
             <span className="flex items-center gap-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-400">
-              <CheckCircle2 className="h-3.5 w-3.5" /> 100+ Órdenes Entregadas
+              <CheckCircle2 className="h-3.5 w-3.5" /> {t('perfil.ordenesEntregadas')}
             </span>
             <span className="flex items-center gap-1 rounded-lg border border-sky-500/30 bg-sky-500/10 px-2.5 py-1 text-xs font-bold text-sky-400">
-              <Star className="h-3.5 w-3.5 fill-sky-400" /> 4.9 ⭐ Calificación de Clientes
+              <Star className="h-3.5 w-3.5 fill-sky-400" /> {t('perfil.calificacionClientes')}
             </span>
           </div>
         </div>
@@ -356,7 +356,7 @@ export default function PerfilPage() {
                 onClick={() => setModalPublicarAbierto(true)}
                 className="w-full rounded-xl border border-white/[0.08] bg-card-hover px-4 py-2.5 text-left text-xs text-muted transition-colors hover:border-primary/40 hover:text-foreground cursor-pointer"
               >
-                ¿Qué reparación o afinación estás realizando hoy? Sube fotos o GIFs...
+                {t('perfil.crearPublicacion')}
               </button>
               <Button
                 variant="secondary"
@@ -364,7 +364,7 @@ export default function PerfilPage() {
                 className="shrink-0 text-xs flex items-center gap-1.5"
               >
                 <Camera className="h-4 w-4 text-primary" />
-                <span className="hidden sm:inline">Foto/GIF</span>
+                <span className="hidden sm:inline">{t('perfil.fotoGif')}</span>
               </Button>
             </div>
 
@@ -403,7 +403,7 @@ export default function PerfilPage() {
                         <Clock className="h-3 w-3" />
                         <span>{post.fecha}</span>
                         <span>•</span>
-                        <span className="text-sky-400 font-medium">Tochi’s Taller Mecánico</span>
+                        <span className="text-sky-400 font-medium">                        {t('perfil.nombreTaller')}</span>
                       </div>
                     </div>
                   </div>
@@ -429,7 +429,7 @@ export default function PerfilPage() {
                     />
                     {post.esGif && (
                       <span className="absolute bottom-3 left-3 rounded-lg bg-black/70 px-2 py-1 text-[11px] font-black tracking-wider text-primary backdrop-blur-md">
-                        GIF ANIMADO
+                        {t('perfil.gifAnimado')}
                       </span>
                     )}
                   </div>
@@ -448,7 +448,7 @@ export default function PerfilPage() {
                     </button>
                     <button
                       type="button"
-                      onClick={() => toast.info('Comentarios del equipo activos próximamente')}
+                      onClick={() => toast.info(t('perfil.toastComentarios'))}
                       className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer"
                     >
                       <MessageCircle className="h-4 w-4" />
@@ -460,7 +460,7 @@ export default function PerfilPage() {
                     type="button"
                     onClick={() => {
                       navigator.clipboard.writeText(window.location.href);
-                      toast.success('Enlace de la publicación copiado');
+                      toast.success(t('perfil.toastCompartir'));
                     }}
                     className="flex items-center gap-1 hover:text-primary transition-colors cursor-pointer"
                   >
@@ -477,7 +477,7 @@ export default function PerfilPage() {
             {/* Tarjeta Sobre Mí Compacta */}
             <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-primary" /> Presentación
+                <Sparkles className="h-4 w-4 text-primary" /> {t('perfil.presentacion')}
               </h3>
               <p className="text-xs leading-relaxed text-slate-300">{perfil.biografia}</p>
               <div className="border-t border-white/[0.06] pt-3 space-y-2 text-xs">
@@ -495,7 +495,7 @@ export default function PerfilPage() {
             {/* Redes Sociales Vinculadas */}
             <div className="rounded-2xl border border-white/[0.08] bg-card p-5 space-y-3">
               <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
-                <Globe className="h-4 w-4 text-sky-400" /> Conexiones Sociales
+                <Globe className="h-4 w-4 text-sky-400" /> {t('perfil.conexiones')}
               </h3>
               <div className="space-y-2 text-xs">
                 {perfil.whatsapp && (
@@ -542,29 +542,29 @@ export default function PerfilPage() {
         <div className="grid gap-5 md:grid-cols-2">
           <div className="rounded-2xl border border-white/[0.08] bg-card p-6 space-y-4">
             <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-              <UserCheck className="h-5 w-5 text-primary" /> Información Profesional
+              <UserCheck className="h-5 w-5 text-primary" /> {t('perfil.informacionProfesional')}
             </h3>
             <div className="space-y-3 text-xs">
               <div>
                 <p className="text-muted font-semibold uppercase tracking-wider text-[11px]">
-                  Especialidad Principal
+                  {t('perfil.especialidadPrincipal')}
                 </p>
                 <p className="mt-1 text-sm font-bold text-foreground">{perfil.puesto}</p>
               </div>
               <div>
                 <p className="text-muted font-semibold uppercase tracking-wider text-[11px]">
-                  Biografía & Trayectoria
+                  {t('perfil.biografiaTrayectoria')}
                 </p>
                 <p className="mt-1 leading-relaxed text-slate-300">{perfil.biografia}</p>
               </div>
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <div>
-                  <p className="text-muted text-[11px]">Taller Afiliado</p>
-                  <p className="font-bold text-foreground">Tochi’s Taller Principal</p>
+                  <p className="text-muted text-[11px]">{t('perfil.tallerAfiliado')}</p>
+                  <p className="font-bold text-foreground">{t('perfil.tallerNombre')}</p>
                 </div>
                 <div>
-                  <p className="text-muted text-[11px]">Horario de Atención</p>
-                  <p className="font-bold text-foreground">Lun - Sáb: 8:00 AM - 6:00 PM</p>
+                  <p className="text-muted text-[11px]">{t('perfil.horarioAtencion')}</p>
+                  <p className="font-bold text-foreground">{t('perfil.tallerHorario')}</p>
                 </div>
               </div>
             </div>
@@ -572,19 +572,19 @@ export default function PerfilPage() {
 
           <div className="rounded-2xl border border-white/[0.08] bg-card p-6 space-y-4">
             <h3 className="text-base font-bold text-foreground flex items-center gap-2">
-              <Award className="h-5 w-5 text-amber-400" /> Certificaciones & Cursos
+              <Award className="h-5 w-5 text-amber-400" /> {t('perfil.certificacionesCursos')}
             </h3>
             <div className="space-y-2.5 text-xs">
               <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
-                <p className="font-bold text-foreground">Certificación Master en Inyección Electrónica</p>
+                <p className="font-bold text-foreground">{t('perfil.certificacionMaster')}</p>
                 <p className="text-[11px] text-muted">Bosch Automotive Training • 2024</p>
               </div>
               <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
-                <p className="font-bold text-foreground">Diagnóstico Avanzado con Osciloscopio & CAN Bus</p>
+                <p className="font-bold text-foreground">{t('perfil.diagnosticoAvanzado')}</p>
                 <p className="text-[11px] text-muted">Snap-on Diagnostics Academy • 2025</p>
               </div>
               <div className="rounded-xl border border-white/[0.06] bg-card-hover p-3">
-                <p className="font-bold text-foreground">Especialización en Transmisiones Automáticas y DSG</p>
+                <p className="font-bold text-foreground">{t('perfil.especializacionTransmisiones')}</p>
                 <p className="text-[11px] text-muted">ZF Services Motorsport • 2025</p>
               </div>
             </div>
@@ -599,24 +599,24 @@ export default function PerfilPage() {
         <div className="space-y-5">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
-              <p className="text-xs font-semibold text-muted uppercase">Órdenes Atendidas</p>
+              <p className="text-xs font-semibold text-muted uppercase">{t('perfil.ordenesAtendidas')}</p>
               <p className="mt-1 text-2xl font-black text-primary">128</p>
-              <p className="text-[11px] text-emerald-400 mt-1">98% a tiempo</p>
+              <p className="text-[11px] text-emerald-400 mt-1">{t('perfil.aTiempo')}</p>
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
-              <p className="text-xs font-semibold text-muted uppercase">Calificación Promedio</p>
+              <p className="text-xs font-semibold text-muted uppercase">{t('perfil.calificacionPromedio')}</p>
               <p className="mt-1 text-2xl font-black text-amber-400">4.9 / 5</p>
-              <p className="text-[11px] text-muted mt-1">⭐ 84 reseñas</p>
+              <p className="text-[11px] text-muted mt-1">{t('perfil.resenas')}</p>
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
-              <p className="text-xs font-semibold text-muted uppercase">Facturación Generada</p>
+              <p className="text-xs font-semibold text-muted uppercase">{t('perfil.facturacionGenerada')}</p>
               <p className="mt-1 text-2xl font-black text-sky-400">$384,500</p>
-              <p className="text-[11px] text-muted mt-1">MXN acumulado</p>
+              <p className="text-[11px] text-muted mt-1">{t('perfil.mxnAcumulado')}</p>
             </div>
             <div className="rounded-2xl border border-white/[0.08] bg-card p-4 text-center">
-              <p className="text-xs font-semibold text-muted uppercase">Tiempo Promedio</p>
+              <p className="text-xs font-semibold text-muted uppercase">{t('perfil.tiempoPromedio')}</p>
               <p className="mt-1 text-2xl font-black text-emerald-400">1.8 días</p>
-              <p className="text-[11px] text-muted mt-1">por vehículo</p>
+              <p className="text-[11px] text-muted mt-1">{t('perfil.porVehiculo')}</p>
             </div>
           </div>
         </div>
